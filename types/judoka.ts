@@ -5,7 +5,8 @@ export interface Identity {
   firstName: string
   lastName: string
   club: string
-  category: string
+  birthDate: string   // ISO 8601: "2010-04-02"
+  weightCategory: string
   grade: string
   profilePhoto: string
   coverPhoto: string
@@ -18,6 +19,7 @@ export interface PalmaresEntry {
   category: string      // weight class + age category
   level: string         // "National Individuel" | "Régional" | etc.
   medal: MedalType
+  city?: string
 }
 
 export interface Video {
@@ -31,12 +33,18 @@ export interface GalleryImage {
   caption: string
 }
 
+export interface Technique {
+  name: string
+  description?: string | null
+  image?: string | null
+}
+
 export interface Social {
   instagram?: string
   youtube?: string
 }
 
-export type BlockName = 'hero' | 'bio' | 'palmares' | 'videos' | 'gallery'
+export type BlockName = 'hero' | 'bio' | 'palmares' | 'videos' | 'gallery' | 'techniques'
 
 export interface JudokaData {
   slug: string
@@ -45,6 +53,7 @@ export interface JudokaData {
   palmares: PalmaresEntry[]
   videos: Video[]
   gallery: GalleryImage[]
+  techniques: Technique[]
   social: Social
   layout: BlockName[]
 }
