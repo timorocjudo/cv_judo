@@ -1,0 +1,54 @@
+{
+  "slug": "timothe-francois",
+  "identity": {
+    "firstName": "Timothé",
+    "lastName": "François",
+    "club": "ONJ — Omnisports Neuilly Judo",
+    "category": "Cadet 2 · -81kg",
+    "grade": "Ceinture noire",
+    "profilePhoto": "/images/profile.jpg",
+    "coverPhoto": "/images/cover.jpg"
+  },
+  "bio": "Judoka de haut niveau évoluant au sein de l'ONJ (Omnisports Neuilly Judo), Timothé François est un compétiteur d'exception. Double Champion de France Individuel (-66kg en 2023, -73kg en 2024), il enchaîne les podiums nationaux depuis 2021 avec une régularité remarquable. Sa progression constante, sa maîtrise technique et son mental de compétiteur en font l'un des espoirs les plus prometteurs du judo français dans sa catégorie.",
+  "palmares": [
+    { "date": "2026-05-02", "competition": "Championnat de France par équipe de club", "result": "Médaille de bronze", "category": "-73kg · ONJ", "level": "National Équipe", "medal": "bronze" },
+    { "date": "2026-01-31", "competition": "Championnat Régional", "result": "Champion Régional", "category": "-81kg · Cadet 2", "level": "Régional", "medal": "gold" },
+    { "date": "2025-11-08", "competition": "Championnat Départemental", "result": "Vice-Champion Départemental", "category": "-81kg · Cadet 2", "level": "Départemental", "medal": "silver" },
+    { "date": "2025-05-18", "competition": "Championnat de France Cadet Espoir", "result": "Médaille de bronze", "category": "-81kg", "level": "National", "medal": "bronze" },
+    { "date": "2025-02-08", "competition": "Championnat Régional", "result": "Médaille de bronze", "category": "-81kg · Cadet 1", "level": "Régional", "medal": "bronze" },
+    { "date": "2024-11-16", "competition": "Championnat Départemental", "result": "Médaille de bronze", "category": "-81kg · Cadet 1", "level": "Départemental", "medal": "bronze" },
+    { "date": "2024-05-12", "competition": "Championnat de France par équipe de département", "result": "Vice-Champion de France", "category": "-73kg", "level": "National Équipe", "medal": "silver" },
+    { "date": "2024-03-25", "competition": "Championnat de France Individuel", "result": "Champion de France", "category": "-73kg", "level": "National Individuel", "medal": "gold" },
+    { "date": "2024-02-11", "competition": "Championnat Régional", "result": "Champion Régional", "category": "-73kg", "level": "Régional", "medal": "gold" },
+    { "date": "2023-11-18", "competition": "Championnat Départemental", "result": "Vice-Champion Départemental", "category": "-73kg", "level": "Départemental", "medal": "silver" },
+    { "date": "2023-05-13", "competition": "Championnat de France par équipe de département", "result": "Champion de France", "category": "-66kg", "level": "National Équipe", "medal": "gold" },
+    { "date": "2023-03-26", "competition": "Championnat de France Individuel", "result": "Champion de France", "category": "-66kg", "level": "National Individuel", "medal": "gold" },
+    { "date": "2023-01-21", "competition": "Championnat Régional", "result": "Champion Régional", "category": "-66kg", "level": "Régional", "medal": "gold" },
+    { "date": "2022-11-19", "competition": "Championnat Départemental", "result": "Champion Départemental", "category": "-66kg", "level": "Départemental", "medal": "gold" },
+    { "date": "2022-04-10", "competition": "Championnat Régional", "result": "Champion Régional", "category": "Benjamin", "level": "Régional", "medal": "gold" },
+    { "date": "2021-11-21", "competition": "Championnat Départemental", "result": "Champion Départemental", "category": "Benjamin 2", "level": "Départemental", "medal": "gold" }
+  ],
+  "videos": [
+    {
+      "title": "France Individuel 2024 — Finale -73kg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=REPLACE_ME_1",
+      "description": "Highlights de la finale du Championnat de France Individuel 2024 en -73kg."
+    },
+    {
+      "title": "France Individuel 2023 — Finale -66kg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=REPLACE_ME_2",
+      "description": "Retour sur le titre de Champion de France 2023 en -66kg."
+    }
+  ],
+  "gallery": [
+    { "src": "/images/gallery-1.jpg", "caption": "Finale France 2024 — -73kg" },
+    { "src": "/images/gallery-2.jpg", "caption": "Préparation ONJ" },
+    { "src": "/images/gallery-3.jpg", "caption": "Podium France 2023" },
+    { "src": "/images/gallery-4.jpg", "caption": "Entraînement matinal" }
+  ],
+  "social": {
+    "instagram": "https://www.instagram.com/",
+    "youtube": "https://www.youtube.com/@"
+  },
+  "layout": ["hero", "bio", "palmares", "videos", "gallery"]
+}
