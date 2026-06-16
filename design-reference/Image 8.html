@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IpponId | Timothé François - Elite Judoka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-variant": "#e2e2e2",
+                "secondary-container": "#dfe0e0",
+                "on-primary-fixed-variant": "#343d96",
+                "error": "#ba1a1a",
+                "tertiary": "#735c00",
+                "surface-container": "#eeeeee",
+                "primary-container": "#1a237e",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f1f1f1",
+                "on-secondary-fixed": "#1a1c1c",
+                "on-tertiary-fixed": "#241a00",
+                "inverse-surface": "#2f3131",
+                "primary-fixed-dim": "#bdc2ff",
+                "on-secondary": "#ffffff",
+                "surface-bright": "#f9f9f9",
+                "on-surface-variant": "#454652",
+                "on-error-container": "#93000a",
+                "secondary-fixed": "#e2e2e2",
+                "on-tertiary-container": "#4e3d00",
+                "surface-container-highest": "#e2e2e2",
+                "tertiary-container": "#cba72f",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#4c56af",
+                "on-primary": "#ffffff",
+                "tertiary-fixed-dim": "#e9c349",
+                "on-secondary-fixed-variant": "#454747",
+                "inverse-primary": "#bdc2ff",
+                "background": "#f9f9f9",
+                "on-primary-fixed": "#000767",
+                "on-secondary-container": "#616363",
+                "surface": "#f9f9f9",
+                "outline": "#767683",
+                "primary-fixed": "#e0e0ff",
+                "on-tertiary-fixed-variant": "#574500",
+                "outline-variant": "#c6c5d4",
+                "on-tertiary": "#ffffff",
+                "on-background": "#1a1c1c",
+                "surface-dim": "#dadada",
+                "secondary": "#5d5f5f",
+                "surface-container-high": "#e8e8e8",
+                "primary": "#000666",
+                "secondary-fixed-dim": "#c6c6c7",
+                "surface-container-low": "#f3f3f3",
+                "on-surface": "#1a1c1c",
+                "on-primary-container": "#8690ee",
+                "tertiary-fixed": "#ffe088",
+                "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "section-padding": "120px",
+                "container-max": "1280px",
+                "gutter": "24px",
+                "margin-desktop": "64px",
+                "margin-mobile": "16px",
+                "base": "8px"
+            },
+            "fontFamily": {
+                "label-bold": ["Inter"],
+                "headline-lg": ["Montserrat"],
+                "headline-lg-mobile": ["Montserrat"],
+                "headline-md": ["Montserrat"],
+                "body-md": ["Inter"],
+                "stats-number": ["Montserrat"],
+                "body-lg": ["Inter"],
+                "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "stats-number": ["40px", {"lineHeight": "40px", "fontWeight": "900"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "900"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sashiko-overlay {
+            background-image: radial-gradient(#c6c5d4 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.1;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #000666;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #000666;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full fixed top-0 z-50 bg-surface dark:bg-surface-dim transition-all duration-300" id="top-app-bar">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors rounded-full lg:hidden" id="menu-toggle">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim tracking-tighter">IpponId</span>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-primary dark:text-primary-fixed-dim font-label-bold text-label-bold transition-all opacity-80 scale-95" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-bold text-label-bold hover:text-primary transition-colors" href="#">Palmares</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-bold text-label-bold hover:text-primary transition-colors" href="#">Profile</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-bold text-label-bold hover:text-primary transition-colors" href="#">Partnership</a>
+</nav>
+<div class="flex items-center gap-2">
+<span class="hidden md:block font-label-bold text-label-bold text-primary mr-2">Timothé François</span>
+<div class="w-10 h-10 rounded-full bg-primary overflow-hidden border-2 border-primary-container">
+<img alt="Timothé François" data-alt="A professional close-up headshot of Timothé François, an elite athlete with a focused and determined expression. The lighting is high-contrast, cinematic style, highlighting his features against a deep navy blue background. The overall aesthetic is professional, clean, and intense, reflecting the discipline of an international Judo champion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp-k0aonAw8MgBN5zwk0QCK1SVoSEOjloVvbKSfrxLEClKjYhMDQKdn2vRFgnGNtBHgCmTrNuYQz_ROBwx0tHcU1P9fTMLQtDsa6N5KI1W8VRDMw0lFtJbT9g0vBeklz4KbX2nEU2tKKHqwB0Ulz55hBwzcP0_ev0EaZGlzS0hV8x13C_YUZjPEdcLldLYXfiY8oVsdXnT_Rsc0nGlqyBYplIQDF716Afqei01dcxWqgdqbXY0ku5wYUc1VSQjPh2gkJKs5pvZLcAV"/>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer (Mobile) -->
+<div class="fixed inset-0 bg-black/50 z-[55] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay"></div>
+<aside class="fixed inset-y-0 left-0 z-[60] flex flex-col p-4 bg-surface-container-lowest dark:bg-surface-container-low h-full w-80 rounded-r-xl transform -translate-x-full transition-transform duration-300 ease-in-out" id="nav-drawer">
+<div class="mb-8 p-4">
+<span class="font-headline-md text-headline-md text-primary">IpponId</span>
+<div class="mt-6 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary overflow-hidden">
+<img data-alt="Close up of Timothé François portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5SKQA--Ds3NbzZi1fjPm6bp6xWXfBrinzNzP5nol0iLbzxk9lGutlPiP26GzJ34HijT78eCry3nl3WWCc235QMM_21izTq3t11Qw-DHqZfntrJm1OCfxKSrO0tPer6SmTo4R5HACYnFLIDmhcARoFX695PHipkwmAil5OobedowbRzk6PE6KxnmqSx6pzRU1CDOPIwQZVi2ac5kyg59R9GKUfvCYY6RvN9lZhmZIfmtzFchCqtTwKZq-rEFRRyA5YX6BJpVkmWimR"/>
+</div>
+<div>
+<h3 class="font-label-bold text-label-bold text-primary">Timothé François</h3>
+<p class="text-sm text-on-surface-variant">Elite Judoka</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="bg-primary-container text-on-primary-container dark:bg-primary-fixed-dim dark:text-on-primary-fixed flex items-center gap-4 px-4 py-3 rounded-full" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-bold text-label-bold">Home</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-4 px-4 py-3 hover:bg-surface-variant dark:hover:bg-surface-container-high rounded-full" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="font-label-bold text-label-bold">Palmares</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-4 px-4 py-3 hover:bg-surface-variant dark:hover:bg-surface-container-high rounded-full" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-bold text-label-bold">Profile</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-4 px-4 py-3 hover:bg-surface-variant dark:hover:bg-surface-container-high rounded-full" href="#">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-bold text-label-bold">Partnership</span>
+</a>
+</nav>
+</aside>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative h-[795px] flex items-center overflow-hidden bg-primary">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Impact" class="w-full h-full object-cover opacity-60 mix-blend-luminosity" data-alt="A high-impact, dynamic action shot of an elite judoka in a white gi executing a powerful throw on a blue tatami mat. The scene is captured in a professional sports arena with dramatic spotlights, creating long shadows and intense highlights. The color palette is dominated by deep navy blue, pristine white, and subtle hints of tatami red, evoking a sense of athletic excellence and explosive energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSRQ2FKNBLEexBauJ8z0DL7svo2AHtqBCVN9nTun7B90w8dNtVBGxCSATtQoDJNxVutnnvI0i0SUejj0d1fCwr-u24fdyxFsskt61NL89VZT9iz8lVrHj6IOQ8s402Ectsy96JhVtErB0ltn9rkn0KKxbIo3cL4h_uU7OcaXuuOJevbh_gZiOTypOhaFt6RTPaqIQsmA3cg6E9zc6fNFIvdqWHY8j1bQHXwSLKaAphXNkP-T0EET9Yghp2CgqkiORYgBTZBVyZpP0C"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/40 to-transparent"></div>
+<div class="absolute inset-0 sashiko-overlay"></div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-white mb-4 animate-fade-in-up">
+<span class="block text-primary-fixed-dim">TIMOTHÉ</span>
+<span class="block">FRANÇOIS</span>
+</h1>
+<p class="font-headline-md text-primary-fixed text-white/90 mb-8 max-w-lg">
+                        L'excellence au service de la performance. Judoka Elite National.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-white text-primary font-label-bold text-label-bold rounded-lg shadow-lg hover:bg-primary-fixed transition-all active:scale-95">
+                            DECOUVRIR LE PALMARÈS
+                        </button>
+<button class="px-8 py-4 border-2 border-white text-white font-label-bold text-label-bold rounded-lg hover:bg-white/10 transition-all active:scale-95">
+                            CONTACTER L'ATHLÈTE
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Stats Bento -->
+<section class="py-12 bg-surface-container">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-2 bg-white p-8 rounded-xl shadow-sm border-l-4 border-primary">
+<h3 class="font-label-bold text-label-bold text-primary mb-2 uppercase tracking-widest">Statut Actuel</h3>
+<p class="font-headline-md text-headline-md text-on-surface">Multi Champion de France &amp; Elite National</p>
+</div>
+<div class="bg-white p-8 rounded-xl shadow-sm flex flex-col justify-center items-center text-center">
+<span class="font-stats-number text-stats-number text-primary mb-1">2025</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Objectif France</span>
+</div>
+<div class="bg-white p-8 rounded-xl shadow-sm flex flex-col justify-center items-center text-center">
+<span class="font-stats-number text-stats-number text-tertiary-container mb-1">12</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Médailles Or</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="py-section-padding bg-surface">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-5">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8 leading-tight">
+                        Détermination &amp; Engagement
+                    </h2>
+<div class="space-y-6 text-on-surface-variant font-body-lg text-body-lg">
+<p>Le Judo n'est pas seulement un sport, c'est une discipline de vie. Chaque entraînement est une opportunité de repousser les limites de la résilience physique et mentale.</p>
+<p>Mon parcours est guidé par une recherche constante de perfection technique, alliée à une force de caractère forgée sur le tatami. Porter les couleurs nationales est un honneur qui exige un engagement sans faille.</p>
+</div>
+<div class="mt-10 p-6 bg-primary-container/10 border-l-2 border-primary italic text-primary">
+                        "La chute n'est pas un échec, c'est le premier pas vers une projection parfaite."
+                    </div>
+</div>
+<div class="lg:col-span-7 relative">
+<div class="aspect-square rounded-2xl overflow-hidden shadow-2xl transform lg:rotate-2">
+<img alt="Philosophy focus" class="w-full h-full object-cover" data-alt="A detailed close-up of a judoka's hands tightening a black belt over a white gi. The texture of the sashiko fabric is clearly visible. The lighting is focused and warm, symbolizing the transition from preparation to action. The aesthetic is clean, traditional, yet powerful, emphasizing the meticulous discipline of the sport." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF3Cb0fsJY61BO2WanLeywcyIiLdCgCwlk6tS5PJOsRQisKb8BYLEjUhQMWhfeFKx6dm36vh-R12C61_nf2WhjbOXwYOY2rNPyWfR0-0fgQL6jHr0V0nW0kQ7KBUkl9GbeVmgioMWTl9yCGnFbzjNoSitU3V83WIbFBqwz3tTijvD9UGxtnwYYKFIiDMcX1mPiHIVoBWMKBBHHvOB31Zc6gWYbogmNMXqsqj2A5XQnQrZ8gBAdLtTOF-nZwL3Dhu3H-2clQnWcl0gz"/>
+</div>
+<div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-xl hidden md:block">
+<span class="text-tertiary-container font-stats-number text-stats-number">73kg</span>
+<p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Catégorie de poids</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Palmares Highlights -->
+<section class="py-section-padding bg-surface-container-low overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Palmarès 2021-2026</h2>
+<p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Une progression constante vers les sommets</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-label-bold text-label-bold hover:underline">
+                        VOIR TOUS LES RÉSULTATS <span class="material-symbols-outlined">trending_flat</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Medal Card 1 -->
+<div class="bg-white p-8 rounded-xl shadow-sm relative group hover:-translate-y-2 transition-all duration-300">
+<div class="absolute top-4 right-4 text-tertiary-container">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface-variant mb-4 block">FÉVRIER 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Championnat de France 1ère Div</h3>
+<p class="text-on-surface-variant mb-6">Médaille d'Or - Une victoire décisive en finale par Ippon.</p>
+<div class="flex items-center gap-2 text-primary font-label-bold text-label-bold">
+<span class="material-symbols-outlined">location_on</span> PARIS, FR
+                        </div>
+</div>
+<!-- Medal Card 2 -->
+<div class="bg-white p-8 rounded-xl shadow-sm relative group hover:-translate-y-2 transition-all duration-300">
+<div class="absolute top-4 right-4 text-on-surface-variant opacity-40">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface-variant mb-4 block">NOVEMBRE 2023</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">European Open</h3>
+<p class="text-on-surface-variant mb-6">Médaille d'Argent - Parcours exceptionnel face au top 10 mondial.</p>
+<div class="flex items-center gap-2 text-primary font-label-bold text-label-bold">
+<span class="material-symbols-outlined">location_on</span> MADRID, ES
+                        </div>
+</div>
+<!-- Medal Card 3 -->
+<div class="bg-white p-8 rounded-xl shadow-sm relative group hover:-translate-y-2 transition-all duration-300">
+<div class="absolute top-4 right-4 text-tertiary-container">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface-variant mb-4 block">JUIN 2023</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Tournoi de France</h3>
+<p class="text-on-surface-variant mb-6">Médaille d'Or - Domination technique sur l'ensemble de la journée.</p>
+<div class="flex items-center gap-2 text-primary font-label-bold text-label-bold">
+<span class="material-symbols-outlined">location_on</span> MARSEILLE, FR
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Video Section -->
+<section class="py-section-padding bg-primary relative overflow-hidden">
+<div class="absolute inset-0 sashiko-overlay opacity-20"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-white mb-4">Dernière Vidéo</h2>
+<p class="font-label-bold text-label-bold text-primary-fixed uppercase tracking-widest">En route pour France 2025</p>
+</div>
+<div class="relative max-w-4xl mx-auto group">
+<div class="aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 bg-black">
+<img alt="Video Preview" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700" data-alt="A wide cinematic shot of a modern judo dojo at sunrise. Dust particles dance in the morning light streaming through high windows. In the center, a solitary figure in a white gi is practicing uchikomi (repetitive throwing entries) against a heavy bag. The atmosphere is quiet, spiritual, and intensely focused, colored in morning blues and golds." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgHLdyFyyXbKezDHHGG7-SLzXNT_uhkFVbr5Nif9NVFsK8jfNJpnvt3j_TpT9wcNXY4cZapsZB7yQLXiaJBq6IMSkczQHwOhMfisINssfxjpfqcEPt8W2Ow5Xp3_wTkAL2kEcSGICDgOy1ozFXEEiaRs4fFlWd6BCYQBAwpZFAlJY7qsXKbitEo7weB5KoSjTKULJIizePHV9idaufRyFGFTwqrIzKW8U4JDPnI8SVH1DBW7XuOPTecFbZAw8PIQCYCt9Vt2ZNkNKq"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-24 h-24 bg-tertiary-container rounded-full flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="mt-8 glass-panel p-6 rounded-xl flex items-center justify-between">
+<div>
+<h4 class="font-headline-md text-primary">Préparation Intensive : Le Quotidien</h4>
+<p class="text-on-surface-variant">Focus sur le travail de Kumi-Kata et l'explosivité.</p>
+</div>
+<span class="font-label-bold text-label-bold text-primary px-4 py-2 bg-primary/10 rounded-full">12:45</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Timeline / Parcours -->
+<section class="py-section-padding bg-surface">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-lg text-headline-lg text-primary text-center mb-24">Parcours d'Exception</h2>
+<div class="max-w-3xl mx-auto space-y-16">
+<!-- Entry 1 -->
+<div class="relative pl-12 timeline-line">
+<div class="absolute -left-2.5 top-0 w-5 h-5 bg-primary rounded-full border-4 border-white shadow-md"></div>
+<span class="font-stats-number text-2xl text-primary mb-2 block">2026 - Horizon</span>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Objectif International</h4>
+<p class="text-on-surface-variant font-body-lg">Préparation pour les Grands Slams et qualification pour les échéances majeures mondiales.</p>
+</div>
+<!-- Entry 2 -->
+<div class="relative pl-12 timeline-line">
+<div class="absolute -left-2.5 top-0 w-5 h-5 bg-primary rounded-full border-4 border-white shadow-md"></div>
+<span class="font-stats-number text-2xl text-primary mb-2 block">2023 - 2025</span>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Confirmation Elite</h4>
+<p class="text-on-surface-variant font-body-lg">Intégration du groupe France Senior, médailles nationales et premières sélections internationales.</p>
+</div>
+<!-- Entry 3 -->
+<div class="relative pl-12 timeline-line">
+<div class="absolute -left-2.5 top-0 w-5 h-5 bg-primary rounded-full border-4 border-white shadow-md"></div>
+<span class="font-stats-number text-2xl text-primary mb-2 block">2021 - 2022</span>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">L'Ascension Junior</h4>
+<p class="text-on-surface-variant font-body-lg">Domination des circuits nationaux Junior et transition réussie vers le circuit Senior de haut niveau.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-base px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container dark:bg-surface-container-high border-t border-outline-variant dark:border-outline">
+<div class="flex items-center gap-2">
+<span class="font-label-bold text-label-bold text-primary dark:text-primary-fixed-dim">IpponId</span>
+<span class="text-on-surface-variant text-sm">|</span>
+<span class="font-body-md text-body-md text-on-surface-variant">© 2024 IpponId. All rights reserved.</span>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors Link underline-offset-4 hover:underline font-label-bold text-label-bold" href="#">Facebook</a>
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors Link underline-offset-4 hover:underline font-label-bold text-label-bold" href="#">Instagram</a>
+<a class="text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors Link underline-offset-4 hover:underline font-label-bold text-label-bold" href="#">YouTube</a>
+</div>
+</footer>
+<script>
+        // Simple Navigation Drawer Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const navDrawer = document.getElementById('nav-drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+
+        function toggleDrawer() {
+            const isOpen = navDrawer.classList.contains('translate-x-0');
+            if (isOpen) {
+                navDrawer.classList.replace('translate-x-0', '-translate-x-full');
+                drawerOverlay.classList.replace('opacity-100', 'opacity-0');
+                drawerOverlay.classList.add('pointer-events-none');
+                document.body.style.overflow = '';
+            } else {
+                navDrawer.classList.replace('-translate-x-full', 'translate-x-0');
+                drawerOverlay.classList.replace('opacity-0', 'opacity-100');
+                drawerOverlay.classList.remove('pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleDrawer);
+        drawerOverlay.addEventListener('click', toggleDrawer);
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('top-app-bar');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md', 'bg-white/95', 'backdrop-blur-sm');
+            } else {
+                header.classList.remove('shadow-md', 'bg-white/95', 'backdrop-blur-sm');
+            }
+        });
+
+        // Simple Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

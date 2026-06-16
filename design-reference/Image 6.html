@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mon Palmarès | Timothé François - IpponId</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e2",
+                        "secondary-container": "#dfe0e0",
+                        "on-primary-fixed-variant": "#343d96",
+                        "error": "#ba1a1a",
+                        "tertiary": "#735c00",
+                        "surface-container": "#eeeeee",
+                        "primary-container": "#1a237e",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#241a00",
+                        "inverse-surface": "#2f3131",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface-variant": "#454652",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#4e3d00",
+                        "surface-container-highest": "#e2e2e2",
+                        "tertiary-container": "#cba72f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4c56af",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed-variant": "#454747",
+                        "inverse-primary": "#bdc2ff",
+                        "background": "#f9f9f9",
+                        "on-primary-fixed": "#000767",
+                        "on-secondary-container": "#616363",
+                        "surface": "#f9f9f9",
+                        "outline": "#767683",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "outline-variant": "#c6c5d4",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "surface-dim": "#dadada",
+                        "secondary": "#5d5f5f",
+                        "surface-container-high": "#e8e8e8",
+                        "primary": "#000666",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "surface-container-low": "#f3f3f3",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-container": "#8690ee",
+                        "tertiary-fixed": "#ffe088",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-padding": "120px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "stats-number": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "stats-number": ["40px", {"lineHeight": "40px", "fontWeight": "900"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "900"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .gi-texture {
+            background-color: #ffffff;
+            background-image: radial-gradient(#c6c5d4 0.5px, transparent 0.5px);
+            background-size: 8px 8px;
+        }
+        .medal-gold { border-left: 6px solid #cba72f; }
+        .medal-silver { border-left: 6px solid #outline; }
+        .medal-bronze { border-left: 6px solid #8d6e63; }
+        
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #000666;
+            z-index: 0;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-white font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<nav class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full fixed top-0 z-50 bg-surface dark:bg-surface-dim">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim tracking-tighter">IpponId</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-2 rounded-full" href="#">Home</a>
+<a class="font-label-bold text-label-bold text-primary dark:text-primary-fixed-dim bg-primary-container/10 px-4 py-2 rounded-full" href="#">Palmares</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-2 rounded-full" href="#">Partnership</a>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden border-2 border-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+<main class="pt-24 pb-section-padding px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Header Section -->
+<header class="mb-16 md:mb-24">
+<h1 class="font-display-lg text-display-lg text-primary mb-4">Mon Palmarès</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Retracez le parcours d'excellence de Timothé François, de ses premiers titres départementaux aux sommets des championnats de France. Discipline, persévérance et précision technique.
+            </p>
+</header>
+<!-- Highlights Bento Grid -->
+<section class="mb-24">
+<h2 class="font-headline-md text-headline-md text-primary mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">stars</span>
+                Points Forts
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Highlight 1 -->
+<div class="md:col-span-2 relative overflow-hidden rounded-xl bg-primary-container p-8 text-white min-h-[300px] flex flex-col justify-end group">
+<div class="absolute inset-0 opacity-20 transition-transform duration-500 group-hover:scale-105" data-alt="A cinematic wide shot of a professional judo arena with blue tatami mats and intense stadium lighting. The atmosphere is charged with athletic competition, featuring deep blue shadows and brilliant highlights on the polished surfaces, reflecting a high-performance sports aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6qv3SvGF5vTlN6vIpWXNdLRYYb8XmDnSMU5GbUUUv5N6E55bJLCbTPJ3xF2aTFGpM8lEo8aZUyiX7oizwmAPfDrEXAn9S8FLwgJNYLRECD2WJiRgnmbxJMkIScpJY1AtCRFGflRCijdUSv4JUh6h5kUfs6K_UDfRFmNz-_65JSSTQyYrhUylwF4-jLfy9027eXNV2wv4OKBcufmWNPsBwFeqcuMsL-VmMR-Tx708xatWjfru28O5MCkTTgtkics6kzsn56YRic0dh'); background-size: cover; background-position: center;"></div>
+<div class="relative z-10">
+<span class="font-label-bold text-label-bold bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full mb-4 inline-block">Majeur</span>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2">Double Champion de France</h3>
+<p class="font-body-md text-body-md opacity-90">Titres consécutifs en individuel 2023 et 2024, confirmant une domination technique en -66kg et -73kg.</p>
+</div>
+</div>
+<!-- Stats Box -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant p-8 flex flex-col justify-center items-center text-center gi-texture">
+<span class="text-primary font-stats-number text-stats-number mb-2">15</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-widest">Podiums Nationaux</span>
+</div>
+<!-- Secondary Highlight -->
+<div class="bg-surface-container-high rounded-xl p-8 flex flex-col justify-between border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Invaincu</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Saison Régionale 2024 parfaite sans aucune défaite concédée.</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-white rounded-xl shadow-sm border border-outline-variant p-8 gi-texture flex items-center gap-8">
+<div class="hidden sm:block w-32 h-32 rounded-full bg-primary/5 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-6xl">military_tech</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Promotion Cadet 2</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Une transition réussie vers les -81kg avec un titre régional dès le début d'année 2026.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Chronological Timeline -->
+<section class="mb-24 relative">
+<h2 class="font-headline-md text-headline-md text-primary mb-12 flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+                Parcours Chronologique
+            </h2>
+<div class="relative space-y-12">
+<!-- Timeline vertical bar -->
+<div class="timeline-line hidden md:block"></div>
+<!-- 2026 -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<span class="font-label-bold text-label-bold text-primary block mb-2">2 Mai 2026</span>
+<h3 class="font-headline-md text-headline-md">Médaille de Bronze</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#8d6e63] shadow-sm gi-texture">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Champ France par équipe de club</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-73kg, ONJ</p>
+</div>
+</div>
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:order-2">
+<span class="font-label-bold text-label-bold text-primary block mb-2">31 Jan 2026</span>
+<h3 class="font-headline-md text-headline-md">Champion Régional</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#cba72f] shadow-sm gi-texture md:order-1">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Championnat Régional</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-81kg, Cadet 2</p>
+</div>
+</div>
+<!-- 2025 -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<span class="font-label-bold text-label-bold text-primary block mb-2">8 Nov 2025</span>
+<h3 class="font-headline-md text-headline-md">Vice-Champion</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#767683] shadow-sm gi-texture">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Championnat Départemental</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-81kg, Cadet 2</p>
+</div>
+</div>
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:order-2">
+<span class="font-label-bold text-label-bold text-primary block mb-2">18 Mai 2025</span>
+<h3 class="font-headline-md text-headline-md">Médaille de Bronze</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#8d6e63] shadow-sm gi-texture md:order-1">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Champ France Cadet Espoir</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-81kg</p>
+</div>
+</div>
+<!-- 2024 - Heavy Hitters -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<span class="font-label-bold text-label-bold text-primary block mb-2">25 Mar 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary">CHAMPION DE FRANCE</h3>
+</div>
+<div class="bg-primary-container p-8 rounded-xl border-l-8 border-[#cba72f] shadow-lg text-white">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-[#e9c349]">emoji_events</span>
+<p class="font-body-lg text-body-lg font-bold">Champion de France Individuel</p>
+</div>
+<p class="font-label-bold text-label-bold text-primary-fixed-dim">-73kg</p>
+</div>
+</div>
+<!-- Earlier Victories collapse -->
+<div class="flex justify-center mt-12">
+<button class="group flex items-center gap-2 font-label-bold text-label-bold text-primary hover:bg-primary-container/10 px-6 py-3 rounded-full transition-all" id="toggleVictories">
+                        VOIR TOUTES LES VICTOIRES
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-y-1">expand_more</span>
+</button>
+</div>
+<div class="hidden space-y-12 mt-12" id="extraVictories">
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:order-2 text-right">
+<span class="font-label-bold text-label-bold text-primary block mb-2">13 Mai 2023</span>
+<h3 class="font-headline-md text-headline-md">Champion de France</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#cba72f] shadow-sm gi-texture md:order-1">
+<p class="font-body-lg text-body-lg font-bold">Par équipe de département</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-66kg</p>
+</div>
+</div>
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<span class="font-label-bold text-label-bold text-primary block mb-2">26 Mar 2023</span>
+<h3 class="font-headline-md text-headline-md">Champion de France</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#cba72f] shadow-sm gi-texture">
+<p class="font-body-lg text-body-lg font-bold">Individuel</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-66kg</p>
+</div>
+</div>
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="md:order-2">
+<span class="font-label-bold text-label-bold text-primary block mb-2">21 Jan 2023</span>
+<h3 class="font-headline-md text-headline-md">Champion Régional</h3>
+</div>
+<div class="bg-white p-6 rounded-xl border-l-8 border-[#cba72f] shadow-sm gi-texture md:order-1">
+<p class="font-body-lg text-body-lg font-bold">Championnat Régional</p>
+<p class="font-label-bold text-label-bold text-on-surface-variant">-66kg</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Gallery -->
+<section class="mb-24">
+<h2 class="font-headline-md text-headline-md text-primary mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">photo_library</span>
+                Galerie d'Action
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container-high group">
+<img alt="Action Judo" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" data-alt="A focused high-action shot of two judokas in mid-throw on a competition mat. The lighting is dramatic and overhead, creating sharp contrasts and highlighting the texture of the white and blue judogi. The composition captures the explosive power and technical precision of an elite judo match in a professional sports arena setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbT0oGsKhc0eRSZmOu_CVBzeCkcWidPWuTtvvIfZOtttqSFzTuECnpNwTKrZ5S3gVvNp_ZRg-kcFIeji3Vk8fucbiYAo6xD9mQLRfolKlSEGsK8AFWAmfIvteoNtVzML-jucIuI1O-Li-ar8tlsMwxXIS5_mJOgMqYNAdBVwq3A04FOeyFX_8qkcSDIQhbtQR8HejDqsT6A0hv0kI24PlfexwitSJHzjHaR1zQrhup4SDsE2aPYPLfjqD_iQKRhIZyTbCpJe3VkDHf"/>
+</div>
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container-high group">
+<img alt="Grip Fight" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" data-alt="A close-up shot focusing on the gripped hands of a judoka on their opponent's lapel, showing the intense struggle and grip fighting known as kumite. The background is a soft-focus judo dojo with traditional wooden elements and soft natural light, maintaining a modern and clean aesthetic with deep navy blue and crisp white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgIJPhYDjj-ZpxdNzte7mThcg6LJGPXrRDxqgA16acmwSLpJmiaGMFsjm8BASy4bp_mnvAj_r7t7z7tQ2AoSEQSKKn3oF4vR8cBIVGUxEHX7KTQK9Vq3xWXO5hLflBEXGaB4kcunYYKq0DP__HgNtfaGJs2sV1AFRDB_ItMN21tESF7Ytg_K7aTHYwKkVA-YkJ1HF9rHhLxuHsKOC6Zn9EW9KYFfzPv7lP9NgQ3Wk9tEZTDROgss031Q91SpnfGOt04tKaMBYnBnrm"/>
+</div>
+<div class="md:col-span-2 md:row-span-2 aspect-video md:aspect-auto overflow-hidden rounded-xl bg-primary relative group">
+<img alt="Victory Moment" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="A high-key action photograph of a judoka executing a dynamic Seoi Nage throw. The athlete is caught in mid-air, displaying incredible balance and strength. The scene is brightly lit with high-contrast stadium lighting against a minimalist background, emphasizing the athletic excellence and unwavering focus of the sport." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDz2DEZiJYXkvRNwXqjwJq8-Nw4QQoHpkueilR09sCulUdVCttsrCvceW9fHaCMuIX7K9l4ZC15YpPZLp1byZ0vDz5k3b8UiOfp3jWY3ZsB3LOI8KEjpjSdWUfbGsKx8O9-tA3X6vF69U7BDE0l2lrojHOVPxk1zbTERRdKVBh33FB6NSqL_ddmBZ-3OeZwyL_H5y0L-jleiuufa8kmVkqMgNzwLBNuQzqcpG9v5RhxQBQ7cs6xrgAuUiXJ_yW2dh8YE2aQCwvm9Na"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6">
+<p class="font-label-bold text-label-bold text-white uppercase tracking-widest">Finale France 2024</p>
+</div>
+</div>
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container-high group">
+<img alt="Details" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" data-alt="A detailed shot of a black belt lying on a textured white judo gi (Sashiko weave). The image is shot from a top-down perspective with soft, diffused lighting, creating a sense of professional authority and athletic tradition. The color palette is dominated by pure white and deep black, reflecting a disciplined and high-end design style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqe2ppm9El2nUEayaZRF1ieEDczz37O5gpkfVqBLNSlt77E6V-KEwFVGWv-Wk0KDuxUuK6WuA8zPY130gk5Ym_K-W5qqiT7RCCWherIYZA9MMQ7yDXQYzr3wDM7YkTEyDCFAM4KfJIHQlLDDILvLdchwO3PHmKuTGaVzvn1SdBBw_0EgyPBpuNPGBTSN-Tcin8-ummi1iHhDzW9MGOVgl26I9h8LUGRtBYnbynKDipxl6DMCPVAK-_rCkTfK09bCKhrQMM4uri0Bho"/>
+</div>
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container-high group">
+<img alt="Dojo Morning" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" data-alt="An atmospheric shot of an empty judo dojo at dawn, with sunlight streaming through large windows onto the tatami mats. The scene is serene and captures the quiet discipline before training. The lighting is warm yet crisp, fitting the modern high-contrast aesthetic with a balance of neutral greys and bright whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbbjk3CnLg-ZQlmEvRUdETlt-RAPLrpiacrATuArXeM3e7_h7hYjc25AqCsgO26l5a3Mub_h6F31yi9w-6enLDDrtOHuiQtzu3Tbzw5dxDYi_Z3UCuh9b0vPTlBoxGCCzWPzoSc1Gdlf4lTxTQG3RLnh7dTG6rfef2UnGJb0LPMBwZpQxlOs6cwRN-IJ5j7A7af20TGrcJz2wAxBTj4goD5imU1-L_QhXUhr-aeUQxmyoD1IQGES3Fl9JUMlH9zJfRtpIwuZTq-ZHm"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-base px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container dark:bg-surface-container-high border-t border-outline-variant">
+<div class="font-label-bold text-label-bold text-primary dark:text-primary-fixed-dim uppercase tracking-widest">IpponId</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-center md:text-left">
+            © 2024 IpponId. All rights reserved. Timothé François - Elite Judoka
+        </div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">smart_display</span></a>
+</div>
+</footer>
+<!-- FAB (Suppressed on Details as per guidance, but adding a "Back to Top" functionality if needed for long lists) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center transition-all opacity-0 pointer-events-none hover:scale-110 active:scale-95" id="backToTop">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+<script>
+        // Toggle Victories Logic
+        const toggleBtn = document.getElementById('toggleVictories');
+        const extraSection = document.getElementById('extraVictories');
+        
+        toggleBtn.addEventListener('click', () => {
+            const isHidden = extraSection.classList.contains('hidden');
+            if (isHidden) {
+                extraSection.classList.remove('hidden');
+                extraSection.classList.add('animate-fade-in');
+                toggleBtn.innerHTML = 'VOIR MOINS <span class="material-symbols-outlined">expand_less</span>';
+            } else {
+                extraSection.classList.add('hidden');
+                toggleBtn.innerHTML = 'VOIR TOUTES LES VICTOIRES <span class="material-symbols-outlined">expand_more</span>';
+            }
+        });
+
+        // Scroll Interactions
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                backToTop.classList.add('opacity-100');
+            } else {
+                backToTop.classList.add('opacity-0', 'pointer-events-none');
+                backToTop.classList.remove('opacity-100');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Simple smooth entrance animation
+        document.querySelectorAll('section').forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = `all 0.6s ease-out ${index * 0.15}s`;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            observer.observe(section);
+        });
+    </script>
+</body></html>

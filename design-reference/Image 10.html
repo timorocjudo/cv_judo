@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Timothé François - IpponId Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e2",
+                        "secondary-container": "#dfe0e0",
+                        "on-primary-fixed-variant": "#343d96",
+                        "error": "#ba1a1a",
+                        "tertiary": "#735c00",
+                        "surface-container": "#eeeeee",
+                        "primary-container": "#1a237e",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#241a00",
+                        "inverse-surface": "#2f3131",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface-variant": "#454652",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#4e3d00",
+                        "surface-container-highest": "#e2e2e2",
+                        "tertiary-container": "#cba72f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4c56af",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed-variant": "#454747",
+                        "inverse-primary": "#bdc2ff",
+                        "background": "#f9f9f9",
+                        "on-primary-fixed": "#000767",
+                        "on-secondary-container": "#616363",
+                        "surface": "#f9f9f9",
+                        "outline": "#767683",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "outline-variant": "#c6c5d4",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "surface-dim": "#dadada",
+                        "secondary": "#5d5f5f",
+                        "surface-container-high": "#e8e8e8",
+                        "primary": "#000666",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "surface-container-low": "#f3f3f3",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-container": "#8690ee",
+                        "tertiary-fixed": "#ffe088",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-padding": "120px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "stats-number": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "stats-number": ["40px", {"lineHeight": "40px", "fontWeight": "900"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "900"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .gi-texture {
+            background-color: #ffffff;
+            background-image: radial-gradient(#e0e0ff 0.5px, transparent 0.5px), radial-gradient(#e0e0ff 0.5px, #ffffff 0.5px);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+        }
+        .shihan-overlay {
+            background: linear-gradient(180deg, rgba(0,6,102,0) 0%, rgba(0,6,102,0.8) 100%);
+        }
+        .stats-border {
+            border-left: 4px solid #000666;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full fixed top-0 z-50 bg-surface dark:bg-surface-dim">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim tracking-tighter">IpponId</div>
+<div class="flex items-center gap-4">
+<nav class="hidden md:flex gap-8">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors" href="#">Palmares</a>
+<a class="font-label-bold text-label-bold text-primary border-b-2 border-primary" href="#">Profile</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors" href="#">Partnership</a>
+</nav>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Timothé François" class="w-full h-full object-cover" data-alt="A professional studio portrait of a French male athlete in his late 20s with short dark hair and a focused expression. He is wearing a pristine white Judo Gi with high-quality fabric texture. The background is a clean, minimalist studio setting with soft directional lighting, emphasizing his athletic build and determined gaze. The overall aesthetic is professional, sharp, and high-contrast, aligning with a premium sports brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxMzsLM4t8iAPK8WEx0y-8n1QWTZeZhbRs9Hsv0x9taVBGPV29PhyYJWjMzhjMaHpgjcX54iyoFjAy4UwOvyZdvcd-SSzpUkCyav1N5zbfHRJnI0bzab1g-agUVanoq8AbSFHy0y1iLLQF8hMOZ5cAGUQcZ5akIXVGzGqGYVEPmecI9dqaZQkaSUp4Pf76bbkaKDm5x8YeGEGsqBYGLpu4I4RDQkhFi3gUbjl1KINeGBjoGmXIQ4UYU98t5P2iJOPwlRmTM4YfUGFK"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-section-padding">
+<!-- Hero Section -->
+<section class="relative h-[530px] md:h-[618px] flex items-end overflow-hidden mb-section-padding mx-margin-mobile md:mx-margin-desktop rounded-xl">
+<img alt="Action Shot" class="absolute inset-0 w-full h-full object-cover" data-alt="A dynamic, high-action shot of an elite judoka in mid-throw on a traditional blue and yellow tatami mat. The lighting is cinematic, capturing dust particles in the air and the explosive movement of the athlete. The scene is set in a large, professional competition arena with a blurred crowd in the distance, emphasizing focus and power. The color palette features deep blues and clean whites with high-contrast shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcufOziA09DbnH_R_TUjUMY67_TkVUah3NlAkLKOqqZ-LaM5MqJXQZUTnFUcXnpTWjqs5amUJedDi2Ql3ImOcEbzCNQH1EVC1WaC3BNB4WmMOsZFLG_NuJEtCld23N6XmV1iPbgKbcNOoHbsIVe2OQ1EQn0zwdwAfrMqBhxtSAOHIKSYt9iov4-cdWoja5lAZLTFbOj4SuVBUj5V8f-ugvjyxvtbB5JQjKDg0X7_nay49or_rrnBOmV2Nn4wWnCtQQXaPQNsvJHY9d"/>
+<div class="absolute inset-0 shihan-overlay"></div>
+<div class="relative z-10 p-8 md:p-16 w-full">
+<h1 class="font-display-lg text-display-lg text-white mb-2">Timothé François</h1>
+<p class="font-headline-md text-headline-md text-primary-fixed-dim uppercase tracking-widest">Elite Judoka | France</p>
+</div>
+</section>
+<!-- Corpulence & Catégorie -->
+<section class="container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-padding">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8">Corpulence &amp; <br/>Catégorie</h2>
+<div class="space-y-12">
+<div class="stats-border pl-6">
+<span class="font-label-bold text-label-bold text-secondary uppercase block mb-2">Taille</span>
+<span class="font-stats-number text-stats-number text-primary">184<span class="text-xl ml-1">cm</span></span>
+</div>
+<div class="stats-border pl-6">
+<span class="font-label-bold text-label-bold text-secondary uppercase block mb-2">Catégorie</span>
+<span class="font-stats-number text-stats-number text-primary">-81<span class="text-xl ml-1">kg</span></span>
+</div>
+<div class="stats-border pl-6">
+<span class="font-label-bold text-label-bold text-secondary uppercase block mb-2">Envergure</span>
+<span class="font-stats-number text-stats-number text-primary">192<span class="text-xl ml-1">cm</span></span>
+</div>
+</div>
+</div>
+<div class="md:col-span-7 bg-surface-container rounded-xl p-8 flex items-center justify-center min-h-[500px] relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 gi-texture"></div>
+<img alt="Athletic Build" class="relative z-10 w-full h-full object-contain mix-blend-multiply" data-alt="A minimalist architectural photograph of an athlete's silhouette against a bright, clean background. The image emphasizes the proportions and physical geometry of a human form, specifically highlighting the height and wingspan. The lighting is high-key and modern, with a professional sports science aesthetic. The colors are strictly white, soft greys, and deep navy accents to match the IpponId brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC3PFE5bo_j5owMDbtOi6Wuxb1fP0x9BRwX7r0fftMOYXzGP6PxjquCs0q-yKImokmJ-f1VWVw2ucrnOv3XbDHSPWGEXFkpFWDMQG19XhVO-Q3ZFfrnwSmCwt2Kh8WQvx0u58hjK1IbTXjqhwmKxQ1lSWik6DnI2yd6iJSIkJuD3HMb6DG3YNqFjtBZ2JbTphoTC3Tikl3niWCwNzhEJGyBVvyhh1xmE892vfJ3xxJRc1AZ6Edkd4SgO3bdyUastPAS2bSvV1DRBa8"/>
+</div>
+</div>
+</section>
+<!-- Tokui-Waza (Specialties) -->
+<section class="bg-surface-container-low py-section-padding mb-section-padding">
+<div class="container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary">Tokui-Waza</h2>
+<span class="font-label-bold text-label-bold text-secondary">TECHNIQUES FAVORITES</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Uchi-Mata -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="h-64 overflow-hidden">
+<img alt="Uchi-Mata" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-speed action photograph capturing a judo athlete performing an Uchi-Mata throw. The focus is razor-sharp on the dynamic curve of the athlete's body and the motion blur of the opponent. The setting is a clean dojo with natural light streaming through large windows. The image has a cinematic quality with deep blue and crisp white tones, reflecting athletic precision and explosive power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5fx4eB3_dTk_-_SVq7Nj-qRpDJ8IWT71kkknJPLqsQPQFUVUUK6uQxBq-ywEsWkaV5-L3wXvjoxPYBhu-CNjYSK-bnvnMk6T2YhZPF5aWsLTZhZWV2zX-Q5NGyiE9UEO_QafXCqvFZgHCOvNYWrPFnKXTWRlLSoPB6Li8stikiP9awM8PJ8qeNVx7qsQuKTPmOtRq3qFZmbGA4jZjrCWabIu28WJsDVSbffmS3MaWAKsnHrFYwb3ZhC0dpZCL7soF8tmUD1odDRsa"/>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Uchi-Mata</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Un fauchage par l'intérieur de la cuisse, reconnu pour sa puissance et son élégance technique. Le mouvement signature de Timothé en compétition internationale.</p>
+</div>
+</div>
+<!-- Seoi-Nage -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="h-64 overflow-hidden">
+<img alt="Seoi-Nage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A detailed, close-up shot of two judo practitioners' hands gripping each other's lapels (Kumikata) during the setup for a Seoi-Nage throw. The texture of the heavy cotton Gi is highly visible. The lighting is dramatic, with strong highlights and deep shadows, emphasizing the intensity and grip strength required for elite judo. The overall tone is focused and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwQbmPyZTkvHu2rYhTSXH9G64oj-WaZb6DhRbUbmGTBRxs0W_7jQYbK6KVekMMSY-wfkUUmbhDcKtYINP_8HWm2Fw0X5cZaxGUJgYq2Q9go-sndq9paiz6k8JUxmqIAoR17SEPF6q46JfbLC2Ga-IziyEh5qWgnaFLgYF6sDfTpzKwlGao1l5VaMICFjQWj1rYWMd1jOUT3MaJPHEVoPxi8DIbixLdDb-8Y8-9maDd4w6WkquTbdlVuC0esJg7qHf5poknw_kH1Adc"/>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Seoi-Nage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Une projection d'épaule dévastatrice, utilisée pour surprendre les adversaires plus lourds avec une vitesse d'exécution exceptionnelle et un centre de gravité bas.</p>
+</div>
+</div>
+<!-- Osoto-Gari -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+<div class="h-64 overflow-hidden">
+<img alt="Osoto-Gari" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An artistic black and white photograph with high contrast, showing the moment of impact in an Osoto-Gari throw. One athlete is sweeping the other's leg while maintaining a strong upright posture. The composition is dynamic and emphasizes the vertical rhythm of the movement. The stark white of the Gi against deep black shadows creates a sense of timeless tradition and raw athletic excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfPJTsPlKy56D_clp1rOvsLz8Bn9aTMntPz_atEwttUbW0JUZHA3FfyFYgQJpyIWjgXSmOq2KA6hi2MHpj1whK42eRL7bHIMVOaS4IWfGktmWH-LWWOYjGfT3Z1CoDXopugo9Oojyb7ENkp64vxkdihdq1Z3qplGCcNJoWfiRX-ZESVlxh-kZvZekt927moDKvxR2CuuJ2aHTLHMyqeZvAvAZdw8XO-c9jzRpaSb4d3X-T4l83zYDraYVupjz3t5VAyEGr0SR392sM"/>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Osoto-Gari</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Le grand fauchage extérieur. Une technique de force pure qui nécessite un timing parfait et une coordination totale du haut et du bas du corps.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Préparation Physique -->
+<section class="container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter bg-primary rounded-2xl overflow-hidden text-white">
+<div class="lg:col-span-7 p-8 md:p-16">
+<h2 class="font-headline-lg text-headline-lg mb-8">Préparation <br/>Physique</h2>
+<div class="space-y-8">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl">fitness_center</span>
+<div>
+<h4 class="font-label-bold text-label-bold text-tertiary-fixed uppercase mb-1">Force Explosive</h4>
+<p class="text-primary-fixed-dim">Focus sur les levées olympiques (Clean &amp; Jerk) pour générer la puissance nécessaire aux projections instantanées.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl">timer</span>
+<div>
+<h4 class="font-label-bold text-label-bold text-tertiary-fixed uppercase mb-1">Conditionnement HIIT</h4>
+<p class="text-primary-fixed-dim">Intervalles de haute intensité simulant la durée et l'effort d'un combat de judo de 4 minutes.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl">self_improvement</span>
+<div>
+<h4 class="font-label-bold text-label-bold text-tertiary-fixed uppercase mb-1">Mobilité &amp; Récupération</h4>
+<p class="text-primary-fixed-dim">Séances quotidiennes de yoga et de physiothérapie pour maintenir l'élasticité musculaire et prévenir les blessures.</p>
+</div>
+</div>
+<button class="mt-8 bg-tertiary-container text-on-tertiary-container font-label-bold px-8 py-4 rounded-full hover:scale-105 transition-transform active:opacity-80">VOIR LE PROGRAMME COMPLET</button>
+</div>
+</div>
+<div class="lg:col-span-5 relative min-h-[400px]">
+<img alt="Training" class="absolute inset-0 w-full h-full object-cover grayscale opacity-60 mix-blend-overlay" data-alt="A gritty, high-contrast photograph of an elite athlete training in a modern, industrial gym. He is performing a heavy barbell lift, with sweat visible and muscles under tension. The lighting is moody and focused, highlighting the determination and physical strain. The color palette is dark, dominated by deep blues and greys, with warm highlights on the skin, creating an atmosphere of intense hard work and professional dedication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoXF4hP1JLHcwZCAAe5CwggklVdnu-PIDHh1zb4t9WIdFgvnWeY4ec78Xwb-BBx3ECzpyp1yjCPr_udTqvE_81GDvuBFopd2MkazFFrjBsChN9Aq7XOZkKmfMbTB7X2_f94wkWz5alhcD9V976oyt8zKe0cnKoXkLm5B3P4xqfoJ1_NKE04fkI7YUkBvovfBpEcLRMqzfzKUipY2AODqFgbZfiCo-r2fCzy1TepbqqMOvaV-SFMz82AxxuxiZa_t2OH4sfJ-nFZ2tk"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-transparent lg:hidden"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-base px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container dark:bg-surface-container-high border-t border-outline-variant">
+<div class="font-label-bold text-label-bold text-primary dark:text-primary-fixed-dim">IpponId</div>
+<div class="font-body-md text-body-md text-on-surface-variant">© 2024 IpponId. All rights reserved.</div>
+<div class="flex gap-6">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Facebook</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Instagram</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="#">YouTube</a>
+</div>
+</footer>
+<!-- Simple Interactivity -->
+<script>
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-8');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

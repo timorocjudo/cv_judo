@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#e0e0ff",
+                    "on-primary-fixed-variant": "#343d96",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "surface-dim": "#dadada",
+                    "outline": "#767683",
+                    "secondary-container": "#dfe0e0",
+                    "on-primary-container": "#8690ee",
+                    "tertiary": "#735c00",
+                    "surface-container-low": "#f3f3f3",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#000767",
+                    "on-surface": "#1a1c1c",
+                    "secondary-fixed": "#e2e2e2",
+                    "surface-tint": "#4c56af",
+                    "primary-fixed-dim": "#bdc2ff",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffe088",
+                    "outline-variant": "#c6c5d4",
+                    "on-secondary-fixed-variant": "#454747",
+                    "background": "#f9f9f9",
+                    "surface-bright": "#f9f9f9",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "surface-variant": "#e2e2e2",
+                    "surface": "#f9f9f9",
+                    "inverse-on-surface": "#f1f1f1",
+                    "on-tertiary-container": "#4e3d00",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#1a237e",
+                    "tertiary-container": "#cba72f",
+                    "surface-container": "#eeeeee",
+                    "surface-container-high": "#e8e8e8",
+                    "inverse-primary": "#bdc2ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2f3131",
+                    "on-background": "#1a1c1c",
+                    "on-surface-variant": "#454652",
+                    "on-secondary-container": "#616363",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#241a00",
+                    "secondary": "#5d5f5f",
+                    "surface-container-highest": "#e2e2e2",
+                    "primary": "#000666",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "8px",
+                    "section-padding": "120px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "stats-number": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "label-bold": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "stats-number": ["40px", {"lineHeight": "40px", "fontWeight": "900"}],
+                    "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "900"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gi-texture {
+            background-color: #ffffff;
+            background-image: radial-gradient(#1a237e 0.5px, transparent 0.5px);
+            background-size: 8px 8px;
+            opacity: 0.03;
+        }
+        .glass-overlay {
+            background: rgba(26, 35, 126, 0.4);
+            backdrop-filter: blur(4px);
+        }
+        .timeline-line::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background-color: #000666;
+        }
+        .timeline-item:last-child .timeline-line::after {
+            display: none;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 bg-surface shadow-[0_2px_4px_rgba(26,35,126,0.05)]">
+<div class="flex justify-between items-center px-gutter py-4 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="sports_martial_arts">sports_martial_arts</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tighter break-words">IPPON ATHLETE</h1>
+</div>
+<button class="text-primary active:scale-95 transition-transform duration-150" id="menu-toggle">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- Navigation Drawer -->
+<div class="fixed right-0 top-0 h-full w-64 z-[60] bg-surface-container-lowest shadow-xl translate-x-full transition-transform duration-300" id="drawer">
+<div class="flex flex-col p-4">
+<div class="flex justify-between items-center mb-8 px-2">
+<span class="font-label-bold text-label-bold text-outline">NAVIGATION</span>
+<button class="text-on-surface-variant" id="drawer-close"><span class="material-symbols-outlined">close</span></button>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container mx-2 my-1 rounded-xl p-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-bold text-label-bold">Home</span>
+</a>
+<a class="flex items-center gap-4 bg-primary text-on-primary rounded-xl mx-2 my-1 p-3" href="#">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+<span class="font-label-bold text-label-bold">Palmares</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container mx-2 my-1 rounded-xl p-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-bold text-label-bold">Profile</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container mx-2 my-1 rounded-xl p-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-bold text-label-bold">Partnership</span>
+</a>
+</nav>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/50 z-[55] hidden transition-opacity opacity-0" id="drawer-overlay"></div>
+<main class="w-full">
+<!-- Hero Section -->
+<section class="relative bg-primary px-margin-mobile py-gutter overflow-hidden">
+<div class="absolute inset-0 gi-texture"></div>
+<div class="relative z-10 flex flex-col items-center text-center py-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary mb-2 uppercase tracking-tight break-words">Timothé François</h2>
+<p class="font-label-bold text-label-bold text-tertiary-fixed mb-4 uppercase tracking-[0.2em]">Palmarès &amp; Médias</p>
+<div class="w-16 h-1 bg-tertiary-container rounded-full"></div>
+</div>
+</section>
+<!-- Achievements Timeline -->
+<section class="py-12 px-margin-mobile max-w-container-max mx-auto">
+<div class="flex items-center gap-3 mb-10">
+<span class="material-symbols-outlined text-primary" data-icon="military_tech">military_tech</span>
+<h3 class="font-headline-md text-headline-md text-primary break-words">Mon Palmarès</h3>
+</div>
+<div class="space-y-12">
+<!-- 2026 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2026</span>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-tertiary-container shadow-sm relative overflow-hidden" style="border-left-color: #CD7F32;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-tertiary uppercase mb-1">2 mai 2026 - National Équipe</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Médaille de bronze Championnat de France par équipe de club (-73kg, avec l'ONJ)</h4>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #CD7F32;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">31 janvier 2026 - Régional</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Régional (-81kg, Cadet 2)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2025 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2025</span>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-outline shadow-sm relative overflow-hidden" style="border-left-color: #C0C0C0;"><div class="relative flex justify-between items-start"><div><p class="font-label-bold text-label-bold text-outline uppercase mb-1">8 novembre 2025 - Départemental</p><h4 class="font-body-lg text-body-lg font-bold text-primary">Vice-Champion Départemental (-81kg, Cadet 2)</h4></div><span class="material-symbols-outlined text-outline text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #C0C0C0;">workspace_premium</span></div></div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-tertiary-container shadow-sm relative overflow-hidden" style="border-left-color: #CD7F32;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-tertiary uppercase mb-1">18 mai 2025 - National</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Médaille de bronze Championnat de France Cadet Espoir (-81kg)</h4>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #CD7F32;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-tertiary-container shadow-sm relative overflow-hidden" style="border-left-color: #CD7F32;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-tertiary uppercase mb-1">8 février 2025 - Régional</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Médaille de bronze Championnat Régional (-81kg, Cadet 1)</h4>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #CD7F32;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2024 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2024</span>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-tertiary-container shadow-sm relative overflow-hidden" style="border-left-color: #CD7F32;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-tertiary uppercase mb-1">16 novembre 2024 - Départemental</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Médaille de bronze Championnat Départemental (-81kg, Cadet 1)</h4>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #CD7F32;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-outline shadow-sm relative overflow-hidden" style="border-left-color: #C0C0C0;"><div class="relative flex justify-between items-start"><div><p class="font-label-bold text-label-bold text-outline uppercase mb-1">12 mai 2024 - National Équipe</p><h4 class="font-body-lg text-body-lg font-bold text-primary">Vice-Champion de France par équipe de département (-73kg)</h4></div><span class="material-symbols-outlined text-outline text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #C0C0C0;">workspace_premium</span></div></div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">25 mars 2024 - National Individuel</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion de France Individuel (-73kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">11 février 2024 - Régional</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Régional (-73kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2023 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2023</span>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-outline shadow-sm relative overflow-hidden" style="border-left-color: #C0C0C0;"><div class="relative flex justify-between items-start"><div><p class="font-label-bold text-label-bold text-outline uppercase mb-1">18 novembre 2023 - Départemental</p><h4 class="font-body-lg text-body-lg font-bold text-primary">Vice-Champion Départemental (-73kg)</h4></div><span class="material-symbols-outlined text-outline text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #C0C0C0;">workspace_premium</span></div></div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">13 mai 2023 - National Équipe</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion de France par équipe de département (-66kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">26 mars 2023 - National Individuel</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion de France Individuel (-66kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">21 janvier 2023 - Régional</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Régional (-66kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2022 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2022</span>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">19 novembre 2022 - Départemental</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Départemental (-66kg)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">10 avril 2022 - Régional</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Régional (Benjamin)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2021 -->
+<div class="timeline-item flex gap-6 relative">
+<div class="timeline-line shrink-0">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 relative flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="flex-1 pb-4">
+<span class="font-stats-number text-stats-number text-primary-container block mb-4">2021</span>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary shadow-sm relative overflow-hidden" style="border-left-color: #FFD700;">
+<div class="relative flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold text-primary uppercase mb-1">21 novembre 2021 - Départemental</p>
+<h4 class="font-body-lg text-body-lg font-bold text-primary">Champion Départemental (Benjamin 2)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1; color: #FFD700;">workspace_premium</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Video Highlights -->
+<section class="py-16 bg-surface-container-lowest border-y border-outline-variant">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="movie">movie</span>
+<h3 class="font-headline-md text-headline-md text-primary break-words">Highlights</h3>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<!-- Video Card -->
+<div class="group relative rounded-2xl overflow-hidden aspect-video bg-inverse-surface shadow-lg">
+<img alt="National Championships Highlights" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwQzV5HmCiO-64Rp-ixZ_l7M5pWA5FbfxqLHwc1Ah1960bM6j1dpyp_VJp2hmQfWVKFu1LIIL5UtFZJOjYyqB_t0iPAOIsOG1Q5fAp-qjP9d-YTcWdjwg5entodW2ixq-ZsyDwWV5vZWJkXG29SyjCIHszUn_VdkmVy1q0WwAPcHQuUHx-xHm_D9_6u_jccDSV4fyLdrfa4K0QrNs1Dw9S8tMvz1crxXUx9rakBInioPRRexAxBVSA4WwNuFxHTmm4XASSxquN8wEj"/>
+<div class="absolute inset-0 glass-overlay flex flex-col justify-end p-6">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center shadow-2xl active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-4xl ml-1" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile text-white mb-1">France Individuel</h4>
+<span class="font-label-bold text-label-bold text-tertiary-fixed-dim uppercase tracking-widest">Minime Finals</span>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden aspect-video bg-inverse-surface shadow-lg">
+<img alt="Training focus" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRMTPKpiRKvx2PAJC9lxROSvFpCJ5B0KkQXXEiugxtrZrdBklFipBKz6wcMr2B4wA3mggqERHHH1UHOTazziRfZKKbA8bNGkeAwR4Pr_mVi815JruoT2A1Xp0hKvvxTb9_fTc6ajU4R49xd2Z_XmmyIFXzrDb_CYM8bfmE_ZYOAgF79u8ZmllAJcaRZiB5dLNN_lZywtgrqNeNzvWouZS0rNbNBwXLWQAMS9toJ1B9sfSAtMfllPJLvpDgsE_zhfag0o25LC5-2698"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent flex flex-col justify-end p-6">
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl ml-1" data-icon="play_arrow">play_arrow</span>
+</div>
+</div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile text-white mb-1">Préparation ONJ</h4>
+<span class="font-label-bold text-label-bold text-tertiary-fixed-dim uppercase tracking-widest">Elite Training</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Shots Gallery -->
+<section class="py-16 px-margin-mobile max-w-container-max mx-auto">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="photo_library">photo_library</span>
+<h3 class="font-headline-md text-headline-md text-primary break-words">Action Gallery</h3>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="aspect-square rounded-lg overflow-hidden shadow-sm">
+<img alt="Action Shot 1" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-x8qJAOFXDkgrPSM8TqbckZGmSwJ4FT77DGgIDbd2JqK6OXs6YDPXmdV7wguAFIRE8KYiZ24e0AJ32q9QDczfGWBanSHOJrX-ndwmoMsmThDAuKZMuo4Clc1x5QqEp9M2KKX5HKHCFfcxBHewxKz_GfrFjxt8tXyGGHVKI8I8BZ8YSTpG4yGLkFOIADd3AkRU4JFYaNuXyz7zOsXypqWcK4tbDQYep0jKRCilMDO381ROCQRwRr2j86J1-voEjD4swnXvDg_d_9N5"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden shadow-sm">
+<img alt="Action Shot 2" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp7d5H0Pzue4MNsH9mLNqSuzTzleoEkSjvy8NqT5RL4nxcj4SyZm142_MZRY14GKsJhBhvcwF7Bv1tNKCi4Dzma0vzCu9Kh8gGapamssG_ASPaX-rQ6pwTocRSA3pdAIW4xr5N6Ea-olkOBXBSKdBm-1Cxa4naUkyzFncFhX4YfMBgjuUEHKIj4BTRQUyfV9MsQYHS6TJT8rnKXyxH2sJ3zZhzE8NotivDN5TqPbSipK4AFBC39Q5u_j_6b6WhB8xWmh_LIZ3W2hXI"/>
+</div>
+<div class="aspect-[3/4] col-span-2 rounded-lg overflow-hidden shadow-sm">
+<img alt="Action Shot 3" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6BCkUUZhZpt_vXBZ9VPFnpFqSNC3M4c7ob780O6nHfP2kLJSewQrePCe8-JhPPtblBdjTRz3tmZhPDT_jttIEakyzRvYCutENW5sa-WIA_HN7S2yFv5DGms_EIqdiMlR2yEwjwoRYdygnCx4OHG4sI8_CQLMQ8-MAn54FmEN2eT-xyLEGyoL0OEevffeNWaEXLOyXhanptF8dWScRbP9kuCGl9WxioUEE6ax_8k3BTZRILvu3zdrODj6MulwVje1ymtTlGZMH7XSh"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-base bg-surface-container-highest border-t border-outline-variant">
+<div class="flex flex-col justify-between items-center px-margin-mobile py-gutter gap-4 w-full max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-primary font-bold break-words">IPPON</h2>
+<div class="flex gap-6">
+<a class="text-on-secondary-fixed-variant hover:text-primary transition-all" href="#">YouTube</a>
+<a class="text-on-secondary-fixed-variant hover:text-primary transition-all" href="#">Instagram</a>
+<a class="text-on-secondary-fixed-variant hover:text-primary transition-all" href="#">Contact</a>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-center opacity-70">
+            © 2024 TIMOTHÉ FRANÇOIS. ALL RIGHTS RESERVED.
+        </p>
+</div>
+</footer>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50 flex justify-around items-center py-3">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="emoji_events" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<span class="text-[10px] font-bold uppercase">Palmares</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="text-[10px] font-bold uppercase">Partners</span>
+</a>
+</nav>
+<!-- Spacer for Bottom Nav -->
+<div class="h-16 md:hidden"></div>
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const drawer = document.getElementById('drawer');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+
+    function openDrawer() {
+        drawer.classList.remove('translate-x-full');
+        drawerOverlay.classList.remove('hidden');
+        setTimeout(() => drawerOverlay.classList.add('opacity-100'), 10);
+    }
+
+    function closeDrawer() {
+        drawer.classList.add('translate-x-full');
+        drawerOverlay.classList.remove('opacity-100');
+        setTimeout(() => drawerOverlay.classList.add('hidden'), 300);
+    }
+
+    menuToggle.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-0', 'translate-y-4');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.timeline-item').forEach(item => {
+        item.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-700');
+        observer.observe(item);
+    });
+</script>
+</body></html>
