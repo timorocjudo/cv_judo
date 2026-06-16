@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { Identity } from '@/types/judoka'
+import { computeAgeCategory } from '@/lib/ageCategory'
 
 interface HeroBlockProps {
   identity: Identity
@@ -51,7 +52,7 @@ export default function HeroBlock({ identity }: HeroBlockProps) {
                 {identity.club}
               </span>
               <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                {identity.category}
+                {computeAgeCategory(identity.birthDate)} · {identity.weightCategory}
               </span>
               <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
                 {identity.grade}

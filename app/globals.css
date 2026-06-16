@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer utilities {
   .gi-texture {
     background-image: radial-gradient(#c6c5d4 0.5px, transparent 0.5px);

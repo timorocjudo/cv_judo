@@ -3,6 +3,7 @@ import judokaData from '@/data/judoka.json'
 import type { JudokaData } from '@/types/judoka'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
 
 const data = judokaData as JudokaData
@@ -42,13 +43,15 @@ export default function HomePage() {
           const render = blockRegistry[blockName]
           if (!render) return null
           return (
-            <div key={blockName} id={blockName}>
+            <div key={blockName} id={blockName} className="scroll-mt-20">
               {render(data)}
             </div>
           )
         })}
+        <div className="h-16 md:hidden" aria-hidden="true" />
       </main>
       <Footer identity={data.identity} social={data.social} />
+      <MobileNav />
     </>
   )
 }
