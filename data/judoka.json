@@ -3,13 +3,13 @@
   "identity": {
     "firstName": "Timothé",
     "lastName": "François",
-    "club": "ONJ — Omnisports Neuilly Judo",
+    "club": "ROC Judo",
     "category": "Cadet 2 · -81kg",
     "grade": "Ceinture noire",
     "profilePhoto": "/images/profile.jpg",
     "coverPhoto": "/images/cover.jpg"
   },
-  "bio": "Judoka de haut niveau évoluant au sein de l'ONJ (Omnisports Neuilly Judo), Timothé François est un compétiteur d'exception. Double Champion de France Individuel (-66kg en 2023, -73kg en 2024), il enchaîne les podiums nationaux depuis 2021 avec une régularité remarquable. Sa progression constante, sa maîtrise technique et son mental de compétiteur en font l'un des espoirs les plus prometteurs du judo français dans sa catégorie.",
+  "bio": "Judoka de haut niveau évoluant au sein du club de ROC Judo, Timothé François est un compétiteur d'exception. Double Champion de France Individuel Minime (-66kg en 2023, -73kg en 2024), il enchaîne les podiums nationaux depuis 2023 avec une régularité remarquable. Sa progression constante, sa maîtrise technique et son mental de compétiteur en font l'un des espoirs les plus prometteurs du judo français dans sa catégorie.",
   "palmares": [
     { "date": "2026-05-02", "competition": "Championnat de France par équipe de club", "result": "Médaille de bronze", "category": "-73kg · ONJ", "level": "National Équipe", "medal": "bronze" },
     { "date": "2026-01-31", "competition": "Championnat Régional", "result": "Champion Régional", "category": "-81kg · Cadet 2", "level": "Régional", "medal": "gold" },
@@ -30,13 +30,13 @@
   ],
   "videos": [
     {
-      "title": "France Individuel 2024 — Finale -73kg",
-      "youtubeUrl": "https://www.youtube.com/watch?v=REPLACE_ME_1",
-      "description": "Highlights de la finale du Championnat de France Individuel 2024 en -73kg."
+      "title": "France Individuel 2024 -73kg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ONHcW9LAFsk",
+      "description": "Highlights du Championnat de France Individuel 2024 en -73kg."
     },
     {
-      "title": "France Individuel 2023 — Finale -66kg",
-      "youtubeUrl": "https://www.youtube.com/watch?v=REPLACE_ME_2",
+      "title": "France Individuel 2023 -66kg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-nw5oyDSCvU",
       "description": "Retour sur le titre de Champion de France 2023 en -66kg."
     }
   ],
