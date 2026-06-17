@@ -1,8 +1,13 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import LoginButton from '@/components/auth/LoginButton'
 
-export default function LandingNav() {
+interface LandingNavProps {
+  isLoggedIn: boolean
+}
+
+export default function LandingNav({ isLoggedIn }: LandingNavProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -18,12 +23,16 @@ export default function LandingNav() {
           <a href="#profiles" className="text-on-surface-variant text-sm font-semibold hover:text-secondary transition-colors">
             Exemples de profils
           </a>
-          <Link
-            href="/creer-mon-profil"
-            className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-container transition-colors active:scale-95"
-          >
-            Créer mon profil
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href="/dashboard"
+              className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-container transition-colors active:scale-95"
+            >
+              Tableau de bord
+            </Link>
+          ) : (
+            <LoginButton />
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -49,13 +58,19 @@ export default function LandingNav() {
           <a href="#profiles" onClick={() => setOpen(false)} className="text-on-surface-variant text-sm font-semibold">
             Exemples de profils
           </a>
-          <Link
-            href="/creer-mon-profil"
-            onClick={() => setOpen(false)}
-            className="bg-primary text-on-primary px-6 py-3 rounded-lg text-sm font-semibold w-11/12 text-center"
-          >
-            Créer mon profil
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href="/dashboard"
+              onClick={() => setOpen(false)}
+              className="bg-primary text-on-primary px-6 py-3 rounded-lg text-sm font-semibold w-11/12 text-center"
+            >
+              Tableau de bord
+            </Link>
+          ) : (
+            <div className="w-11/12 flex justify-center">
+              <LoginButton />
+            </div>
+          )}
         </div>
       )}
     </header>

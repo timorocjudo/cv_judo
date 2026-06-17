@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { createClient } from '@/lib/supabase/server'
 import LandingNav from '@/components/landing/LandingNav'
 import LandingMobileNav from '@/components/landing/LandingMobileNav'
 import HeroSection from '@/components/landing/HeroSection'
@@ -22,10 +23,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <>
-      <LandingNav />
+      <LandingNav isLoggedIn={!!user} />
       <main className="mt-20">
         <HeroSection />
         <MockupSection />

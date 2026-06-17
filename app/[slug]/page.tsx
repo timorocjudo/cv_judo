@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getJudokaBySlug } from '@/lib/judokaService'
+import { createClient } from '@/lib/supabase/server'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import MobileNav from '@/components/layout/MobileNav'
@@ -37,12 +38,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function JudokaPage({ params }: Props) {
-  const judoka = await getJudokaBySlug(params.slug)
+  const [judoka, { data: { user } }] = await Promise.all([
+    getJudokaBySlug(params.slug),
+    createClient().auth.getUser(),
+  ])
+
   if (!judoka) notFound()
 
   return (
     <>
-      <Header identity={judoka.identity} social={judoka.social} />
+      <Header identity={judoka.identity} social={judoka.social} isLoggedIn={!!user} />
       <main>
         {judoka.layout.map((blockName) => {
           const render = blockRegistry[blockName]
