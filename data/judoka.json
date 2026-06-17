@@ -52,7 +52,7 @@
       "date": "2025-02-08",
       "competition": "Championnat Régional",
       "result": "Médaille de bronze",
-      "category": "-81kg",
+      "category": "-81kg · Cadet 1",
       "level": "Régional",
       "medal": "bronze",
       "city": "Avignon (84)"
@@ -61,7 +61,7 @@
       "date": "2024-11-16",
       "competition": "Championnat Départemental",
       "result": "Médaille de bronze",
-      "category": "-81kg",
+      "category": "-81kg · Cadet 1",
       "level": "Départemental",
       "medal": "bronze",
       "city": "Nice (06)"
@@ -173,7 +173,7 @@
   "gallery": [
     {
       "src": "/images/gallery-1.jpg",
-      "caption": "Finale France 2023 — -66kg"
+      "caption": "Finale France 2024 — -73kg"
     },
     {
       "src": "/images/gallery-2.jpg",
@@ -195,8 +195,8 @@
       "image": null
     },
     {
-      "name": "moroté seoi nage ",
-      "description": "Morote Seoi Nage (chargement à l'aide des deux mains) est une technique de projection vers l'avant. Moroté seoi nage est une variante de ippon seoi nage.",
+      "name": "Uchi-mata",
+      "description": "Fauchage intérieur de la cuisse, technique polyvalente qu'il utilise aussi bien en attaque directe qu'en contre.",
       "image": null
     }
   ],
