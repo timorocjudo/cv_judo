@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:\\\\Users\\\\MariePoc\\\\Desktop\\\\STAGE Timothé\\\\cv_judo\\\\docs\\\\superpowers\\\\plans\")",
+      "PowerShell(Get-Command node, npm, npx -ErrorAction SilentlyContinue)",
+      "Bash(npm --version)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\\" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'node|npm' }; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\\" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'node|npm' })",
+      "PowerShell(Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue | Select-Object Name -First 10; Test-Path \"$env:APPDATA\\\\npm\\\\npx.cmd\")",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\\" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'node|npm|nvm' })",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\claude-cli-nodejs\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\claude-cli-nodejs\\\\Cache\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\claude-cli-nodejs\\\\Cache\\\\c--Users-MariePoc-Desktop-STAGE-Timoth--cv-judo\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"C:\\\\\" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'nvm|node|npm' } | Select-Object Name, FullName)",
+      "PowerShell(Get-ChildItem \"HKLM:\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\" -ErrorAction SilentlyContinue | Get-ItemProperty | Where-Object { $_.DisplayName -match 'node|npm' } | Select-Object DisplayName, InstallLocation)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" --version 2>$null)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" --version 2>$null)",
+      "PowerShell(Stop-Process -Id 6692 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 9676 -Force -ErrorAction SilentlyContinue)",
+      "Bash(grep -E '\\\\.\\(env|env\\\\..+\\)$')",
+      "PowerShell(cd \"c:\\\\Users\\\\MariePoc\\\\Desktop\\\\STAGE Timothé\\\\cv_judo\"; if \\(-not \\(Test-Path \"types\"\\)\\) { New-Item -ItemType Directory -Path \"types\" | Out-Null }; Test-Path \"types\")",
+      "Bash(git add *)",
+      "Bash(npx tsc *)",
+      "PowerShell($node = \\(Get-Command node -ErrorAction SilentlyContinue\\).Source; if \\($node\\) { $node } else { Get-ChildItem \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\\\\node.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\nodejs\\\\node.exe\" -ErrorAction SilentlyContinue })",
+      "Bash(cd \"/c/Users/MariePoc/Desktop/STAGE Timothé/cv_judo\" && ls -la | head -20)",
+      "Read(//c/c/Users/MariePoc/Desktop/STAGE Timothé/**)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(git -C \"c:/Users/MariePoc/Desktop/STAGE Timothé/cv_judo\" log --oneline -15)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\MariePoc\\Desktop\\STAGE Timothé\\cv_judo\\docs\\superpowers"
+    ]
+  }
+}

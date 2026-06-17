@@ -13,7 +13,7 @@ export default function VideosBlock({ videos }: VideosBlockProps) {
   if (!videos.length) return null
 
   return (
-    <section className="py-16 md:py-24 bg-surface-container border-y border-outline-variant">
+    <section className="py-10 md:py-14 bg-surface-container border-y border-outline-variant">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="flex items-center gap-3 mb-10">
           <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />

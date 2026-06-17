@@ -8,7 +8,10 @@
     "weightCategory": "-81kg",
     "grade": "Ceinture noire",
     "profilePhoto": "/images/profile.jpg",
-    "coverPhoto": "/images/cover.jpg"
+    "coverPhoto": "/images/cover.jpg",
+    "height": 173,
+    "weight": 74,
+    "nationality": "Français"
   },
   "bio": "Judoka de haut niveau évoluant au sein du club de ROC Judo, Timothé François est un compétiteur d'exception. Double Champion de France Individuel Minime (-66kg en 2023, -73kg en 2024), il enchaîne les podiums nationaux depuis 2023 avec une régularité remarquable. Sa progression constante, sa maîtrise technique et son mental de compétiteur en font l'un des espoirs les plus prometteurs du judo français dans sa catégorie.",
   "palmares": [
@@ -52,7 +55,7 @@
       "date": "2025-02-08",
       "competition": "Championnat Régional",
       "result": "Médaille de bronze",
-      "category": "-81kg · Cadet 1",
+      "category": "-81kg",
       "level": "Régional",
       "medal": "bronze",
       "city": "Avignon (84)"
@@ -61,7 +64,7 @@
       "date": "2024-11-16",
       "competition": "Championnat Départemental",
       "result": "Médaille de bronze",
-      "category": "-81kg · Cadet 1",
+      "category": "-81kg",
       "level": "Départemental",
       "medal": "bronze",
       "city": "Nice (06)"
@@ -195,8 +198,8 @@
       "image": null
     },
     {
-      "name": "Uchi-mata",
-      "description": "Fauchage intérieur de la cuisse, technique polyvalente qu'il utilise aussi bien en attaque directe qu'en contre.",
+      "name": "moroté seoi nage",
+      "description": "Morote Seoi Nage (chargement à l'aide des deux mains) est une technique de projection du judo. C'est l'une des variantes de la technique Ippon Seoi Nage.",
       "image": null
     }
   ],

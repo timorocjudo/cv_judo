@@ -10,6 +10,9 @@ export interface Identity {
   grade: string
   profilePhoto: string
   coverPhoto: string
+  height?: number     // cm
+  weight?: number     // kg
+  nationality?: string
 }
 
 export interface PalmaresEntry {

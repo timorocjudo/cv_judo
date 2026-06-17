@@ -7,10 +7,10 @@ interface PalmaresBlockProps {
   birthDate: string
 }
 
-const MEDAL_STYLES: Record<NonNullable<MedalType>, { border: string; dot: string; label: string }> = {
-  gold:   { border: '#FFD700', dot: '#cba72f', label: 'Or' },
-  silver: { border: '#C0C0C0', dot: '#767683', label: 'Argent' },
-  bronze: { border: '#CD7F32', dot: '#8d6e63', label: 'Bronze' },
+const MEDAL_STYLES: Record<NonNullable<MedalType>, { border: string; dot: string; label: string; rank: string }> = {
+  gold:   { border: '#FFD700', dot: '#cba72f', label: 'Or',     rank: '1' },
+  silver: { border: '#C0C0C0', dot: '#767683', label: 'Argent', rank: '2' },
+  bronze: { border: '#CD7F32', dot: '#8d6e63', label: 'Bronze', rank: '3' },
 }
 
 function formatDate(dateStr: string): string {
@@ -43,9 +43,9 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
     .sort((a, b) => b - a)
 
   return (
-    <section className="py-16 md:py-24 bg-surface-container-low">
+    <section className="py-10 md:py-14 bg-surface-container-low">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-        <div className="flex items-center gap-3 mb-12">
+        <div className="flex items-center gap-3 mb-8">
           <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
           <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase tracking-tight">
             Mon Palmarès
@@ -102,14 +102,26 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
                               />
                             )}
                             {medal && (
-                              <div
-                                className="w-8 h-8 rounded-full flex items-center justify-center text-sm text-white font-bold"
-                                style={{ backgroundColor: medal.dot }}
+                              <svg
+                                width="32"
+                                height="40"
+                                viewBox="0 0 32 40"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                                 aria-label={`Médaille ${medal.label}`}
                                 role="img"
+                                className="flex-shrink-0"
                               >
-                                ★
-                              </div>
+                                {/* Ruban gauche */}
+                                <rect x="10" y="0" width="5" height="16" rx="1.5" fill={medal.border} opacity="0.85" transform="rotate(-10 10 0)" />
+                                {/* Ruban droit */}
+                                <rect x="17" y="0" width="5" height="16" rx="1.5" fill={medal.dot} opacity="0.85" transform="rotate(10 17 0)" />
+                                {/* Disque */}
+                                <circle cx="16" cy="28" r="11" fill={medal.dot} />
+                                <circle cx="16" cy="28" r="9" fill={medal.border} opacity="0.4" />
+                                <circle cx="16" cy="28" r="7" fill={medal.dot} />
+                                <text x="16" y="32.5" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="sans-serif">{medal.rank}</text>
+                              </svg>
                             )}
                           </div>
                         </div>

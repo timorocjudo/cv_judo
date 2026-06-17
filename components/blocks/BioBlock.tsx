@@ -5,7 +5,7 @@ interface BioBlockProps {
 
 export default function BioBlock({ bio, firstName }: BioBlockProps) {
   return (
-    <section className="py-16 md:py-24 px-margin-mobile md:px-margin-desktop">
+    <section className="py-10 md:py-14 px-margin-mobile md:px-margin-desktop">
       <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
         {/* Left column: section label */}
         <div className="md:col-span-4">

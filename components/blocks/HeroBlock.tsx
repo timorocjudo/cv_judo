@@ -40,7 +40,7 @@ export default function HeroBlock({ identity }: HeroBlockProps) {
           {/* Text */}
           <div>
             <p className="font-inter text-xs font-bold uppercase tracking-[0.25em] text-tertiary-fixed-dim mb-2">
-              IpponId · Athlete Profile
+              IpponId · Profil Athlete
             </p>
             <h1 className="font-montserrat text-5xl md:text-7xl font-black text-white uppercase tracking-tight leading-none">
               {identity.firstName}
@@ -58,6 +58,35 @@ export default function HeroBlock({ identity }: HeroBlockProps) {
                 {identity.grade}
               </span>
             </div>
+            {(identity.height || identity.weight || identity.nationality) && (
+              <div className="mt-6 flex flex-wrap gap-6">
+                {identity.nationality && (
+                  <div>
+                    <p className="font-inter text-[10px] font-bold uppercase tracking-widest text-white/50 mb-0.5">Nationalité</p>
+                    <div className="flex items-center gap-1.5">
+                      <svg width="20" height="14" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="rounded-sm flex-shrink-0">
+                        <rect width="7" height="14" fill="#002395"/>
+                        <rect x="7" width="6" height="14" fill="#EDEDED"/>
+                        <rect x="13" width="7" height="14" fill="#ED2939"/>
+                      </svg>
+                      <p className="font-montserrat text-sm font-bold text-white uppercase">{identity.nationality}</p>
+                    </div>
+                  </div>
+                )}
+                {identity.height && (
+                  <div>
+                    <p className="font-inter text-[10px] font-bold uppercase tracking-widest text-white/50 mb-0.5">Taille</p>
+                    <p className="font-montserrat text-sm font-bold text-white">{identity.height} cm</p>
+                  </div>
+                )}
+                {identity.weight && (
+                  <div>
+                    <p className="font-inter text-[10px] font-bold uppercase tracking-widest text-white/50 mb-0.5">Poids</p>
+                    <p className="font-montserrat text-sm font-bold text-white">{identity.weight} kg</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
