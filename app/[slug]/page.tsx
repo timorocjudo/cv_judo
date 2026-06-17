@@ -5,8 +5,13 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
+import judokasData from '@/data/judokas.json'
 
 type Props = { params: { slug: string } }
+
+export async function generateStaticParams() {
+  return (judokasData as { slug: string }[]).map((j) => ({ slug: j.slug }))
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const judoka = await getJudokaBySlug(params.slug)
