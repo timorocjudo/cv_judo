@@ -34,6 +34,9 @@ const config: Config = {
         'medal-gold': '#FFD700',
         'medal-silver': '#C0C0C0',
         'medal-bronze': '#CD7F32',
+        secondary: '#b6171e',
+        'on-secondary': '#ffffff',
+        'secondary-container': '#da3433',
       },
       fontFamily: {
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
@@ -52,6 +55,7 @@ const config: Config = {
         'display-lg': ['72px', { lineHeight: '80px', letterSpacing: '-0.02em', fontWeight: '900' }],
         'headline-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.01em', fontWeight: '700' }],
         'headline-md': ['32px', { lineHeight: '40px', fontWeight: '700' }],
+        'headline-lg-mobile': ['24px', { lineHeight: '32px', fontWeight: '700' }],
         'body-lg': ['18px', { lineHeight: '28px', fontWeight: '400' }],
         'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
         'label-bold': ['14px', { lineHeight: '20px', letterSpacing: '0.05em', fontWeight: '700' }],
