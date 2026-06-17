@@ -1,0 +1,220 @@
+[
+  {
+    "slug": "timothe-francois",
+    "identity": {
+      "firstName": "Timothé",
+      "lastName": "François",
+      "club": "ROC Judo",
+      "birthDate": "2010-04-02",
+      "weightCategory": "-81kg",
+      "grade": "Ceinture noire",
+      "profilePhoto": "/images/profile.jpg",
+      "coverPhoto": "/images/cover.jpg",
+      "height": 173,
+      "weight": 74,
+      "nationality": "Français"
+    },
+    "bio": "Judoka de haut niveau évoluant au sein du club de ROC Judo, Timothé François est un compétiteur d'exception. Double Champion de France Individuel Minime (-66kg en 2023, -73kg en 2024), il enchaîne les podiums nationaux depuis 2023 avec une régularité remarquable. Sa progression constante, sa maîtrise technique et son mental de compétiteur en font l'un des espoirs les plus prometteurs du judo français dans sa catégorie.",
+    "palmares": [
+      {
+        "date": "2026-05-02",
+        "competition": "Championnat de France par équipe de club",
+        "result": "Médaille de bronze",
+        "category": "-73kg",
+        "level": "National Équipe",
+        "medal": "bronze",
+        "city": "Villebon sur Yvette (91)"
+      },
+      {
+        "date": "2026-01-31",
+        "competition": "Championnat Régional",
+        "result": "Champion Régional",
+        "category": "-81kg",
+        "level": "Régional",
+        "medal": "gold",
+        "city": "Avignon (84)"
+      },
+      {
+        "date": "2025-11-08",
+        "competition": "Championnat Départemental",
+        "result": "Vice-Champion Départemental",
+        "category": "-81kg",
+        "level": "Départemental",
+        "medal": "silver",
+        "city": "Saint-Laurant du Var (06)"
+      },
+      {
+        "date": "2025-05-18",
+        "competition": "Championnat de France Cadet Espoir",
+        "result": "Médaille de bronze",
+        "category": "-81kg",
+        "level": "National",
+        "medal": "bronze",
+        "city": "Villebon sur Yvette (91)"
+      },
+      {
+        "date": "2025-02-08",
+        "competition": "Championnat Régional",
+        "result": "Médaille de bronze",
+        "category": "-81kg",
+        "level": "Régional",
+        "medal": "bronze",
+        "city": "Avignon (84)"
+      },
+      {
+        "date": "2024-11-16",
+        "competition": "Championnat Départemental",
+        "result": "Médaille de bronze",
+        "category": "-81kg",
+        "level": "Départemental",
+        "medal": "bronze",
+        "city": "Nice (06)"
+      },
+      {
+        "date": "2024-05-12",
+        "competition": "Championnat de France par équipe de département",
+        "result": "Vice-Champion de France",
+        "category": "-73kg",
+        "level": "National Équipe",
+        "medal": "silver",
+        "city": "Ceyrat (63)"
+      },
+      {
+        "date": "2024-03-25",
+        "competition": "Championnat de France Individuel",
+        "result": "Champion de France",
+        "category": "-73kg",
+        "level": "National Individuel",
+        "medal": "gold",
+        "city": "Villebon sur Yvette (91)"
+      },
+      {
+        "date": "2024-02-11",
+        "competition": "Championnat Régional",
+        "result": "Champion Régional",
+        "category": "-73kg",
+        "level": "Régional",
+        "medal": "gold",
+        "city": "Martigues (13)"
+      },
+      {
+        "date": "2023-11-18",
+        "competition": "Championnat Départemental",
+        "result": "Vice-Champion Départemental",
+        "category": "-73kg",
+        "level": "Départemental",
+        "medal": "silver",
+        "city": "Saint-Martin du Var (06)"
+      },
+      {
+        "date": "2023-05-13",
+        "competition": "Championnat de France par équipe de département",
+        "result": "Champion de France",
+        "category": "-66kg",
+        "level": "National Équipe",
+        "medal": "gold",
+        "city": "Ceyrat (63)"
+      },
+      {
+        "date": "2023-03-26",
+        "competition": "Championnat de France Individuel",
+        "result": "Champion de France",
+        "category": "-66kg",
+        "level": "National Individuel",
+        "medal": "gold",
+        "city": "Villebon sur Yvette (91)",
+        "podiumPhoto": "/images/podium-France-2023.jpg"
+      },
+      {
+        "date": "2023-01-21",
+        "competition": "Championnat Régional",
+        "result": "Champion Régional",
+        "category": "-66kg",
+        "level": "Régional",
+        "medal": "gold",
+        "city": "Marseille (13)"
+      },
+      {
+        "date": "2022-11-19",
+        "competition": "Championnat Départemental",
+        "result": "Champion Départemental",
+        "category": "-66kg",
+        "level": "Départemental",
+        "medal": "gold",
+        "city": "Saint-Martin du Var (06)"
+      },
+      {
+        "date": "2022-04-10",
+        "competition": "Championnat Régional",
+        "result": "Champion Régional",
+        "category": "",
+        "level": "Régional",
+        "medal": "gold",
+        "city": "Marseille (13)"
+      },
+      {
+        "date": "2021-11-21",
+        "competition": "Championnat Départemental",
+        "result": "Champion Départemental",
+        "category": "Benjamin 2",
+        "level": "Départemental",
+        "medal": "gold",
+        "city": "Saint-Martin du Var (06)"
+      }
+    ],
+    "videos": [
+      {
+        "title": "France Individuel 2024 -73kg",
+        "youtubeUrl": "https://www.youtube.com/watch?v=ONHcW9LAFsk",
+        "description": "Highlights du Championnat de France Individuel 2024 en -73kg."
+      },
+      {
+        "title": "France Individuel 2023 -66kg",
+        "youtubeUrl": "https://www.youtube.com/watch?v=-nw5oyDSCvU",
+        "description": "Retour sur le titre de Champion de France 2023 en -66kg."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "/images/gallery-1.jpg",
+        "caption": "Finale France 2024 — -73kg"
+      },
+      {
+        "src": "/images/gallery-2.jpg",
+        "caption": "Préparation ONJ"
+      },
+      {
+        "src": "/images/gallery-3.jpg",
+        "caption": "Podium France 2023"
+      },
+      {
+        "src": "/images/gallery-4.jpg",
+        "caption": "Entraînement matinal"
+      }
+    ],
+    "techniques": [
+      {
+        "name": "Seoi-nage",
+        "description": "Projection par les épaules, technique de prédilection de Timothé qui lui a valu plusieurs titres nationaux.",
+        "image": null
+      },
+      {
+        "name": "moroté seoi nage",
+        "description": "Morote Seoi Nage (chargement à l'aide des deux mains) est une technique de projection du judo. C'est l'une des variantes de la technique Ippon Seoi Nage.",
+        "image": null
+      }
+    ],
+    "social": {
+      "instagram": "https://www.instagram.com/",
+      "youtube": "https://www.youtube.com/@"
+    },
+    "layout": [
+      "hero",
+      "bio",
+      "palmares",
+      "techniques",
+      "videos",
+      "gallery"
+    ]
+  }
+]
