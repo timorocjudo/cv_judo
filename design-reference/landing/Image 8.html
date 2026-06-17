@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IpponId | Votre identité martiale numérique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#410003",
+                    "primary": "#000666",
+                    "outline": "#767683",
+                    "tertiary-container": "#2e302e",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#bdc2ff",
+                    "surface-dim": "#c7dde9",
+                    "surface-container-highest": "#cfe6f2",
+                    "outline-variant": "#c6c5d4",
+                    "surface-tint": "#4c56af",
+                    "secondary": "#b6171e",
+                    "on-background": "#071e27",
+                    "tertiary-fixed": "#e2e3df",
+                    "primary-container": "#1a237e",
+                    "tertiary": "#191b19",
+                    "surface-container-high": "#d5ecf8",
+                    "on-tertiary-container": "#979894",
+                    "on-primary-container": "#8690ee",
+                    "surface-bright": "#f3faff",
+                    "surface-variant": "#cfe6f2",
+                    "secondary-fixed-dim": "#ffb3ac",
+                    "inverse-surface": "#1e333c",
+                    "on-error": "#ffffff",
+                    "surface": "#f3faff",
+                    "primary-fixed-dim": "#bdc2ff",
+                    "tertiary-fixed-dim": "#c6c7c3",
+                    "on-primary-fixed": "#000767",
+                    "background": "#f3faff",
+                    "surface-container": "#dbf1fe",
+                    "secondary-fixed": "#ffdad6",
+                    "primary-fixed": "#e0e0ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface": "#071e27",
+                    "on-tertiary-fixed-variant": "#454745",
+                    "secondary-container": "#da3433",
+                    "on-surface-variant": "#454652",
+                    "surface-container-low": "#e6f6ff",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#930010",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#dff4ff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#343d96",
+                    "on-tertiary-fixed": "#1a1c1a",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "sm": "12px",
+                    "margin-desktop": "48px",
+                    "base": "8px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Montserrat"],
+                    "label-md": ["Hanken Grotesk"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .performance-card {
+            box-shadow: 0px 4px 20px rgba(0, 6, 102, 0.05);
+        }
+        .performance-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-surface shadow-sm px-margin-mobile py-base md:px-margin-desktop flex justify-between items-center max-w-7xl mx-auto w-full">
+<div class="font-headline-md text-headline-md font-bold text-primary">IpponId</div>
+<button class="p-2 text-primary flex items-center justify-center" id="mobile-menu-btn">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</nav>
+<!-- Mobile Menu Overlay (Hidden by default) -->
+<div class="fixed inset-0 bg-surface z-[60] flex flex-col p-margin-mobile transition-transform transform translate-x-full duration-300 ease-in-out" id="mobile-menu">
+<div class="flex justify-between items-center mb-xl">
+<div class="font-headline-md text-headline-md font-bold text-primary">IpponId</div>
+<button class="p-2 text-primary" id="close-menu-btn">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="#">Comment ça marche</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="#">Exemples de profils</a>
+<hr class="border-outline-variant"/>
+<button class="bg-primary text-on-primary py-md px-lg rounded-lg font-label-md text-label-md shadow-md active:scale-95 transition-transform text-center">Créer mon profil</button>
+</div>
+</div>
+<main class="flex-grow pt-[80px]">
+<!-- Hero Section -->
+<section class="px-margin-mobile pt-lg pb-xl flex flex-col items-center text-center">
+<div class="mb-md">
+<span class="bg-primary-container text-on-primary-container px-md py-xs rounded-full font-label-sm text-label-sm">BÊTA OUVERTE</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-md">
+                Votre parcours martial, <br/><span class="text-secondary">réuni au même endroit.</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg max-w-sm">
+                Créez une page unique pour vos grades, vos compétitions et vos clubs. Le lien indispensable pour chaque pratiquant.
+            </p>
+<!-- URL Builder Input -->
+<div class="w-full max-w-sm bg-surface-container rounded-xl p-xs flex flex-col gap-xs performance-card border border-outline-variant">
+<div class="flex items-center bg-surface-container-lowest rounded-lg p-md">
+<span class="text-on-surface-variant font-label-md mr-1">ipponid.com/</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 text-primary font-bold placeholder:font-normal placeholder:text-outline flex-grow" placeholder="nom" type="text"/>
+</div>
+<button class="bg-secondary text-on-secondary py-md px-lg rounded-lg font-headline-md text-headline-md active:scale-95 transition-transform w-full">
+                    Réclamer mon ID
+                </button>
+</div>
+</section>
+<!-- Mockup Section -->
+<section class="px-margin-mobile mb-xl overflow-hidden">
+<div class="relative mx-auto w-[280px] h-[560px] bg-primary rounded-[3rem] border-[8px] border-on-surface shadow-2xl overflow-hidden">
+<!-- Phone Screen Content -->
+<div class="absolute inset-0 bg-surface-bright flex flex-col overflow-y-auto">
+<div class="h-32 bg-primary relative shrink-0">
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full border-4 border-surface-bright bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a serious female judo athlete in her twenties wearing a white gi. The lighting is dramatic and high-contrast, characteristic of a sporty edge brand style. The background is a clean, neutral gray to maintain a professional SaaS-inspired aesthetic. Her eyes convey discipline and focus, reflecting the structured nature of traditional martial arts practice." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi91ebt01vCVmT-nuHCsVdDMkWRFrrj5PcZ5JOxADgwhj8A9X5cannccQldb42WzWzNRC5ZVKYiguidpLEE23f3-aO5e6_xFhKcxKLk00GQfQPzkonWWgG9IRdvsuDdmWZTch458PIrhAO3WyEpO5is2WqOF6ThLG-ztwvV1VSmXfnNUgaymJdyMf5zHakSl5gV9TohOZa5Qlyreo47ja72Iq81FCgCP3DPTyJvielb6ItHOa1CLWjikBDHFQ_Ba2bqRr1fZw_Fk6y"/>
+</div>
+</div>
+<div class="pt-12 px-md pb-md text-center">
+<h3 class="font-headline-md text-headline-md text-primary">Sarah Dupont</h3>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-widest mb-md">Ceinture Noire 2ème Dan</p>
+<div class="flex justify-center gap-xs mb-lg">
+<span class="bg-surface-container px-base py-xs rounded text-[10px] font-bold text-primary border border-outline-variant">JUDO</span>
+<span class="bg-surface-container px-base py-xs rounded text-[10px] font-bold text-primary border border-outline-variant">JIU-JITSU</span>
+</div>
+<div class="space-y-sm">
+<div class="performance-card bg-surface p-sm rounded-lg border border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">workspace_premium</span>
+<div class="text-left">
+<p class="text-[12px] font-bold">Championne Régionale</p>
+<p class="text-[10px] text-on-surface-variant">Ligue Occitanie 2023</p>
+</div>
+</div>
+<div class="performance-card bg-surface p-sm rounded-lg border border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<div class="text-left">
+<p class="text-[12px] font-bold">Dojo Parisien</p>
+<p class="text-[10px] text-on-surface-variant">Professeur Assistant</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- "Comment ça marche" -->
+<section class="bg-surface-container px-margin-mobile py-xl">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center mb-lg">Simple comme un <span class="text-secondary">Uchi-Mata</span></h2>
+<div class="flex flex-col gap-md">
+<div class="performance-card bg-surface-container-lowest p-md rounded-xl border border-outline-variant">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold mb-sm">1</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Choisissez votre ID</h4>
+<p class="text-on-surface-variant">Réservez votre lien unique ipponid.com/nom avant qu'il ne soit pris.</p>
+</div>
+<div class="performance-card bg-surface-container-lowest p-md rounded-xl border border-outline-variant">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold mb-sm">2</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Remplissez votre palmarès</h4>
+<p class="text-on-surface-variant">Grades, clubs, médailles. Ajoutez vos photos et vidéos de combat.</p>
+</div>
+<div class="performance-card bg-surface-container-lowest p-md rounded-xl border border-outline-variant">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold mb-sm">3</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Partagez votre profil</h4>
+<p class="text-on-surface-variant">En bio Instagram, sur votre CV ou lors des inscriptions en tournoi.</p>
+</div>
+</div>
+</section>
+<!-- Social Proof -->
+<section class="px-margin-mobile py-xl text-center">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-lg">Déjà adopté par 2,000+ combattants</h2>
+<div class="grid grid-cols-4 gap-md max-w-xs mx-auto">
+<img class="w-12 h-12 rounded-full border-2 border-primary-fixed grayscale hover:grayscale-0 transition-all duration-300" data-alt="A close-up portrait of a male martial artist with short hair and an intense, focused gaze. He is wearing a blue competition gi. The lighting is crisp and modern, emphasizing the textures of the fabric and the athletic determination on his face. The overall aesthetic is clean and professional, aligned with a high-performance sports brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFwNBskp5cK2mMCCNN8aJaT9PnXYmqkndj32zvcLotuHIAsHIGkZg2WtH0Yt4h7NJLDzvS64yPoZbtf6ClfooheHfmLCj8eKfKqqU9A7xCk72Q-Q4yB01N4xIXzYvuODUzEYm9ZvSMekjBK7JNei3TW-vaSdBwEaTKAlbwiFgXcmM1IzTt6yKscjW3St4GkqRF7Rr6I_GW6wvGH4f2Ue6LTTy2kZSuRg4uQJkTG2pzG2sL97k1pANSs5wiPDkkZpXHHtsdYJ4p3iCb"/>
+<img class="w-12 h-12 rounded-full border-2 border-primary-fixed grayscale hover:grayscale-0 transition-all duration-300" data-alt="A portrait of a smiling female athlete in a white karate gi, set against a soft, diffused light-mode background. Her expression is confident and welcoming, illustrating the discipline and respect inherent in traditional practice. The photograph uses a shallow depth of field to keep the focus entirely on her professional yet approachable persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEJxvZSdSLqksnOaOtRah6g-fQMg0K7dzbHNLomw0j0W1C2lGOYOFDMoSoxCOA9dw7IacRT-0TUiKomKcSd5xAJiKTateWbaX7KuyftanMrNWz2QCm7eVE7zmi0fhG5-jl7yfUc8eVQb5yt61Tq79lGE61yI7cL2OOELw9WrFdwVqf4vJbu9wNBLnMy2kQAF9vR0cynUj8uTW_cRZkiaoxr6YOa1nnroIy3t4gr9EaD6CwPePFse-CdulJJxT5WA-EdU0d7Z4MBkuc"/>
+<img class="w-12 h-12 rounded-full border-2 border-primary-fixed grayscale hover:grayscale-0 transition-all duration-300" data-alt="A studio portrait of a veteran martial arts instructor with graying hair and a calm, authoritative presence. He wears a black gi, symbolizing high expertise. The lighting is balanced and clear, reflecting a corporate modern aesthetic with a sporty edge. The image captures the essence of mastery and structured training." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHW0q8PybWJ9yHRKsqcwWFAiGGN_zNyE00JW2vqUKXbjLAlpYatdWgCrfrvM4N3_b-L_yl1ofPhNvd8omes4xYRmCIicRb19VRCpQe24tbVuOtf6jBVeu1XvXSOP2ZxxEVgfcIPYjjifK68b2eaXLo4zxDqiKtn68fUgPpdcHCtRb7IbQfCzgbIT_Ah24327iAFkloKyVz4uMVCLtcqiAo-M791Ts6XkLjWjues78QnpSXNWpbAf3wzGrUToC2atVnuBZRZY3lbqqE"/>
+<img class="w-12 h-12 rounded-full border-2 border-primary-fixed grayscale hover:grayscale-0 transition-all duration-300" data-alt="A profile shot of a young athlete looking forward with determination. She is dressed in athletic gear that implies high performance and achievement. The lighting is high-key and pristine, creating a bright and modern feel that aligns with a clean SaaS-inspired UI design. The mood is aspirational and energetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr9tq1m6rYukDB3foLqtpxYlBicIku1FkVbWpI-DXacvxgm-ASrMn-xTFAnwdivl_Fpm-4z_fxBDDrm5LCX0xXbR-4rYsHgV_Jceb_Dfv6TofWO5uxB_lUfwcuo3Dd91r6CMuxxsJX5bTVei07x-lzTU3XTdHw0BeoMrCT5gKsHDNhyWlHdpq8JVgGg4-iypP3DcHL1Y85T1UR-B5DSP7CZAhsXGIbX1S1oSR_jDc8e5Y5-buDLfDnX-welpetGDSimvU9yrMmFn55"/>
+</div>
+<p class="mt-md font-body-md text-on-surface-variant italic">"Enfin un outil qui comprend la réalité de notre discipline."</p>
+</section>
+<!-- Final CTA -->
+<section class="px-margin-mobile py-xl bg-primary text-on-primary text-center">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mb-md">Prêt pour le combat ?</h2>
+<p class="font-body-md mb-lg opacity-80">Rejoignez la plus grande communauté de pratiquants digitaux.</p>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center bg-surface-container-lowest rounded-lg p-md text-primary">
+<span class="font-label-md opacity-60">ipponid.com/</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 text-primary font-bold placeholder:font-normal placeholder:text-outline-variant flex-grow" placeholder="votre-nom" type="text"/>
+</div>
+<button class="bg-secondary text-on-secondary py-md px-lg rounded-lg font-headline-md text-headline-md active:scale-95 transition-transform">
+                    Commencer gratuitement
+                </button>
+</div>
+<p class="text-label-sm mt-md opacity-60">Aucune carte bancaire requise. Gratuit pour toujours.</p>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest border-t border-outline-variant">
+<div class="px-margin-mobile py-lg flex flex-col items-center gap-lg">
+<div class="font-headline-md text-headline-md font-bold text-primary">IpponId</div>
+<div class="flex flex-wrap justify-center gap-md text-on-surface-variant font-label-sm">
+<a class="hover:text-secondary transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-secondary transition-colors" href="#">Politique de confidentialité</a>
+<a class="hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+<p class="font-label-sm text-on-surface-variant opacity-60 text-center">© 2024 IpponId. Tous droits réservés.</p>
+</div>
+</footer>
+<script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            menu.classList.remove('translate-x-full');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            menu.classList.add('translate-x-full');
+        });
+
+        // Close menu on link click
+        menu.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', () => {
+                menu.classList.add('translate-x-full');
+            });
+        });
+    </script>
+</body></html>

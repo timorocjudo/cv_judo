@@ -28,7 +28,9 @@
       "Bash(cd \"/c/Users/MariePoc/Desktop/STAGE Timothé/cv_judo\" && ls -la | head -20)",
       "Read(//c/c/Users/MariePoc/Desktop/STAGE Timothé/**)",
       "Bash(./node_modules/.bin/tsc --noEmit)",
-      "Bash(git -C \"c:/Users/MariePoc/Desktop/STAGE Timothé/cv_judo\" log --oneline -15)"
+      "Bash(git -C \"c:/Users/MariePoc/Desktop/STAGE Timothé/cv_judo\" log --oneline -15)",
+      "Bash(curl http://localhost:3000/ -s -w \"\\\\nHTTP Status: %{http_code}\\\\n\")",
+      "Bash(pkill -f \"node.*next\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\MariePoc\\Desktop\\STAGE Timothé\\cv_judo\\docs\\superpowers"

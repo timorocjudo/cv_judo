@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IpponId | Ton palmarès judo mérite sa propre page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "on-secondary-fixed": "#410003",
+                "primary": "#000666",
+                "outline": "#767683",
+                "tertiary-container": "#2e302e",
+                "on-error-container": "#93000a",
+                "inverse-primary": "#bdc2ff",
+                "surface-dim": "#c7dde9",
+                "surface-container-highest": "#cfe6f2",
+                "outline-variant": "#c6c5d4",
+                "surface-tint": "#4c56af",
+                "secondary": "#b6171e",
+                "on-background": "#071e27",
+                "tertiary-fixed": "#e2e3df",
+                "primary-container": "#1a237e",
+                "tertiary": "#191b19",
+                "surface-container-high": "#d5ecf8",
+                "on-tertiary-container": "#979894",
+                "on-primary-container": "#8690ee",
+                "surface-bright": "#f3faff",
+                "surface-variant": "#cfe6f2",
+                "secondary-fixed-dim": "#ffb3ac",
+                "inverse-surface": "#1e333c",
+                "on-error": "#ffffff",
+                "surface": "#f3faff",
+                "primary-fixed-dim": "#bdc2ff",
+                "tertiary-fixed-dim": "#c6c7c3",
+                "on-primary-fixed": "#000767",
+                "background": "#f3faff",
+                "surface-container": "#dbf1fe",
+                "secondary-fixed": "#ffdad6",
+                "primary-fixed": "#e0e0ff",
+                "on-tertiary": "#ffffff",
+                "on-primary": "#ffffff",
+                "on-secondary-container": "#fffbff",
+                "on-surface": "#071e27",
+                "on-tertiary-fixed-variant": "#454745",
+                "secondary-container": "#da3433",
+                "on-surface-variant": "#454652",
+                "surface-container-low": "#e6f6ff",
+                "error": "#ba1a1a",
+                "on-secondary-fixed-variant": "#930010",
+                "surface-container-low": "#e6f6ff",
+                "inverse-on-surface": "#dff4ff",
+                "error-container": "#ffdad6",
+                "on-primary-fixed-variant": "#343d96",
+                "on-tertiary-fixed": "#1a1c1a",
+                "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "md": "24px",
+                "xs": "4px",
+                "margin-mobile": "16px",
+                "xl": "64px",
+                "gutter": "24px",
+                "sm": "12px",
+                "margin-desktop": "48px",
+                "base": "8px",
+                "lg": "40px"
+              },
+              "fontFamily": {
+                "body-lg": ["Hanken Grotesk"],
+                "headline-lg": ["Montserrat"],
+                "label-md": ["Hanken Grotesk"],
+                "label-sm": ["Hanken Grotesk"],
+                "body-md": ["Hanken Grotesk"],
+                "headline-md": ["Montserrat"],
+                "display-lg": ["Montserrat"],
+                "headline-lg-mobile": ["Montserrat"]
+              },
+              "fontSize": {
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-base max-w-7xl mx-auto h-20">
+<div class="font-headline-md text-headline-md font-bold text-primary">IpponId</div>
+<!-- Desktop Links -->
+<div class="hidden md:flex items-center gap-xl">
+<a class="text-on-surface-variant font-label-md hover:text-secondary transition-colors duration-200" href="#how-it-works">Comment ça marche</a>
+<a class="text-on-surface-variant font-label-md hover:text-secondary transition-colors duration-200" href="#profiles">Exemples de profils</a>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md hover:bg-primary-container transition-all active:scale-95">Créer mon profil</button>
+</div>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-primary p-xs" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+<!-- Mobile Menu -->
+<div class="hidden md:hidden absolute top-20 left-0 w-full bg-surface shadow-lg py-md flex flex-col items-center gap-md" id="mobile-menu">
+<a class="text-on-surface-variant font-label-md" href="#how-it-works">Comment ça marche</a>
+<a class="text-on-surface-variant font-label-md" href="#profiles">Exemples de profils</a>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md w-11/12">Créer mon profil</button>
+</div>
+</header>
+<main class="mt-24">
+<!-- Hero Section -->
+<section class="relative px-margin-mobile md:px-margin-desktop pt-xl pb-lg text-center overflow-hidden">
+<div class="max-w-4xl mx-auto relative z-10">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-display-lg text-primary mb-md leading-tight">
+                    Ton palmarès judo mérite sa propre page
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-2xl mx-auto">
+                    Crée ta page CV de judoka gratuitement en quelques secondes. Partage ton parcours, tes grades et tes victoires.
+                </p>
+<!-- Interactive URL Bar -->
+<div class="flex flex-col md:flex-row items-center justify-center gap-xs max-w-2xl mx-auto p-xs bg-white rounded-xl shadow-xl border border-outline-variant">
+<div class="flex items-center w-full px-md py-sm">
+<span class="text-outline font-body-md whitespace-nowrap">ipponid.com/</span>
+<input class="flex-1 border-none focus:ring-0 p-0 text-primary font-bold body-md placeholder:text-outline-variant placeholder:font-normal" id="hero-slug" placeholder="ton-nom" type="text"/>
+</div>
+<button class="w-full md:w-auto bg-secondary text-on-secondary px-lg py-md rounded-lg font-label-md whitespace-nowrap hover:bg-secondary-container transition-all shadow-md active:scale-95">
+                        Créer mon profil gratuitement
+                    </button>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 -right-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+</section>
+<!-- Product Mockup Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-lg max-w-6xl mx-auto">
+<div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+<div class="bg-surface-container-high px-md py-xs flex items-center gap-xs border-b border-outline-variant">
+<div class="flex gap-xs">
+<div class="w-3 h-3 rounded-full bg-error/20"></div>
+<div class="w-3 h-3 rounded-full bg-secondary/20"></div>
+<div class="w-3 h-3 rounded-full bg-primary/20"></div>
+</div>
+<div class="flex-1 flex justify-center">
+<div class="bg-white/50 px-lg py-xs rounded-full text-label-sm text-outline flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                            ipponid.com/timothe-francois
+                        </div>
+</div>
+</div>
+<div class="bg-white aspect-[16/10] relative overflow-hidden group">
+<img alt="Judo Match" class="w-full h-full object-cover opacity-10 group-hover:scale-105 transition-transform duration-1000" data-alt="A clean screenshot of a professional judoka athlete profile web page. The interface displays high-performance stats, medal counts, and a vertical list of career milestones. The profile features a high-resolution portrait of a focused judoka in a traditional white gi. The design uses primary blue and crisp whites, echoing the professional sports SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoZ5yl_0txXgxmnHMh1AjuOVCrOsKDy4i9-L8stbBhkpvHlOKr1xAXIMCaWTwV0yx6vohyE1s7ZzwuTrC4UL1xsPMErXXZyaraT1guR8Vz982MxYyoFo57-OuQBQ0ecOV_lVVkjXJBbqhy7Em3sZoJNtk3lvg1KbeM11wCuQ-OAJykBqENc6s5_orUC70HCdcCkrwVSNYDq_k1NlCLNBP70WhOtLV8RKwCtOir3oHhsJ5Xhg9XsHlzePd-hen5B1_YK3zcKZoF4A33"/>
+<!-- Overlay content simulating the profile -->
+<div class="absolute inset-0 flex flex-col p-lg md:p-xl gap-md">
+<div class="flex items-end gap-md">
+<div class="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-surface-container overflow-hidden shadow-lg border-2 border-white">
+<img alt="Profile Picture" class="w-full h-full object-cover" data-alt="A professional studio portrait of a young male judo athlete named Timothé François. He is wearing a clean white judo gi with a black belt visibly tied around his waist. He has a determined, athletic expression and is looking directly at the camera. The background is a soft, neutral studio grey, creating a focused and high-end aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0FJ8WI0uHjUsTo7FK4WQxAUl-cwIHBWuaRgtwmPQ7IUr_byYbHHPZi6tCBdrVkHDqEFvJ3cmFsh3VGcehpRj0XMDnEv34vLqWwAJv9yBzdWAgQEUT49I02z1BwMyZYPK1wqvnFRVDFp3lVOaXAVakPRUuiKvg7ZtmTbaBfVhnyzr0Ve6BTGqQngScbAuZHPb4EKO6iHAXqeDovJ6jEZcGcaDXP5G96tAYY4LpnqswAEVABnUXu3stph9od_gs6km_cq1kiupLupuN"/>
+</div>
+<div class="pb-xs">
+<h2 class="font-headline-lg text-primary">Timothé François</h2>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Ceinture Noire 2ème Dan</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md mt-md">
+<div class="bg-surface-container rounded-xl p-md border border-outline-variant shadow-sm">
+<div class="text-secondary font-headline-md">14</div>
+<div class="text-label-sm text-outline uppercase">Médailles d'or</div>
+</div>
+<div class="bg-surface-container rounded-xl p-md border border-outline-variant shadow-sm">
+<div class="text-primary font-headline-md">28</div>
+<div class="text-label-sm text-outline uppercase">Podiums Nationaux</div>
+</div>
+<div class="bg-surface-container rounded-xl p-md border border-outline-variant shadow-sm">
+<div class="text-primary font-headline-md">-73kg</div>
+<div class="text-label-sm text-outline uppercase">Catégorie</div>
+</div>
+<div class="bg-surface-container rounded-xl p-md border border-outline-variant shadow-sm">
+<div class="text-primary font-headline-md">24</div>
+<div class="text-label-sm text-outline uppercase">Âge</div>
+</div>
+</div>
+<div class="mt-md space-y-sm hidden md:block">
+<div class="p-md rounded-lg bg-white shadow-sm flex justify-between items-center border-l-4 border-secondary">
+<span class="font-body-md font-semibold text-primary">Championnat de France Excellence 1ère Div</span>
+<span class="px-sm py-xs bg-secondary/10 text-secondary rounded font-label-md">1er Place</span>
+</div>
+<div class="p-md rounded-lg bg-white shadow-sm flex justify-between items-center border-l-4 border-primary">
+<span class="font-body-md font-semibold text-primary">European Open Sarajevo</span>
+<span class="px-sm py-xs bg-primary/10 text-primary rounded font-label-md">3ème Place</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How it Works Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl bg-surface-container" id="how-it-works">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-primary mb-sm">Comment ça marche ?</h2>
+<p class="text-on-surface-variant font-body-lg">En trois étapes, tu es prêt à briller.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-lg">
+<!-- Step 1 -->
+<div class="bg-white p-lg rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow group">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_add</span>
+</div>
+<h3 class="font-headline-md text-primary mb-sm">1. Crée ton profil</h3>
+<p class="text-on-surface-variant">Choisis ton URL personnalisée et remplis tes informations de base en quelques clics.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-white p-lg rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow group">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trophy</span>
+</div>
+<h3 class="font-headline-md text-primary mb-sm">2. Ajoute ton palmarès</h3>
+<p class="text-on-surface-variant">Intègre tes médailles, tes grades et tes vidéos de combats pour prouver ton talent.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-white p-lg rounded-2xl shadow-sm border border-outline-variant hover:shadow-md transition-shadow group">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">share</span>
+</div>
+<h3 class="font-headline-md text-primary mb-sm">3. Partage ton URL</h3>
+<p class="text-on-surface-variant">Envoie ton lien à tes partenaires, sponsors ou intègre-le dans ta bio Instagram.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Proof Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl overflow-hidden" id="profiles">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row items-center justify-between gap-lg mb-xl">
+<div class="text-center md:text-left">
+<h2 class="font-headline-lg text-primary">Déjà des centaines de judokas</h2>
+<p class="text-on-surface-variant font-body-lg">Rejoins la première communauté de profils judo.</p>
+</div>
+<div class="flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-2 border-white bg-surface-container overflow-hidden">
+<img alt="User" data-alt="A close up avatar photo of a professional female judoka with a focused gaze. She is wearing a blue gi and has her hair tied back. The background is a soft blue sports environment, maintaining a clean and modern professional look consistent with high-performance athletic branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGf2H74S5mAl86FfmIQLLgbrzW5qxgJp-wGfYNUry90EmUKp5eu6aD2S8bL3MgTAlhv1FC6am9F4veWB527fYHrKlVoOXbE86CNp0tK8yDywdtc_h94yGnHVi0KL5-C0ap7J75_WiLeIqzseT_zYAgyBAVdQYHe8ZYWFFWyieBe_gqywA9TGo_lmIj4LvKiQlVuJGN3ZYJWO3y_ofH9P55dTyaGFuYcKS2_nRGL8vuYPvaWYBh4ip6_QluN1Yrn-Pzxlj8LLWCS2z7"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-surface-container overflow-hidden">
+<img alt="User" data-alt="A professional avatar photo of a male judoka in his late 20s. He is wearing a white gi and smiling confidently. The lighting is warm and natural, suggesting a friendly yet disciplined sports personality. The composition is tight on the face to suit a social proof avatar style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx2lSOgLZfjho9xOghGPfRWzCghSak_3g8QeHCI4Ol-3V48P6PCBvAMJ8Mfa3re2SwZZRO8aEnnkaKf93WeSDDeiBnUikINMKGHc5sNcMrQSL8QACRTGRdRyymrXjejF3dfYLyIf-ywCm_tUfkdyjyLcvOx12FaNgKeZk19K0Hr8nbx_eByRYBoHe3UA2mmngebXQSajDMprbfgXwEdptG1hdi_EwJkYcLutiZqYXriG5C_oCgZuapqz0l8HcTudsY_8aG9uPw9c4r"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-surface-container overflow-hidden">
+<img alt="User" data-alt="A circular avatar of a young female judo practitioner with a black belt over her shoulder. She is looking away from the camera with a look of determination. The lighting is professional and high-contrast, fitting a modern SaaS platform's aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAyU24FedEwyKMzuoxAj-yyNgnGFsx5W0pxwPQ8KYoZZOHvcjp3ZOP3Y1yDFN8wK09e6fjt7cA3WycmGy1sKBqkLKvYXVZ24YHCXNk3zQEbsrdUh6ybnNFj_uFA9yA1a0yZaRql8WQs12ae5462VZzRXeOsmaevJ3Qpn_xkauqqv1ltlXcUsNcYKqSsvEw59W7aedQsYdCgnouCMc3LOw4S_bLQAjG_t62jkBr41lcz2tyGaxHx2mXnyoSjoLozsIDH8TdOWVVs8ex"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-primary text-on-primary flex items-center justify-center font-label-sm">+450</div>
+</div>
+</div>
+<!-- Bento Grid of Judokas -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-md">
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJHRz2tuQBtOdVqz67PkO9h31GFudmjCcJe-_BLE_di9Z74nr1tvjtTViREIYMSM4VkKfTz707LDwbDN8JW9PyMUyLVcusGT1BKIuxStjUjIwS1_8oEKio3CeuTKmonFdJzb3fNz1LoBOwcEU-OQ-6JQf1Jv_pF30doLHhe3x6vC9HsztxiSqJyvqd6gHUxi6lBOfvCbdZhiyZypRqWkJFqkgckXcCEQuCXQICmAM5LoptBujnbcGJ5vVdGMM7dHBV4bJPqVddzcB1"/>
+</div>
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqVhBJs4dBzNRY4gtFltRT5lXBGlsjiwxBRxgdtWV9bB1elZVJlW9tXoHipzVAA4UKjBZseAbHRTuVCEBFe6VbbyD2Qfd433-nWw1ALCBDLIspY7lY1albk2Owhgs3SPrw-ktuBGh05hDBljsuH9416o_L-rD6BUXLbJhV0mW3jWl_V6DReagtRFunh8YuD_vEHH8ZmWNuZcAyAdX3Qr_KOgrf9HIyCZBEjBaPlm3Y86w-fErk35KGZ8qY9DwagDB-1vE5lk0vUJuJ"/>
+</div>
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa_QxopX6uIUDHKOXheRK2StDubB_wloYKje02VvEqrtZcbSO_fsUWYzgFwEiqlEebOjQuaH1-FTKqoiE7BqxfzBDvz2v7N3DrH8Aaq0Ac4_qoy1akjybJ0A7SILxvSwDrfguoauo4W4vz7UtVwyU0abrgymTtaqONFBQrNXLrfIt1YBOEbNsnR0GMvCdzYSlrPUjM9m_t1RsAa0PsUo3gKJhuzb9ckP7YctZGWfh31ppDd67_qjH0djEXgZsB-uMBdzT0C-ImT5CU"/>
+</div>
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6b2UYlfCmmyCyMjlGhxDCSLueEn33kwjYxRVVEqNSXDhEvjlLAhL9NeOy6YKV3tz-SWnNa0UcT79wjnuNQHmxgawc2_UD8NCA6LC5R0wA1KShvBjqicbQy9XmRt1D7GKKRzSag14K9IGS0YqV75WLoOtfRzI1awZ_7yy2X7QAOodgiY-c81dZBaMftnCQP8u3xLggxWFbGzCOo7NXfh53LE1o5_ZEXpEXzMmzgbanjdMFBofCcG4eiCrwn36JTJb6qi7Zlqzq7Z1N"/>
+</div>
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3_JyxUrMn3X3vaDfMJl7vx1cGhrx-OQRgvlxRKOz3wR-8YMI74rFMjA3iM1NAWtE5_29rkv5r6-4IPLiJ4e3cZXxBAFTYabv92gLivtcc62ZMUq5XaV9ybL2xDlTsWlV-IqFL1AfMcPCCFfDzX4J4l9RucKZdnBYdavQZ8ENjJuqhioAhOnmgGHCK7RQDw73BwtR98cCtsS2YYWWwkQ2jyr0PY6VF1dwcUK7MytsF_wbK7FcHE2SCTTk9jgr3SRnD0ahWJFoLOT_z"/>
+</div>
+<div class="aspect-square bg-white rounded-xl shadow-sm overflow-hidden group border border-outline-variant">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional profile photo of a judoka athlete." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxnNp4pBCv-3VKNWrZjnqu98pLM5FzuVTd-0N2ExE-GCrj4Elu845rmxLEVzJb0_2RCfYxhpeJAf0VvkGBzQeWGLj4UE56ygeXlFem6t6uxYYqESxwJMc6zxxjEToUYdWK6epeTa9aAZXVYk-lFdeOOZhC5MzFL4Ts6Ja7RjSTqXA5em7gBWH1lK5DesXLiHBoMIhh8w7aKAnPEy8lHGvbzL3FzFBQtLb1FLVGimiFCB8HNstvgDMsXeQ7g44Wwynus8XbPkqh3Zmi"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl">
+<div class="max-w-5xl mx-auto bg-primary rounded-3xl p-lg md:p-xl text-center relative overflow-hidden">
+<!-- Abstract Shader Animation -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/50 via-transparent to-primary-container"></div>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-lg text-on-primary mb-md">Prêt à créer ta vitrine ?</h2>
+<p class="text-on-primary/80 font-body-lg mb-xl max-w-xl mx-auto">Rejoins les judokas qui font passer leur carrière au niveau supérieur.</p>
+<div class="flex flex-col md:flex-row items-center justify-center gap-xs max-w-xl mx-auto p-xs bg-white rounded-xl shadow-lg">
+<div class="flex items-center w-full px-md py-sm">
+<span class="text-outline font-body-md whitespace-nowrap">ipponid.com/</span>
+<input class="flex-1 border-none focus:ring-0 p-0 text-primary font-bold body-md placeholder:text-outline-variant" placeholder="ton-nom" type="text"/>
+</div>
+<button class="w-full md:w-auto bg-secondary text-on-secondary px-lg py-md rounded-lg font-label-md whitespace-nowrap hover:bg-secondary-container transition-all active:scale-95">
+                            C'est parti !
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto gap-lg">
+<div class="flex flex-col items-center md:items-start gap-xs">
+<div class="font-headline-md text-headline-md font-bold text-primary">IpponId</div>
+<p class="text-on-surface-variant text-label-sm">© 2024 IpponId. Tous droits réservés.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="text-on-surface-variant font-label-sm hover:text-secondary transition-colors" href="#">Mentions légales</a>
+<a class="text-on-surface-variant font-label-sm hover:text-secondary transition-colors" href="#">Politique de confidentialité</a>
+<a class="text-on-surface-variant font-label-sm hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+<div class="flex gap-md">
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">alternate_email</span>
+</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for the URL bar
+        const slugInputs = document.querySelectorAll('input[placeholder="ton-nom"]');
+        slugInputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.classList.add('ring-2', 'ring-primary/20', 'border-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.classList.remove('ring-2', 'ring-primary/20', 'border-primary');
+            });
+        });
+
+        // Navigation scroll reveal effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('h-20');
+            } else {
+                header.classList.remove('py-2');
+                header.classList.add('h-20');
+            }
+        });
+    </script>
+</body></html>
