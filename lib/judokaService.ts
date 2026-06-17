@@ -1,4 +1,4 @@
-import judokasData from '@/data/judokas.json'
+import judokasData from '@/data/judokas.seed.json'
 import type { JudokaData } from '@/types/judoka'
 import { normalizeText } from '@/lib/slugify'
 

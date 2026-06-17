@@ -6,7 +6,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
-import judokasData from '@/data/judokas.json'
+import judokasData from '@/data/judokas.seed.json'
 
 type Props = { params: { slug: string } }
 
