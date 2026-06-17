@@ -16,26 +16,17 @@ export default function Footer({ identity, social }: FooterProps) {
         </div>
 
         <nav className="flex gap-6" aria-label="Réseaux sociaux">
-          {social.instagram && (
+          {social.map(({ network, url }) => (
             <a
-              href={social.instagram}
+              key={network}
+              href={url}
               target="_blank"
               rel="noopener noreferrer"
               className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors"
             >
-              Instagram
+              {network}
             </a>
-          )}
-          {social.youtube && (
-            <a
-              href={social.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors"
-            >
-              YouTube
-            </a>
-          )}
+          ))}
         </nav>
 
         <p className="font-inter text-xs text-on-surface-variant opacity-70 text-center">

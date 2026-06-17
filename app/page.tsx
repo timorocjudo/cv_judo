@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import LandingNav from '@/components/landing/LandingNav'
+import LandingMobileNav from '@/components/landing/LandingMobileNav'
 import HeroSection from '@/components/landing/HeroSection'
 import MockupSection from '@/components/landing/MockupSection'
 import HowItWorksSection from '@/components/landing/HowItWorksSection'
@@ -31,8 +32,10 @@ export default function LandingPage() {
         <HowItWorksSection />
         <SocialProofSection />
         <CtaSection />
+        <div className="h-16 md:hidden" aria-hidden="true" />
       </main>
       <LandingFooter />
+      <LandingMobileNav />
     </>
   )
 }

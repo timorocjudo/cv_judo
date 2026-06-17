@@ -204,10 +204,10 @@
         "image": null
       }
     ],
-    "social": {
-      "instagram": "https://www.instagram.com/",
-      "youtube": "https://www.youtube.com/@"
-    },
+    "social": [
+      { "network": "instagram", "url": "https://www.instagram.com/timo_frc8/"},
+      { "network": "tiktok", "url": "https://www.tiktok.com/@timo_frc8?lang=fr" }
+    ],
     "layout": [
       "hero",
       "bio",

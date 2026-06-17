@@ -1,3 +1,6 @@
+import Image from 'next/image'
+import Link from 'next/link'
+
 export default function SocialProofSection() {
   return (
     <section id="profiles" className="px-margin-mobile md:px-margin-desktop py-16">
@@ -23,7 +26,25 @@ export default function SocialProofSection() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {Array.from({ length: 6 }, (_, i) => (
+          <Link
+            href="/timothe-francois"
+            className="group relative aspect-square bg-surface-container rounded-xl border border-outline-variant overflow-hidden hover:border-primary transition-colors"
+            aria-label="Voir le profil de Timothé François"
+          >
+            <Image
+              src="/images/profile.jpg"
+              alt="Timothé François"
+              fill
+              className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+              <span className="font-montserrat text-on-primary text-xs font-bold leading-tight">
+                Timothé François
+              </span>
+            </div>
+          </Link>
+
+          {Array.from({ length: 5 }, (_, i) => (
             <div
               key={i}
               className="aspect-square bg-surface-container rounded-xl border border-outline-variant"

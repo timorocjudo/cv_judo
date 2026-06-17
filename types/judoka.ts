@@ -43,10 +43,12 @@ export interface Technique {
   image?: string | null
 }
 
-export interface Social {
-  instagram?: string
-  youtube?: string
+export interface SocialLink {
+  network: string
+  url: string
 }
+
+export type Social = SocialLink[]
 
 export type BlockName = 'hero' | 'bio' | 'palmares' | 'videos' | 'gallery' | 'techniques'
 
