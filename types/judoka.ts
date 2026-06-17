@@ -20,6 +20,7 @@ export interface PalmaresEntry {
   level: string         // "National Individuel" | "Régional" | etc.
   medal: MedalType
   city?: string
+  podiumPhoto?: string  // relative path to podium photo, e.g. "/images/podium-France-2023.jpg"
 }
 
 export interface Video {
