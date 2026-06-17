@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 
 interface PodiumPhotoButtonProps {
@@ -20,6 +21,35 @@ export default function PodiumPhotoButton({ photo, alt }: PodiumPhotoButtonProps
     return () => window.removeEventListener('keydown', handler)
   }, [open])
 
+  const modal = open ? (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={alt}
+      className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4"
+      onClick={() => setOpen(false)}
+    >
+      <div className="relative max-w-[90vw] max-h-[85vh]" onClick={e => e.stopPropagation()}>
+        <button
+          onClick={() => setOpen(false)}
+          aria-label="Fermer"
+          autoFocus
+          className="absolute -top-10 right-0 text-white hover:text-white/70 transition-colors font-bold text-2xl leading-none"
+        >
+          ×
+        </button>
+        <Image
+          src={photo}
+          alt={alt}
+          width={1200}
+          height={900}
+          className="rounded-xl object-contain max-h-[85vh] w-auto"
+          priority
+        />
+      </div>
+    </div>
+  ) : null
+
   return (
     <>
       <button
@@ -33,33 +63,7 @@ export default function PodiumPhotoButton({ photo, alt }: PodiumPhotoButtonProps
         </svg>
       </button>
 
-      {open && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={alt}
-          className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4"
-          onClick={() => setOpen(false)}
-        >
-          <div className="relative max-w-[90vw] max-h-[85vh]" onClick={e => e.stopPropagation()}>
-            <button
-              onClick={() => setOpen(false)}
-              aria-label="Fermer"
-              className="absolute -top-10 right-0 text-white hover:text-white/70 transition-colors font-bold text-2xl leading-none"
-            >
-              ×
-            </button>
-            <Image
-              src={photo}
-              alt={alt}
-              width={1200}
-              height={900}
-              className="rounded-xl object-contain max-h-[85vh] w-auto"
-              priority
-            />
-          </div>
-        </div>
-      )}
+      {typeof document !== 'undefined' && createPortal(modal, document.body)}
     </>
   )
 }
