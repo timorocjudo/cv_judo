@@ -1,57 +1,38 @@
 import type { Metadata } from 'next'
-import judokaData from '@/data/judoka.json'
-import type { JudokaData } from '@/types/judoka'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import MobileNav from '@/components/layout/MobileNav'
-import { blockRegistry } from '@/lib/blockRegistry'
-
-const data = judokaData as JudokaData
+import LandingNav from '@/components/landing/LandingNav'
+import HeroSection from '@/components/landing/HeroSection'
+import MockupSection from '@/components/landing/MockupSection'
+import HowItWorksSection from '@/components/landing/HowItWorksSection'
+import SocialProofSection from '@/components/landing/SocialProofSection'
+import CtaSection from '@/components/landing/CtaSection'
+import LandingFooter from '@/components/landing/LandingFooter'
 
 export const metadata: Metadata = {
-  title: `${data.identity.firstName} ${data.identity.lastName} — ${data.identity.club} · IpponId`,
-  description: data.bio.slice(0, 155) + '…',
+  title: 'IpponId — Crée ton CV judoka en ligne | Partage ton palmarès',
+  description:
+    'Crée gratuitement ta page de judoka en quelques secondes. Partage tes grades, compétitions et victoires avec ton URL personnalisée.',
   openGraph: {
-    title: `${data.identity.firstName} ${data.identity.lastName} — IpponId`,
-    description: data.bio.slice(0, 155) + '…',
-    images: [
-      {
-        url: data.identity.coverPhoto,
-        width: 1200,
-        height: 630,
-        alt: `${data.identity.firstName} ${data.identity.lastName} en compétition`,
-      },
-    ],
-    type: 'profile',
+    title: 'IpponId — Crée ton CV judoka en ligne',
+    description:
+      'Crée gratuitement ta page de judoka en quelques secondes. Partage tes grades, compétitions et victoires avec ton URL personnalisée.',
+    type: 'website',
     locale: 'fr_FR',
     siteName: 'IpponId',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${data.identity.firstName} ${data.identity.lastName} — IpponId`,
-    description: data.bio.slice(0, 155) + '…',
-    images: [data.identity.coverPhoto],
-  },
 }
 
-export default function HomePage() {
+export default function LandingPage() {
   return (
     <>
-      <Header identity={data.identity} social={data.social} />
-      <main>
-        {data.layout.map((blockName) => {
-          const render = blockRegistry[blockName]
-          if (!render) return null
-          return (
-            <div key={blockName} id={blockName} className="scroll-mt-20">
-              {render(data)}
-            </div>
-          )
-        })}
-        <div className="h-16 md:hidden" aria-hidden="true" />
+      <LandingNav />
+      <main className="mt-20">
+        <HeroSection />
+        <MockupSection />
+        <HowItWorksSection />
+        <SocialProofSection />
+        <CtaSection />
       </main>
-      <Footer identity={data.identity} social={data.social} />
-      <MobileNav />
+      <LandingFooter />
     </>
   )
 }
