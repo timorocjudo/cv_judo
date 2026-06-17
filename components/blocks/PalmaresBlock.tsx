@@ -1,5 +1,6 @@
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
+import PodiumPhotoButton from '@/components/blocks/PodiumPhotoButton'
 
 interface PalmaresBlockProps {
   palmares: PalmaresEntry[]
@@ -55,8 +56,10 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
           {seasons.map((startYear, seasonIdx) => (
             <div key={startYear} className="flex gap-6 relative">
               <div className="flex flex-col items-center flex-shrink-0">
-                <div className="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
+                <div className="h-9 md:h-12 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
                 </div>
                 {seasonIdx < seasons.length - 1 && (
                   <div className="flex-1 w-px bg-primary/20 mt-1 min-h-[2rem]" />
@@ -86,21 +89,29 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
                             </h3>
                             <p className="font-inter text-sm text-on-surface-variant mt-1 flex items-center gap-2 flex-wrap">
                               {entry.category}
-                              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary-fixed-dim border border-tertiary-container/40">
+                              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
                                 {computeAgeCategory(birthDate, entry.date)}
                               </span>
                             </p>
                           </div>
-                          {medal && (
-                            <div
-                              className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm text-white font-bold"
-                              style={{ backgroundColor: medal.dot }}
-                              aria-label={`Médaille ${medal.label}`}
-                              role="img"
-                            >
-                              ★
-                            </div>
-                          )}
+                          <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                            {entry.podiumPhoto && (
+                              <PodiumPhotoButton
+                                photo={entry.podiumPhoto}
+                                alt={`Photo du podium — ${entry.competition} ${entry.result}`}
+                              />
+                            )}
+                            {medal && (
+                              <div
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-sm text-white font-bold"
+                                style={{ backgroundColor: medal.dot }}
+                                aria-label={`Médaille ${medal.label}`}
+                                role="img"
+                              >
+                                ★
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </article>
                     )
