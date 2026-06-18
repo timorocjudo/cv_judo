@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ProfileForm from './ProfileForm'
+import DeleteAccountSection from './DeleteAccountSection'
 
 export default async function ProfilPage() {
   const supabase = createClient()
@@ -24,6 +25,7 @@ export default async function ProfilPage() {
         </h1>
       </div>
       <ProfileForm profile={profile} />
+      <DeleteAccountSection />
     </div>
   )
 }
