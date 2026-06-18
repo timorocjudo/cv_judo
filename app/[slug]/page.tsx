@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const judoka = await getJudokaBySlug(params.slug)
+  const judoka = await getJudokaBySlug(params.slug, { allowDraft: true })
   if (!judoka) return {}
   return {
     title: `${judoka.identity.firstName} ${judoka.identity.lastName} — ${judoka.identity.club} · IpponId`,
@@ -41,14 +41,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function JudokaPage({ params }: Props) {
   const [judoka, { data: { user } }] = await Promise.all([
-    getJudokaBySlug(params.slug),
+    getJudokaBySlug(params.slug, { allowDraft: true }),
     createClient().auth.getUser(),
   ])
 
+  const isOwner = !!user && !!judoka && judoka.ownerId === user.id
+
   if (!judoka) notFound()
+  if (!judoka.published && !isOwner) notFound()
 
   return (
     <>
+      {!judoka.published && isOwner && (
+        <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3 flex items-center justify-between gap-4">
+          <p className="text-sm text-on-surface-variant font-medium">
+            Brouillon — cette page n&apos;est pas visible publiquement.
+          </p>
+          <a
+            href="/dashboard"
+            className="text-sm font-semibold text-primary hover:underline whitespace-nowrap"
+          >
+            Gérer →
+          </a>
+        </div>
+      )}
       <Header identity={judoka.identity} social={judoka.social} isLoggedIn={!!user} />
       <main>
         {judoka.layout.map((blockName) => {
