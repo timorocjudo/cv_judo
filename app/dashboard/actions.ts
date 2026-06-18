@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getMissingFieldsForPublishing } from '@/lib/profileValidation'
 
 export async function togglePublished(formData: FormData) {
   const supabase = createClient()
@@ -12,6 +13,22 @@ export async function togglePublished(formData: FormData) {
   const profileId = formData.get('profileId') as string
   const slug = formData.get('slug') as string
   const next = formData.get('next') === 'true'
+
+  if (next) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('club, category, grade, bio, profile_photo_url')
+      .eq('id', profileId)
+      .eq('owner_id', user.id)
+      .single()
+
+    if (!profile) redirect('/')
+
+    const missing = getMissingFieldsForPublishing(profile)
+    if (missing.length > 0) {
+      redirect(`/dashboard?error=${encodeURIComponent(missing.join(','))}`)
+    }
+  }
 
   await supabase
     .from('profiles')
