@@ -1,0 +1,10 @@
+-- 0005_cascade_verify.sql
+-- Vérification : toutes les contraintes ON DELETE CASCADE nécessaires
+-- à la suppression de compte sont déjà en place depuis 0001_init.sql.
+-- Aucune instruction SQL à exécuter.
+--
+-- État vérifié le 2026-06-18 :
+--   profiles.owner_id       → auth.users(id)   ON DELETE CASCADE ✓
+--   palmares.profile_id     → profiles(id)     ON DELETE CASCADE ✓
+--   videos.profile_id       → profiles(id)     ON DELETE CASCADE ✓
+--   gallery_photos.profile_id → profiles(id)   ON DELETE CASCADE ✓
