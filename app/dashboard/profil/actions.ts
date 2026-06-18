@@ -47,10 +47,12 @@ export async function deleteAccount() {
   const adminClient = createAdminClient()
 
   // Supprimer tous les fichiers du bucket "media" pour cet utilisateur
-  const { data: files } = await adminClient.storage.from('media').list(uid)
+  const { data: files, error: listError } = await adminClient.storage.from('media').list(uid)
+  if (listError) throw new Error(`Échec liste fichiers : ${listError.message}`)
   if (files && files.length > 0) {
     const paths = files.map((f) => `${uid}/${f.name}`)
-    await adminClient.storage.from('media').remove(paths)
+    const { error: removeError } = await adminClient.storage.from('media').remove(paths)
+    if (removeError) throw new Error(`Échec suppression fichiers : ${removeError.message}`)
   }
 
   // Supprimer l'utilisateur — la cascade supprime profiles, palmares, videos, gallery_photos
