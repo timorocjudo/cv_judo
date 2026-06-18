@@ -2,16 +2,18 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getJudokaBySlug } from '@/lib/judokaService'
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
-import judokasData from '@/data/judokas.seed.json'
 
 type Props = { params: { slug: string } }
 
 export async function generateStaticParams() {
-  return (judokasData as { slug: string }[]).map((j) => ({ slug: j.slug }))
+  const supabase = createBrowserClient()
+  const { data } = await supabase.from('profiles').select('slug').eq('published', true)
+  return (data ?? []).map((row) => ({ slug: row.slug as string }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

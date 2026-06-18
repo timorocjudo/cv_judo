@@ -4,7 +4,8 @@
  * age = season_start_year - birth_year
  * @param referenceDate - ISO date string to determine the season (defaults to today)
  */
-export function computeAgeCategory(birthDate: string, referenceDate?: string): string {
+export function computeAgeCategory(birthDate: string | undefined, referenceDate?: string): string {
+  if (!birthDate) return ''
   const birthYear = new Date(birthDate).getFullYear()
   const ref = referenceDate ? new Date(referenceDate) : new Date()
   const seasonStartYear = ref.getMonth() >= 8 ? ref.getFullYear() : ref.getFullYear() - 1

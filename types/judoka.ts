@@ -5,7 +5,7 @@ export interface Identity {
   firstName: string
   lastName: string
   club: string
-  birthDate: string   // ISO 8601: "2010-04-02"
+  birthDate?: string  // ISO 8601: "2010-04-02" — colonne birth_date en DB (migration 0004)
   weightCategory: string
   grade: string
   profilePhoto: string
