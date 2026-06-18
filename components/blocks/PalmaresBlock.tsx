@@ -4,7 +4,7 @@ import PodiumPhotoButton from '@/components/blocks/PodiumPhotoButton'
 
 interface PalmaresBlockProps {
   palmares: PalmaresEntry[]
-  birthDate: string
+  birthDate: string | undefined
 }
 
 const MEDAL_STYLES: Record<NonNullable<MedalType>, { border: string; dot: string; label: string; rank: string }> = {
