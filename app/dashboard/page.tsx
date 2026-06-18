@@ -30,7 +30,9 @@ export default async function DashboardPage({
   const rawError = Array.isArray(searchParams.error)
     ? searchParams.error[0]
     : searchParams.error
-  const errorFields = rawError ? decodeURIComponent(rawError).split(',') : []
+  const errorFields = rawError
+    ? decodeURIComponent(rawError).split(',').filter((f) => REQUIRED_FIELD_LABELS.includes(f))
+    : []
 
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
