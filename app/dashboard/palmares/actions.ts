@@ -53,6 +53,9 @@ export async function updatePalmares(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
+  const profileId = await getProfileId(supabase, user.id)
+  if (!profileId) return
+
   const id = formData.get('id') as string
   const position = Number(formData.get('position'))
   const { medal, result } = deriveFromPosition(position)
@@ -71,6 +74,7 @@ export async function updatePalmares(formData: FormData) {
       result,
     })
     .eq('id', id)
+    .eq('profile_id', profileId)
 
   revalidatePath('/dashboard/palmares')
 }

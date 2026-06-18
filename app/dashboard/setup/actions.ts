@@ -14,7 +14,7 @@ async function findUniqueSlug(
   for (let i = 2; i <= 10; i++) {
     const { count } = await supabase
       .from('profiles')
-      .select('*', { count: 'exact', head: true })
+      .select('id', { count: 'exact', head: true })
       .eq('slug', slug)
     if (count === 0) return slug
     slug = `${base}-${i}`

@@ -48,6 +48,14 @@ export async function deleteVideo(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
-  await supabase.from('videos').delete().eq('id', id)
+  const profileId = await getProfileId(supabase, user.id)
+  if (!profileId) return
+
+  await supabase
+    .from('videos')
+    .delete()
+    .eq('id', id)
+    .eq('profile_id', profileId)
+
   revalidatePath('/dashboard/videos')
 }
