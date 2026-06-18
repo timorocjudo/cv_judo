@@ -31,6 +31,9 @@ type GalleryRow = {
 }
 
 type ProfileRow = {
+  id: string
+  owner_id: string
+  published: boolean
   slug: string
   first_name: string
   last_name: string
@@ -56,6 +59,8 @@ function mapProfile(row: ProfileRow): JudokaData {
 
   return {
     slug: row.slug,
+    ownerId: row.owner_id,
+    published: row.published,
     identity: {
       firstName: row.first_name,
       lastName: row.last_name,
@@ -93,9 +98,12 @@ function mapProfile(row: ProfileRow): JudokaData {
 
 // ─── Exported functions ───────────────────────────────────────────────────────
 
-export async function getJudokaBySlug(slug: string): Promise<JudokaData | null> {
+export async function getJudokaBySlug(
+  slug: string,
+  options?: { allowDraft?: boolean }
+): Promise<JudokaData | null> {
   const supabase = createClient()
-  const { data, error } = await supabase
+  let query = supabase
     .from('profiles')
     .select(`
       *,
@@ -104,8 +112,12 @@ export async function getJudokaBySlug(slug: string): Promise<JudokaData | null> 
       gallery_photos (*)
     `)
     .eq('slug', slug)
-    .maybeSingle()
 
+  if (!options?.allowDraft) {
+    query = query.eq('published', true)
+  }
+
+  const { data, error } = await query.maybeSingle()
   if (error || !data) return null
   return mapProfile(data as unknown as ProfileRow)
 }
