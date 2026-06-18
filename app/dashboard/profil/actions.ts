@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function saveProfile(formData: FormData) {
   const supabase = createClient()
@@ -35,4 +36,29 @@ export async function saveProfile(formData: FormData) {
   revalidatePath('/dashboard/profil')
   revalidatePath(`/${profile.slug}`)
   revalidatePath('/dashboard')
+}
+
+export async function deleteAccount() {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/')
+
+  const uid = user.id
+  const adminClient = createAdminClient()
+
+  // Supprimer tous les fichiers du bucket "media" pour cet utilisateur
+  const { data: files } = await adminClient.storage.from('media').list(uid)
+  if (files && files.length > 0) {
+    const paths = files.map((f) => `${uid}/${f.name}`)
+    await adminClient.storage.from('media').remove(paths)
+  }
+
+  // Supprimer l'utilisateur — la cascade supprime profiles, palmares, videos, gallery_photos
+  const { error } = await adminClient.auth.admin.deleteUser(uid)
+  if (error) throw new Error(`Échec suppression compte : ${error.message}`)
+
+  // Effacer les cookies de session localement (l'utilisateur n'existe plus côté serveur)
+  await supabase.auth.signOut({ scope: 'local' })
+
+  redirect('/')
 }
