@@ -11,7 +11,7 @@ export async function saveProfile(formData: FormData) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug')
+    .select('id, slug, first_name, last_name')
     .eq('owner_id', user.id)
     .single()
 
@@ -20,6 +20,8 @@ export async function saveProfile(formData: FormData) {
   await supabase
     .from('profiles')
     .update({
+      first_name: formData.get('first_name') as string || profile.first_name,
+      last_name: formData.get('last_name') as string || profile.last_name,
       club: formData.get('club') as string || null,
       category: formData.get('category') as string || null,
       grade: formData.get('grade') as string || null,

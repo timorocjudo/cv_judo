@@ -42,6 +42,10 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
     .map(Number)
     .sort((a, b) => b - a)
 
+  for (const season of seasons) {
+    bySeason[season].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  }
+
   return (
     <section className="py-10 md:py-14 bg-surface-container-low">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">

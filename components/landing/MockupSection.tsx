@@ -1,22 +1,29 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import type { FeaturedProfile } from '@/app/page'
+import { BeltBadge } from '@/components/dashboard/BeltBadge'
+import { getBeltByLabel } from '@/lib/judo-belts'
 
-const STATS = [
-  { value: '14', label: "Médailles d'or" },
-  { value: '28', label: 'Podiums nationaux' },
-  { value: '-81kg', label: 'Catégorie' },
-  { value: '15', label: 'Âge' },
-]
+const MEDAL_BORDER: Record<string, string> = {
+  gold:   'border-l-medal-gold',
+  silver: 'border-l-medal-silver',
+  bronze: 'border-l-medal-bronze',
+}
 
-const PALMARES_PREVIEW = [
-  { competition: 'Championnat de France Individuel', result: 'Champion de France', accent: 'border-secondary', badge: 'bg-secondary/10 text-secondary' },
-  { competition: 'Championnat de France Cadet Espoir', result: 'Médaille de bronze', accent: 'border-primary-container', badge: 'bg-primary/10 text-primary' },
-]
+interface Props {
+  featured: FeaturedProfile | null
+}
 
-export default function MockupSection() {
+export default function MockupSection({ featured }: Props) {
+  if (!featured) return null
+
+  const initials = (featured.first_name?.[0] ?? '') + (featured.last_name?.[0] ?? '')
+  const belt = getBeltByLabel(featured.grade ?? '')
+
   return (
     <section className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
       <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+
         {/* Browser chrome */}
         <div className="bg-surface-container-high px-4 py-2 flex items-center gap-2 border-b border-outline-variant">
           <div className="flex gap-1.5">
@@ -26,54 +33,99 @@ export default function MockupSection() {
           </div>
           <div className="flex-1 flex justify-center">
             <span className="bg-white/60 px-6 py-1 rounded-full text-xs text-outline">
-              🔒 ipponid.com/timothe-francois
+              🔒 ipponid.com/{featured.slug}
             </span>
           </div>
         </div>
 
-        {/* Profile content */}
-        <div className="bg-white p-6 md:p-10">
-          <div className="flex items-end gap-4 mb-6">
-            <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl overflow-hidden shadow-lg border-2 border-white flex-shrink-0 bg-surface-container">
+        {/* Hero — reproduction fidèle du HeroBlock */}
+        <div className="relative min-h-[280px] md:min-h-[380px] bg-primary-container overflow-hidden flex items-end">
+          {/* Cover photo */}
+          <div className="absolute inset-0">
+            {featured.cover_photo_url ? (
               <Image
-                src="/images/profile.jpg"
-                alt="Timothé François"
-                width={112}
-                height={112}
-                className="w-full h-full object-cover"
+                src={featured.cover_photo_url}
+                alt={`${featured.first_name} ${featured.last_name} en compétition`}
+                fill
+                className="object-cover"
+                sizes="100vw"
               />
-            </div>
-            <div>
-              <h2 className="font-montserrat text-xl md:text-2xl font-bold text-primary">Timothé François</h2>
-              <p className="text-on-surface-variant text-xs font-semibold uppercase tracking-wider mt-0.5">
-                Ceinture Noire · -81kg · ROC Judo
-              </p>
-            </div>
+            ) : null}
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
+            <div className="absolute inset-0 gi-texture-dark" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-            {STATS.map(({ value, label }) => (
-              <div key={label} className="bg-surface-container rounded-xl p-3 border border-outline-variant">
-                <div className="font-montserrat font-bold text-xl text-primary">{value}</div>
-                <div className="text-xs text-outline uppercase mt-0.5">{label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Contenu hero */}
+          <div className="relative z-10 w-full px-6 md:px-10 py-8 md:py-12">
+            <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
 
-          <div className="hidden md:flex flex-col gap-2">
-            {PALMARES_PREVIEW.map(({ competition, result, accent, badge }) => (
-              <div key={competition} className={`bg-surface-container-low rounded-lg p-3 flex justify-between items-center border-l-4 ${accent}`}>
-                <span className="font-semibold text-primary text-sm">{competition}</span>
-                <span className={`px-2 py-1 rounded text-xs font-semibold ${badge}`}>{result}</span>
+              {/* Photo de profil */}
+              <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0 bg-primary-container flex items-center justify-center">
+                {featured.profile_photo_url ? (
+                  <Image
+                    src={featured.profile_photo_url}
+                    alt={`${featured.first_name} ${featured.last_name}`}
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
+                ) : (
+                  <span className="font-montserrat font-black text-on-primary text-2xl uppercase">
+                    {initials}
+                  </span>
+                )}
               </div>
-            ))}
+
+              {/* Texte */}
+              <div>
+                <p className="font-inter text-[10px] font-bold uppercase tracking-[0.25em] text-tertiary-fixed-dim mb-1">
+                  IpponId · Profil Athlete
+                </p>
+                <h2 className="font-montserrat text-3xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                  {featured.first_name}<br />{featured.last_name}
+                </h2>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {featured.club && (
+                    <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20">
+                      {featured.club}
+                    </span>
+                  )}
+                  {(featured.ageCategory || featured.category) && (
+                    <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                      {[featured.ageCategory, featured.category].filter(Boolean).join(' · ')}
+                    </span>
+                  )}
+                  {belt && (
+                    <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                      <BeltBadge belt={belt} width={44} height={12} />
+                      <span className="text-white text-xs font-bold uppercase tracking-wider">{featured.grade}</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Palmares preview */}
+        {featured.palmares.length > 0 && (
+          <div className="bg-surface-container-low px-6 md:px-10 py-4 flex flex-col gap-2">
+            {featured.palmares.map((entry, i) => (
+              <div
+                key={i}
+                className={`bg-surface-container-lowest rounded-lg p-3 flex justify-between items-center border-l-4 ${MEDAL_BORDER[entry.medal ?? ''] ?? 'border-l-outline-variant'}`}
+              >
+                <span className="font-inter text-sm font-semibold text-primary truncate">{entry.competition}</span>
+                <span className="font-inter text-xs font-bold text-on-surface-variant ml-4 whitespace-nowrap">{entry.result}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="text-center mt-4">
-        <Link href="/timothe-francois" className="text-primary font-semibold text-sm hover:underline">
-          Voir le profil complet de Timothé →
+        <Link href={`/${featured.slug}`} className="text-primary font-semibold text-sm hover:underline">
+          Voir le profil complet de {featured.first_name} →
         </Link>
       </div>
     </section>

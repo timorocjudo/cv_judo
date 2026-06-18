@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import type { Identity, Social } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
+import { BeltBadge } from '@/components/dashboard/BeltBadge'
+import { getBeltByLabel } from '@/lib/judo-belts'
 
 const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
   instagram: {
@@ -35,6 +37,9 @@ interface HeroBlockProps {
 }
 
 export default function HeroBlock({ identity, social }: HeroBlockProps) {
+  const initials = (identity.firstName?.[0] ?? '') + (identity.lastName?.[0] ?? '')
+  const belt = getBeltByLabel(identity.grade)
+
   return (
     <section className="relative min-h-[65vh] md:min-h-[75vh] bg-primary-container overflow-hidden flex items-end">
       {/* Cover photo with gradient overlay */}
@@ -55,14 +60,22 @@ export default function HeroBlock({ identity, social }: HeroBlockProps) {
       <div className="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
         <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
           {/* Profile photo */}
-          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0 bg-surface-container">
-            <Image
-              src={identity.profilePhoto}
-              alt={`Photo de profil de ${identity.firstName} ${identity.lastName}`}
-              fill
-              className="object-cover"
-              sizes="128px"
-            />
+          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0 bg-primary-container">
+            {identity.profilePhoto ? (
+              <Image
+                src={identity.profilePhoto}
+                alt={`Photo de profil de ${identity.firstName} ${identity.lastName}`}
+                fill
+                className="object-cover"
+                sizes="128px"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="font-montserrat font-black text-on-primary text-3xl md:text-4xl uppercase">
+                  {initials}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Text */}
@@ -82,9 +95,16 @@ export default function HeroBlock({ identity, social }: HeroBlockProps) {
               <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
                 {computeAgeCategory(identity.birthDate)} · {identity.weightCategory}
               </span>
-              <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
-                {identity.grade}
-              </span>
+              {belt ? (
+                <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                  <BeltBadge belt={belt} width={56} height={14} />
+                  <span className="text-white text-xs font-bold uppercase tracking-wider">{identity.grade}</span>
+                </span>
+              ) : identity.grade ? (
+                <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
+                  {identity.grade}
+                </span>
+              ) : null}
             </div>
             {social.length > 0 && (
               <div className="flex gap-3 mt-5">

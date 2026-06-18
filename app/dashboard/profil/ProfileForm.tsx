@@ -2,12 +2,46 @@
 
 import { useState } from 'react'
 import ImageUploader from '@/components/dashboard/ImageUploader'
+import { BeltBadge } from '@/components/dashboard/BeltBadge'
+import { BELTS } from '@/lib/judo-belts'
+import { computeAgeCategory } from '@/lib/ageCategory'
 import { saveProfile } from './actions'
 
-const GRADES = [
-  '6e kyu', '5e kyu', '4e kyu', '3e kyu', '2e kyu', '1er kyu',
-  '1er dan', '2e dan', '3e dan+',
-]
+type AgeGroup = 'Benjamin' | 'Minime' | 'Cadet' | 'Junior' | 'Sénior'
+
+const AGE_GROUPS: AgeGroup[] = ['Benjamin', 'Minime', 'Cadet', 'Junior', 'Sénior']
+
+const CATEGORIES_BY_AGE: Record<AgeGroup, { garcons: string[]; filles: string[] }> = {
+  Benjamin: {
+    garcons: ['-30 kg', '-34 kg', '-38 kg', '-42 kg', '-46 kg', '-50 kg', '-55 kg', '-60 kg', '+60 kg'],
+    filles:  ['-28 kg', '-32 kg', '-36 kg', '-40 kg', '-44 kg', '-48 kg', '-52 kg', '-57 kg', '+57 kg'],
+  },
+  Minime: {
+    garcons: ['-34 kg', '-38 kg', '-42 kg', '-46 kg', '-50 kg', '-55 kg', '-60 kg', '-66 kg', '-73 kg', '+73 kg'],
+    filles:  ['-32 kg', '-36 kg', '-40 kg', '-44 kg', '-48 kg', '-52 kg', '-57 kg', '-63 kg', '-70 kg', '+70 kg'],
+  },
+  Cadet: {
+    garcons: ['-46 kg', '-50 kg', '-55 kg', '-60 kg', '-66 kg', '-73 kg', '-81 kg', '-90 kg', '+90 kg'],
+    filles:  ['-40 kg', '-44 kg', '-48 kg', '-52 kg', '-57 kg', '-63 kg', '-70 kg', '-78 kg', '+78 kg'],
+  },
+  Junior: {
+    garcons: ['-55 kg', '-60 kg', '-66 kg', '-73 kg', '-81 kg', '-90 kg', '-100 kg', '+100 kg'],
+    filles:  ['-44 kg', '-48 kg', '-52 kg', '-57 kg', '-63 kg', '-70 kg', '-78 kg', '+78 kg'],
+  },
+  Sénior: {
+    garcons: ['-60 kg', '-66 kg', '-73 kg', '-81 kg', '-90 kg', '-100 kg', '+100 kg'],
+    filles:  ['-48 kg', '-52 kg', '-57 kg', '-63 kg', '-70 kg', '-78 kg', '+78 kg'],
+  },
+}
+
+function getAgeGroupFromCategory(category: string): AgeGroup {
+  const raw = category.replace(/\s*\d+$/, '')
+  if (raw === 'Benjamin 1' || raw === 'Benjamin 2' || raw.startsWith('Benjamin')) return 'Benjamin'
+  if (raw.startsWith('Minime')) return 'Minime'
+  if (raw.startsWith('Cadet')) return 'Cadet'
+  if (raw.startsWith('Junior')) return 'Junior'
+  return 'Sénior'
+}
 
 interface Profile {
   first_name: string
@@ -16,6 +50,7 @@ interface Profile {
   category: string | null
   grade: string | null
   bio: string | null
+  birth_date: string | null
   profile_photo_url: string | null
   cover_photo_url: string | null
   owner_id: string
@@ -24,6 +59,10 @@ interface Profile {
 export default function ProfileForm({ profile }: { profile: Profile }) {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(profile.profile_photo_url ?? '')
   const [coverPhotoUrl, setCoverPhotoUrl] = useState(profile.cover_photo_url ?? '')
+  const [selectedGrade, setSelectedGrade] = useState(profile.grade ?? '')
+  const computedCategory = computeAgeCategory(profile.birth_date ?? undefined)
+  const initialAgeGroup = getAgeGroupFromCategory(computedCategory)
+  const [ageGroup, setAgeGroup] = useState<AgeGroup>(initialAgeGroup)
 
   return (
     <form action={saveProfile} className="space-y-6 max-w-xl">
@@ -32,22 +71,23 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-on-surface-variant mb-1">Prénom</label>
+            <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="first_name">Prénom</label>
             <input
+              id="first_name"
+              name="first_name"
               type="text"
-              value={profile.first_name}
-              readOnly
-              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container text-on-surface-variant text-sm cursor-not-allowed"
+              defaultValue={profile.first_name}
+              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
-            <p className="text-xs text-on-surface-variant mt-1">Modifiable via les paramètres Google</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-on-surface-variant mb-1">Nom</label>
+            <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="last_name">Nom</label>
             <input
+              id="last_name"
+              name="last_name"
               type="text"
-              value={profile.last_name}
-              readOnly
-              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container text-on-surface-variant text-sm cursor-not-allowed"
+              defaultValue={profile.last_name}
+              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
           </div>
         </div>
@@ -65,31 +105,58 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
+            <label className="block text-sm font-medium text-on-surface mb-1">Catégorie d'âge</label>
+            <select
+              value={ageGroup}
+              onChange={(e) => setAgeGroup(e.target.value as AgeGroup)}
+              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              {AGE_GROUPS.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+          </div>
+          <div>
             <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="category">
               Catégorie de poids
             </label>
-            <input
+            <select
               id="category"
               name="category"
-              type="text"
               defaultValue={profile.category ?? ''}
-              placeholder="-66 kg"
-              className="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="grade">Grade</label>
-            <select
-              id="grade"
-              name="grade"
-              defaultValue={profile.grade ?? ''}
               className="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30"
             >
               <option value="">— Sélectionner —</option>
-              {GRADES.map((g) => (
-                <option key={g} value={g}>{g}</option>
-              ))}
+              <optgroup label="Garçons / Hommes">
+                {CATEGORIES_BY_AGE[ageGroup].garcons.map((c) => <option key={c} value={c}>{c}</option>)}
+              </optgroup>
+              <optgroup label="Filles / Femmes">
+                {CATEGORIES_BY_AGE[ageGroup].filles.map((c) => <option key={c} value={c}>{c}</option>)}
+              </optgroup>
             </select>
+          </div>
+        </div>
+
+        <div>
+          <p className="block text-sm font-medium text-on-surface mb-2">Grade</p>
+          <input type="hidden" name="grade" value={selectedGrade} />
+          <div className="grid grid-cols-3 gap-2">
+            {BELTS.map((belt) => {
+              const isSelected = selectedGrade === belt.label
+              return (
+                <button
+                  key={belt.slug}
+                  type="button"
+                  onClick={() => setSelectedGrade(belt.label)}
+                  className={`flex flex-col gap-1.5 p-2.5 rounded-lg border text-xs font-medium transition-all ${
+                    isSelected
+                      ? 'border-primary bg-primary/5 text-primary'
+                      : 'border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-outline'
+                  }`}
+                >
+                  <BeltBadge belt={belt} height={20} />
+                  {belt.label}
+                </button>
+              )
+            })}
           </div>
         </div>
       </fieldset>

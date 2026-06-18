@@ -19,7 +19,7 @@ export default async function PalmaresPage() {
     .from('palmares')
     .select('id, date, competition, city, category, level, position, result, medal')
     .eq('profile_id', profile.id)
-    .order('date', { ascending: false })
+    .order('date', { ascending: true })
 
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
