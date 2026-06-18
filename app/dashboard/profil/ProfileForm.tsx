@@ -105,7 +105,7 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-on-surface mb-1">Catégorie d'âge</label>
+            <label className="block text-sm font-medium text-on-surface mb-1">Catégorie d&apos;âge</label>
             <select
               value={ageGroup}
               onChange={(e) => setAgeGroup(e.target.value as AgeGroup)}
