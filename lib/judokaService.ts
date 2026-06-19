@@ -7,6 +7,7 @@ import { normalizeText } from '@/lib/slugify'
 // ─── Internal DB types ────────────────────────────────────────────────────────
 
 type PalmaresRow = {
+  id?: string | null
   date: string | null
   competition: string | null
   result: string | null
@@ -73,6 +74,7 @@ function mapProfile(row: ProfileRow): JudokaData {
     },
     bio: row.bio ?? '',
     palmares: palmares.map((p) => ({
+      id: p.id ?? undefined,
       date: p.date ?? '',
       competition: p.competition ?? '',
       result: p.result ?? '',
