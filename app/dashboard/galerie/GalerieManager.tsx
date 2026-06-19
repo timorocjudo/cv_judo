@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { addPhoto, deletePhoto } from './actions'
 
@@ -27,10 +28,20 @@ export default function GalerieManager({
   async function handleAdd() {
     if (!pendingUrl) return
     setSaving(true)
-    await addPhoto(pendingUrl, caption, profileId)
-    setPendingUrl('')
-    setCaption('')
-    setSaving(false)
+    try {
+      const result = await addPhoto(pendingUrl, caption, profileId)
+      if (result.ok) {
+        toast.success('Ajouté avec succès')
+        setPendingUrl('')
+        setCaption('')
+      } else {
+        toast.error('Une erreur est survenue, réessaie')
+      }
+    } catch {
+      toast.error('Une erreur est survenue, réessaie')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -93,7 +104,17 @@ export default function GalerieManager({
                   {confirming === photo.id ? (
                     <div className="flex gap-2">
                       <button
-                        onClick={async () => { await deletePhoto(photo.id); setConfirming(null) }}
+                        onClick={async () => {
+                          try {
+                            const result = await deletePhoto(photo.id)
+                            if (result.ok) toast.success('Supprimé')
+                            else toast.error('Une erreur est survenue, réessaie')
+                          } catch {
+                            toast.error('Une erreur est survenue, réessaie')
+                          } finally {
+                            setConfirming(null)
+                          }
+                        }}
                         className="text-xs font-semibold bg-secondary text-white px-3 py-1.5 rounded-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                       >
                         Confirmer
@@ -119,7 +140,17 @@ export default function GalerieManager({
                   {confirming === photo.id ? (
                     <div className="flex gap-1">
                       <button
-                        onClick={async () => { await deletePhoto(photo.id); setConfirming(null) }}
+                        onClick={async () => {
+                          try {
+                            const result = await deletePhoto(photo.id)
+                            if (result.ok) toast.success('Supprimé')
+                            else toast.error('Une erreur est survenue, réessaie')
+                          } catch {
+                            toast.error('Une erreur est survenue, réessaie')
+                          } finally {
+                            setConfirming(null)
+                          }
+                        }}
                         className="text-xs font-semibold bg-secondary text-white px-2 py-1 rounded active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                       >
                         ✓
