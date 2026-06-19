@@ -4,10 +4,12 @@ import type { ProfileCard } from '@/app/page'
 
 interface Props {
   profiles: ProfileCard[]
+  totalCount: number
 }
 
-export default function SocialProofSection({ profiles }: Props) {
-  const placeholders = Math.max(0, 6 - profiles.length)
+export default function SocialProofSection({ profiles, totalCount }: Props) {
+  const avatarCount = Math.min(profiles.length, 3)
+  const overflow = totalCount - avatarCount
 
   return (
     <section id="profiles" className="px-margin-mobile md:px-margin-desktop py-16">
@@ -34,9 +36,11 @@ export default function SocialProofSection({ profiles }: Props) {
                 )}
               </div>
             ))}
-            <div className="w-12 h-12 rounded-full border-2 border-white bg-primary text-on-primary flex items-center justify-center text-xs font-bold">
-              +450
-            </div>
+            {overflow > 0 && (
+              <div className="w-12 h-12 rounded-full border-2 border-white bg-primary text-on-primary flex items-center justify-center text-xs font-bold">
+                +{overflow}
+              </div>
+            )}
           </div>
         </div>
 
@@ -53,7 +57,7 @@ export default function SocialProofSection({ profiles }: Props) {
                   src={p.profile_photo_url}
                   alt={`${p.first_name} ${p.last_name}`}
                   fill
-                  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover object-top group-hover:scale-110 transition-transform duration-500"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
@@ -62,15 +66,13 @@ export default function SocialProofSection({ profiles }: Props) {
                   </span>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent flex items-end p-2">
                 <span className="font-montserrat text-on-primary text-xs font-bold leading-tight">
                   {p.first_name} {p.last_name}
                 </span>
               </div>
+              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
-          ))}
-          {Array.from({ length: placeholders }, (_, i) => (
-            <div key={i} className="aspect-square bg-surface-container rounded-xl border border-outline-variant" />
           ))}
         </div>
 

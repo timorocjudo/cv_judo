@@ -13,7 +13,13 @@ export default function LandingNav({ isLoggedIn }: LandingNavProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md shadow-sm">
       <nav className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
-        <span className="font-montserrat text-2xl font-black text-primary tracking-tight">IpponId</span>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="font-montserrat text-2xl font-black text-primary tracking-tight"
+          aria-label="Retour en haut de page"
+        >
+          IpponId
+        </button>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">

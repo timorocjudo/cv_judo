@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { createProfile } from './actions'
+import Link from 'next/link'
 
 export default async function SetupPage() {
   const supabase = createClient()
@@ -45,6 +46,26 @@ export default async function SetupPage() {
               required
               className="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
+          </div>
+          <div className="flex items-start gap-3 pt-2">
+            <input
+              id="termsAccepted"
+              name="termsAccepted"
+              type="checkbox"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-primary cursor-pointer"
+            />
+            <label htmlFor="termsAccepted" className="text-sm text-on-surface leading-snug cursor-pointer">
+              J&apos;ai lu et j&apos;accepte les{' '}
+              <Link href="/cgu" target="_blank" className="text-primary hover:underline">
+                Conditions Générales d&apos;Utilisation
+              </Link>{' '}
+              et la{' '}
+              <Link href="/confidentialite" target="_blank" className="text-primary hover:underline">
+                politique de confidentialité
+              </Link>
+              .
+            </label>
           </div>
           <button
             type="submit"

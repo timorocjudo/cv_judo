@@ -17,6 +17,7 @@ export function BeltBadge({ belt, width = 140, height = 24 }: BeltBadgeProps) {
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
+      style={{ maxWidth: '100%', height: 'auto' }}
       xmlns="http://www.w3.org/2000/svg"
       aria-label={belt.label}
       role="img"

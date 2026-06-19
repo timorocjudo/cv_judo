@@ -31,6 +31,9 @@ export async function createProfile(formData: FormData) {
   const lastName = (formData.get('lastName') as string).trim()
   if (!firstName || !lastName) return
 
+  const termsAccepted = formData.get('termsAccepted')
+  if (termsAccepted !== 'on') return
+
   // Idempotence : vérifie si un profil existe déjà
   const { data: existing } = await supabase
     .from('profiles')
@@ -51,6 +54,8 @@ export async function createProfile(formData: FormData) {
     last_name: lastName,
     published: false,
     parental_consent: false,
+    terms_accepted: true,
+    terms_accepted_at: new Date().toISOString(),
     layout: ['hero', 'bio', 'palmares', 'videos', 'gallery'],
   })
 

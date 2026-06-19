@@ -42,7 +42,7 @@ export type FeaturedProfile = ProfileCard & {
 
 export default async function LandingPage() {
   const supabase = createClient()
-  const [{ data: { user } }, { data: rawProfiles }] = await Promise.all([
+  const [{ data: { user } }, { data: rawProfiles }, { count: totalProfiles }] = await Promise.all([
     supabase.auth.getUser(),
     supabase
       .from('profiles')
@@ -50,6 +50,10 @@ export default async function LandingPage() {
       .eq('published', true)
       .order('created_at', { ascending: true })
       .limit(6),
+    supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('published', true),
   ])
 
   const profiles: ProfileCard[] = (rawProfiles ?? []).map((p) => ({
@@ -90,7 +94,7 @@ export default async function LandingPage() {
         <HeroSection />
         <MockupSection featured={featured} />
         <HowItWorksSection />
-        <SocialProofSection profiles={profiles} />
+        <SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} />
         <CtaSection />
         <div className="h-16 md:hidden" aria-hidden="true" />
       </main>

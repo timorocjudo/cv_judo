@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Identity, Social } from '@/types/judoka'
 import LoginButton from '@/components/auth/LoginButton'
+import LogoLink from '@/components/layout/LogoLink'
 
 interface HeaderProps {
   identity: Identity
@@ -8,16 +9,11 @@ interface HeaderProps {
   isLoggedIn: boolean
 }
 
-export default function Header({ identity, isLoggedIn }: HeaderProps) {
+export default function Header({ isLoggedIn }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
-      <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
-        <Link
-          href="/"
-          className="font-montserrat text-xl font-black text-primary tracking-tighter"
-        >
-          IpponId
-        </Link>
+      <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+        <LogoLink />
 
         <nav className="hidden md:flex gap-8 items-center" aria-label="Navigation principale">
           <a href="#bio" className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
@@ -35,9 +31,6 @@ export default function Header({ identity, isLoggedIn }: HeaderProps) {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <span className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-            {identity.firstName} {identity.lastName}
-          </span>
           {isLoggedIn ? (
             <Link
               href="/dashboard"
