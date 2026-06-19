@@ -11,7 +11,7 @@ interface HeaderProps {
 export default function Header({ identity, isLoggedIn }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
-      <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+      <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
         <Link
           href="/"
           className="font-montserrat text-xl font-black text-primary tracking-tighter"
