@@ -13,7 +13,7 @@ type BlockRenderer = (data: JudokaData) => React.ReactElement
 export const blockRegistry: Record<BlockName, BlockRenderer> = {
   hero:       (data) => <HeroBlock identity={data.identity} social={data.social} slug={data.slug} />,
   bio:        (data) => <BioBlock bio={data.bio} firstName={data.identity.firstName} />,
-  palmares:   (data) => <PalmaresBlock palmares={data.palmares} birthDate={data.identity.birthDate} />,
+  palmares:   (data) => <PalmaresBlock palmares={data.palmares} birthDate={data.identity.birthDate} slug={data.slug} />,
   videos:     (data) => <VideosBlock videos={data.videos} />,
   gallery:    (data) => <GalleryBlock gallery={data.gallery} />,
   techniques: (data) => <TechniquesBlock techniques={data.techniques} />,
