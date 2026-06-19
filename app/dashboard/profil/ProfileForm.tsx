@@ -166,7 +166,7 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         <div>
           <p className="block text-sm font-medium text-on-surface mb-2">Grade</p>
           <input type="hidden" name="grade" value={selectedGrade} />
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {BELTS.map((belt) => {
               const isSelected = selectedGrade === belt.label
               return (

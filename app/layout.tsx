@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Montserrat, Inter } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
 import './globals.css'
 
 const montserrat = Montserrat({
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${montserrat.variable} ${inter.variable}`}>
       <body className="bg-background text-on-surface font-inter overflow-x-hidden">
+        <NextTopLoader color="#cba72f" height={3} showSpinner={false} />
         {children}
       </body>
     </html>

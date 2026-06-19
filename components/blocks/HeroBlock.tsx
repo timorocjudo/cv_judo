@@ -41,17 +41,19 @@ export default function HeroBlock({ identity, social }: HeroBlockProps) {
   const belt = getBeltByLabel(identity.grade)
 
   return (
-    <section className="relative min-h-[65vh] md:min-h-[75vh] bg-primary-container overflow-hidden flex items-end">
+    <section className={`relative bg-primary-container overflow-hidden flex items-end ${identity.coverPhoto ? 'min-h-[65vh] md:min-h-[75vh]' : ''}`}>
       {/* Cover photo with gradient overlay */}
       <div className="absolute inset-0">
-        <Image
-          src={identity.coverPhoto}
-          alt={`${identity.firstName} ${identity.lastName} en compétition`}
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
+        {identity.coverPhoto && (
+          <Image
+            src={identity.coverPhoto}
+            alt={`${identity.firstName} ${identity.lastName} en compétition`}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
         <div className="absolute inset-0 gi-texture-dark" />
       </div>
