@@ -26,7 +26,7 @@ export default function LegalLayout({ title, lastUpdated, children }: LegalLayou
         </div>
       </nav>
 
-      <main className="flex-1 w-full max-w-[70ch] mx-auto px-margin-mobile md:px-8 py-12">
+      <main className="flex-1 w-full max-w-[70ch] mx-auto px-margin-mobile md:px-margin-desktop py-12">
         <header className="mb-10">
           <h1 className="font-montserrat text-headline-md font-bold text-primary mb-2">
             {title}
