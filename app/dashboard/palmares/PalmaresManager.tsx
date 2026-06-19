@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { toast } from 'sonner'
 import { addPalmares, updatePalmares, deletePalmares } from './actions'
 
 const LEVELS = ['Départemental', 'Régional', 'National', 'International']
@@ -54,13 +55,18 @@ function PalmaresForm({
     const fd = new FormData(e.currentTarget)
     const form = e.currentTarget
     startTransition(async () => {
-      if (initial) {
-        await updatePalmares(fd)
-      } else {
-        await addPalmares(fd)
-        form.reset()
+      try {
+        const result = initial ? await updatePalmares(fd) : await addPalmares(fd)
+        if (result.ok) {
+          toast.success(initial ? 'Résultat mis à jour' : 'Ajouté avec succès')
+          if (!initial) form.reset()
+          onDone()
+        } else {
+          toast.error('Une erreur est survenue, réessaie')
+        }
+      } catch {
+        toast.error('Une erreur est survenue, réessaie')
       }
-      onDone()
     })
   }
 
@@ -211,9 +217,16 @@ export default function PalmaresManager({ entries }: { entries: PalmaresRow[] })
                         <button
                           onClick={async () => {
                             setDeleting(entry.id)
-                            await deletePalmares(entry.id)
-                            setConfirming(null)
-                            setDeleting(null)
+                            try {
+                              const result = await deletePalmares(entry.id)
+                              if (result.ok) toast.success('Supprimé')
+                              else toast.error('Une erreur est survenue, réessaie')
+                            } catch {
+                              toast.error('Une erreur est survenue, réessaie')
+                            } finally {
+                              setConfirming(null)
+                              setDeleting(null)
+                            }
                           }}
                           disabled={deleting === entry.id}
                           className="text-xs font-semibold text-secondary hover:underline active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary/50 rounded transition-all disabled:opacity-60"
