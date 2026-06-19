@@ -27,6 +27,7 @@ export async function saveProfile(formData: FormData) {
       category: formData.get('category') as string || null,
       grade: formData.get('grade') as string || null,
       bio: formData.get('bio') as string || null,
+      birth_date: formData.get('birth_date') as string || null,
       profile_photo_url: formData.get('profile_photo_url') as string || null,
       cover_photo_url: formData.get('cover_photo_url') as string || null,
     })

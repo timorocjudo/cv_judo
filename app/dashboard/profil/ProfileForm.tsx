@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
+import { SubmitButton } from '@/components/dashboard/SubmitButton'
 import { BELTS } from '@/lib/judo-belts'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { saveProfile } from './actions'
@@ -60,7 +61,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(profile.profile_photo_url ?? '')
   const [coverPhotoUrl, setCoverPhotoUrl] = useState(profile.cover_photo_url ?? '')
   const [selectedGrade, setSelectedGrade] = useState(profile.grade ?? '')
-  const computedCategory = computeAgeCategory(profile.birth_date ?? undefined)
+  const [birthDate, setBirthDate] = useState(profile.birth_date ?? '')
+  const computedCategory = computeAgeCategory(birthDate || undefined)
   const initialAgeGroup = getAgeGroupFromCategory(computedCategory)
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(initialAgeGroup)
 
@@ -90,6 +92,22 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
               className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="birth_date">Date de naissance</label>
+          <input
+            id="birth_date"
+            name="birth_date"
+            type="date"
+            value={birthDate}
+            onChange={(e) => {
+              setBirthDate(e.target.value)
+              const group = getAgeGroupFromCategory(computeAgeCategory(e.target.value || undefined))
+              setAgeGroup(group)
+            }}
+            className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+          />
         </div>
 
         <div>
@@ -202,12 +220,12 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         </div>
       </fieldset>
 
-      <button
-        type="submit"
-        className="bg-primary text-on-primary font-semibold px-8 py-3 rounded-lg hover:bg-primary-container transition-colors"
+      <SubmitButton
+        pendingText="Enregistrement…"
+        className="bg-primary text-on-primary font-semibold px-8 py-3 rounded-lg hover:bg-primary-container"
       >
         Enregistrer
-      </button>
+      </SubmitButton>
     </form>
   )
 }

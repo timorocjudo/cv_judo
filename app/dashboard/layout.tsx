@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import DashboardNav from '@/components/dashboard/DashboardNav'
+import { Toaster } from 'sonner'
 
 export default async function DashboardLayout({
   children,
@@ -31,6 +32,7 @@ export default async function DashboardLayout({
       <main className="md:pl-60 pb-16 md:pb-0">
         {children}
       </main>
+      <Toaster richColors position="top-center" />
     </div>
   )
 }

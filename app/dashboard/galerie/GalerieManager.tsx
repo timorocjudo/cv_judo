@@ -61,9 +61,17 @@ export default function GalerieManager({
             type="button"
             onClick={handleAdd}
             disabled={!pendingUrl || saving}
-            className="bg-primary text-on-primary font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors disabled:opacity-50"
+            className="bg-primary text-on-primary font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1 disabled:opacity-50 disabled:active:scale-100"
           >
-            {saving ? 'Enregistrement…' : 'Ajouter à la galerie'}
+            {saving ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Enregistrement…
+              </span>
+            ) : 'Ajouter à la galerie'}
           </button>
         </div>
       </div>
@@ -86,13 +94,13 @@ export default function GalerieManager({
                     <div className="flex gap-2">
                       <button
                         onClick={async () => { await deletePhoto(photo.id); setConfirming(null) }}
-                        className="text-xs font-semibold bg-secondary text-white px-3 py-1.5 rounded-lg"
+                        className="text-xs font-semibold bg-secondary text-white px-3 py-1.5 rounded-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                       >
                         Confirmer
                       </button>
                       <button
                         onClick={() => setConfirming(null)}
-                        className="text-xs bg-white/80 text-on-surface px-3 py-1.5 rounded-lg"
+                        className="text-xs bg-white/80 text-on-surface px-3 py-1.5 rounded-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                       >
                         Annuler
                       </button>
@@ -100,7 +108,7 @@ export default function GalerieManager({
                   ) : (
                     <button
                       onClick={() => setConfirming(photo.id)}
-                      className="text-xs font-semibold bg-secondary text-white px-3 py-1.5 rounded-lg"
+                      className="text-xs font-semibold bg-secondary text-white px-3 py-1.5 rounded-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                     >
                       Supprimer
                     </button>
@@ -112,13 +120,13 @@ export default function GalerieManager({
                     <div className="flex gap-1">
                       <button
                         onClick={async () => { await deletePhoto(photo.id); setConfirming(null) }}
-                        className="text-xs font-semibold bg-secondary text-white px-2 py-1 rounded"
+                        className="text-xs font-semibold bg-secondary text-white px-2 py-1 rounded active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                       >
                         ✓
                       </button>
                       <button
                         onClick={() => setConfirming(null)}
-                        className="text-xs bg-white/80 text-on-surface px-2 py-1 rounded"
+                        className="text-xs bg-white/80 text-on-surface px-2 py-1 rounded active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                       >
                         ✕
                       </button>
@@ -126,7 +134,7 @@ export default function GalerieManager({
                   ) : (
                     <button
                       onClick={() => setConfirming(photo.id)}
-                      className="text-xs font-semibold bg-secondary/80 text-white px-2 py-1 rounded"
+                      className="text-xs font-semibold bg-secondary/80 text-white px-2 py-1 rounded active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50"
                     >
                       ✕
                     </button>

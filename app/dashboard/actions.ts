@@ -17,7 +17,7 @@ export async function togglePublished(formData: FormData) {
   if (next) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('club, category, grade, bio, profile_photo_url')
+      .select('club, category, grade, bio, profile_photo_url, birth_date')
       .eq('id', profileId)
       .eq('owner_id', user.id)
       .single()

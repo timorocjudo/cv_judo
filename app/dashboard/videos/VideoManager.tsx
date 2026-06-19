@@ -3,6 +3,7 @@
 import { useFormState } from 'react-dom'
 import { useState } from 'react'
 import { addVideo, deleteVideo } from './actions'
+import { SubmitButton } from '@/components/dashboard/SubmitButton'
 
 interface VideoRow {
   id: string
@@ -16,6 +17,7 @@ const initialState = { error: null }
 export default function VideoManager({ videos }: { videos: VideoRow[] }) {
   const [state, formAction] = useFormState(addVideo, initialState)
   const [confirming, setConfirming] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState<string | null>(null)
 
   return (
     <div className="space-y-6">
@@ -57,12 +59,12 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
               className="w-full border border-outline-variant rounded-lg px-3 py-2 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm resize-none"
             />
           </div>
-          <button
-            type="submit"
-            className="bg-primary text-on-primary font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
+          <SubmitButton
+            pendingText="Ajout…"
+            className="bg-primary text-on-primary font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-primary-container"
           >
             Ajouter
-          </button>
+          </SubmitButton>
         </form>
       </div>
 
@@ -93,14 +95,21 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
                   {confirming === v.id ? (
                     <div className="flex gap-2">
                       <button
-                        onClick={async () => { await deleteVideo(v.id); setConfirming(null) }}
-                        className="text-xs font-semibold text-secondary hover:underline"
+                        onClick={async () => {
+                          setDeleting(v.id)
+                          await deleteVideo(v.id)
+                          setConfirming(null)
+                          setDeleting(null)
+                        }}
+                        disabled={deleting === v.id}
+                        className="text-xs font-semibold text-secondary hover:underline active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary/50 rounded transition-all disabled:opacity-60"
                       >
-                        Confirmer
+                        {deleting === v.id ? 'Suppression…' : 'Confirmer'}
                       </button>
                       <button
                         onClick={() => setConfirming(null)}
-                        className="text-xs text-on-surface-variant hover:underline"
+                        disabled={deleting === v.id}
+                        className="text-xs text-on-surface-variant hover:underline active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/30 rounded transition-all disabled:opacity-60"
                       >
                         Annuler
                       </button>
@@ -108,7 +117,7 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
                   ) : (
                     <button
                       onClick={() => setConfirming(v.id)}
-                      className="text-xs font-medium text-secondary hover:underline"
+                      className="text-xs font-medium text-secondary hover:underline active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary/50 rounded transition-all"
                     >
                       Supprimer
                     </button>

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ProfileForm from './ProfileForm'
@@ -18,6 +19,15 @@ export default async function ProfilPage() {
 
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
+      <Link
+        href="/dashboard"
+        className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors mb-6"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        Tableau de bord
+      </Link>
       <div className="flex items-center gap-3 mb-8">
         <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
         <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">

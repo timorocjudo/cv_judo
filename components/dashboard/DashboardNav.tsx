@@ -51,7 +51,7 @@ export default function DashboardNav() {
       {/* Desktop sidebar */}
       <nav className="hidden md:flex fixed left-0 top-0 h-full w-60 flex-col bg-surface border-r border-outline-variant z-40">
         <Link href="/dashboard" className="p-6 flex items-center gap-2">
-          <span className="font-montserrat text-lg font-black text-primary">IpponId</span>
+          <span className="font-montserrat text-lg font-black text-primary">Tableau de bord</span>
         </Link>
 
         <div className="flex-1 px-3 space-y-1">

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { togglePublished } from './actions'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
+import { SubmitButton } from '@/components/dashboard/SubmitButton'
 
 export default async function DashboardPage({
   searchParams,
@@ -15,7 +16,7 @@ export default async function DashboardPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, first_name, last_name, profile_photo_url, published, club, category, grade, bio')
+    .select('id, slug, first_name, last_name, profile_photo_url, published, club, category, grade, bio, birth_date')
     .eq('owner_id', user.id)
     .single()
 
@@ -121,24 +122,24 @@ export default async function DashboardPage({
           <input type="hidden" name="profileId" value={profile.id} />
           <input type="hidden" name="slug" value={profile.slug} />
           <input type="hidden" name="next" value={String(!profile.published)} />
-          <button
-            type="submit"
+          <SubmitButton
             disabled={!profile.published && !isPublishable}
+            pendingText={profile.published ? 'Dépublication…' : 'Publication…'}
             title={
               !profile.published && !isPublishable
                 ? `Champs manquants : ${missingFields.join(', ')}`
                 : undefined
             }
-            className={`w-full sm:w-auto font-semibold px-6 py-3 rounded-lg text-sm transition-colors ${
+            className={`w-full sm:w-auto font-semibold px-6 py-3 rounded-lg text-sm ${
               profile.published
                 ? 'border border-secondary text-secondary hover:bg-secondary/5'
                 : isPublishable
                   ? 'bg-primary text-on-primary hover:bg-primary-container'
-                  : 'bg-primary/30 text-on-primary cursor-not-allowed'
+                  : 'bg-primary/30 text-on-primary'
             }`}
           >
             {profile.published ? 'Dépublier' : 'Publier mon profil'}
-          </button>
+          </SubmitButton>
         </form>
       </div>
     </div>
