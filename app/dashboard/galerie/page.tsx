@@ -32,7 +32,6 @@ export default async function GaleriePage() {
       <GalerieManager
         photos={photos ?? []}
         ownerId={profile.owner_id}
-        profileId={profile.id}
       />
     </div>
   )

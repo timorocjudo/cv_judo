@@ -51,6 +51,8 @@ export async function createProfile(formData: FormData) {
     last_name: lastName,
     published: false,
     parental_consent: false,
+    terms_accepted: true,
+    terms_accepted_at: new Date().toISOString(),
     layout: ['hero', 'bio', 'palmares', 'videos', 'gallery'],
   })
 
