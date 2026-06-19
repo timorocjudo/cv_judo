@@ -51,6 +51,7 @@ export async function createProfile(formData: FormData) {
     last_name: lastName,
     published: false,
     parental_consent: false,
+    layout: ['hero', 'bio', 'palmares', 'videos', 'gallery'],
   })
 
   redirect('/dashboard')

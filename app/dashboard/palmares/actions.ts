@@ -13,13 +13,13 @@ function deriveFromPosition(position: number): { medal: MedalValue; result: stri
   return { medal: null, result: `${position}e place` }
 }
 
-async function getProfileId(supabase: ReturnType<typeof createClient>, userId: string) {
+async function getProfile(supabase: ReturnType<typeof createClient>, userId: string) {
   const { data } = await supabase
     .from('profiles')
-    .select('id')
+    .select('id, slug')
     .eq('owner_id', userId)
     .single()
-  return data?.id ?? null
+  return data ?? null
 }
 
 export async function addPalmares(formData: FormData) {
@@ -27,14 +27,14 @@ export async function addPalmares(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
-  const profileId = await getProfileId(supabase, user.id)
-  if (!profileId) redirect('/')
+  const profile = await getProfile(supabase, user.id)
+  if (!profile) redirect('/')
 
   const position = Number(formData.get('position'))
   const { medal, result } = deriveFromPosition(position)
 
   await supabase.from('palmares').insert({
-    profile_id: profileId,
+    profile_id: profile.id,
     date: formData.get('date') as string || null,
     competition: formData.get('competition') as string || null,
     city: formData.get('city') as string || null,
@@ -46,6 +46,7 @@ export async function addPalmares(formData: FormData) {
   })
 
   revalidatePath('/dashboard/palmares')
+  revalidatePath(`/${profile.slug}`)
 }
 
 export async function updatePalmares(formData: FormData) {
@@ -53,8 +54,8 @@ export async function updatePalmares(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
-  const profileId = await getProfileId(supabase, user.id)
-  if (!profileId) return
+  const profile = await getProfile(supabase, user.id)
+  if (!profile) return
 
   const id = formData.get('id') as string
   const position = Number(formData.get('position'))
@@ -74,9 +75,10 @@ export async function updatePalmares(formData: FormData) {
       result,
     })
     .eq('id', id)
-    .eq('profile_id', profileId)
+    .eq('profile_id', profile.id)
 
   revalidatePath('/dashboard/palmares')
+  revalidatePath(`/${profile.slug}`)
 }
 
 export async function deletePalmares(id: string) {
@@ -84,8 +86,11 @@ export async function deletePalmares(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
+  const profile = await getProfile(supabase, user.id)
+
   // RLS s'assure que seul le propriétaire peut supprimer
   await supabase.from('palmares').delete().eq('id', id)
 
   revalidatePath('/dashboard/palmares')
+  if (profile) revalidatePath(`/${profile.slug}`)
 }

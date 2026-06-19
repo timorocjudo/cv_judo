@@ -92,7 +92,9 @@ function mapProfile(row: ProfileRow): JudokaData {
     })),
     techniques: [],
     social: [],
-    layout: (row.layout as BlockName[]) ?? [],
+    layout: (row.layout as BlockName[] | null)?.length
+      ? (row.layout as BlockName[])
+      : ['hero', 'bio', 'palmares', 'videos', 'gallery'],
   }
 }
 
