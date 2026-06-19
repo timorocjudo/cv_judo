@@ -1,21 +1,10 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { togglePublished, ToggleResult } from './actions'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
-import { SubmitButton } from '@/components/dashboard/SubmitButton'
+import PublishForm from './PublishForm'
 
-const TOGGLE_INITIAL: ToggleResult = { ok: null, missing: [], unpublished: false }
-async function togglePublishedAction(formData: FormData): Promise<void> {
-  'use server'
-  await togglePublished(TOGGLE_INITIAL, formData)
-}
-
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: { error?: string | string[] }
-}) {
+export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
@@ -34,23 +23,8 @@ export default async function DashboardPage({
   const initials =
     (profile.first_name?.[0] ?? '') + (profile.last_name?.[0] ?? '')
 
-  const rawError = Array.isArray(searchParams.error)
-    ? searchParams.error[0]
-    : searchParams.error
-  const errorFields = rawError
-    ? decodeURIComponent(rawError).split(',').filter((f) => REQUIRED_FIELD_LABELS.includes(f))
-    : []
-
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
-
-      {/* Bannière d'erreur (contournement UI) */}
-      {errorFields.length > 0 && (
-        <div className="mb-6 bg-secondary/10 border border-secondary/30 text-secondary rounded-lg px-4 py-3 text-sm">
-          Impossible de publier — champs manquants :{' '}
-          <span className="font-semibold">{errorFields.join(', ')}</span>.
-        </div>
-      )}
 
       {/* Carte résumé */}
       <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 flex items-center gap-5 mb-8">
@@ -124,29 +98,13 @@ export default async function DashboardPage({
           Voir ma page publique ↗
         </Link>
 
-        <form action={togglePublishedAction}>
-          <input type="hidden" name="profileId" value={profile.id} />
-          <input type="hidden" name="slug" value={profile.slug} />
-          <input type="hidden" name="next" value={String(!profile.published)} />
-          <SubmitButton
-            disabled={!profile.published && !isPublishable}
-            pendingText={profile.published ? 'Dépublication…' : 'Publication…'}
-            title={
-              !profile.published && !isPublishable
-                ? `Champs manquants : ${missingFields.join(', ')}`
-                : undefined
-            }
-            className={`w-full sm:w-auto font-semibold px-6 py-3 rounded-lg text-sm ${
-              profile.published
-                ? 'border border-secondary text-secondary hover:bg-secondary/5'
-                : isPublishable
-                  ? 'bg-primary text-on-primary hover:bg-primary-container'
-                  : 'bg-primary/30 text-on-primary'
-            }`}
-          >
-            {profile.published ? 'Dépublier' : 'Publier mon profil'}
-          </SubmitButton>
-        </form>
+        <PublishForm
+          profileId={profile.id}
+          slug={profile.slug}
+          published={profile.published}
+          isPublishable={isPublishable}
+          missingFields={missingFields}
+        />
       </div>
     </div>
   )
