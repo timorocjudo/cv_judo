@@ -9,6 +9,12 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/og/profile/[slug]': ['./public/fonts/**'],
+      '/api/og/result/[slug]/[resultId]': ['./public/fonts/**'],
+    },
+  },
 };
 
 export default nextConfig;
