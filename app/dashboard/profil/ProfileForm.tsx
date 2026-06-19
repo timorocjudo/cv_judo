@@ -72,8 +72,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
 
   useEffect(() => {
     if (isFirstRender.current) { isFirstRender.current = false; return }
-    if (state.ok) toast.success('Profil mis à jour')
-    else toast.error('Une erreur est survenue, réessaie')
+    if (state.ok === true) toast.success('Profil mis à jour')
+    else if (state.ok === false) toast.error('Une erreur est survenue, réessaie')
   }, [state])
 
   return (

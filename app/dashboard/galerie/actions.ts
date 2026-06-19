@@ -14,8 +14,16 @@ export async function addPhoto(
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/')
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('owner_id', user.id)
+      .single()
+
+    if (!profile) return { ok: false }
+
     await supabase.from('gallery_photos').insert({
-      profile_id: profileId,
+      profile_id: profile.id,
       photo_url: url,
       caption: caption || null,
     })
