@@ -7,6 +7,7 @@ import { normalizeText } from '@/lib/slugify'
 // ─── Internal DB types ────────────────────────────────────────────────────────
 
 type PalmaresRow = {
+  id?: string | null
   date: string | null
   competition: string | null
   result: string | null
@@ -73,6 +74,7 @@ function mapProfile(row: ProfileRow): JudokaData {
     },
     bio: row.bio ?? '',
     palmares: palmares.map((p) => ({
+      id: p.id ?? undefined,
       date: p.date ?? '',
       competition: p.competition ?? '',
       result: p.result ?? '',
@@ -122,6 +124,38 @@ export async function getJudokaBySlug(
   const { data, error } = await query.maybeSingle()
   if (error || !data) return null
   return mapProfile(data as unknown as ProfileRow)
+}
+
+export type JudokaAutocompleteResult = {
+  slug: string
+  first_name: string
+  last_name: string
+  club: string | null
+  grade: string | null
+  category: string | null
+  profile_photo_url: string | null
+}
+
+export async function searchJudokasAutocomplete(
+  query: string
+): Promise<JudokaAutocompleteResult[]> {
+  const normalized = normalizeText(query)
+  if (normalized.length < 3) return []
+
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('slug, first_name, last_name, club, grade, category, profile_photo_url')
+    .eq('published', true)
+
+  if (error || !data) return []
+
+  return data
+    .filter((row) => {
+      const fullName = normalizeText(`${row.first_name} ${row.last_name}`)
+      return fullName.includes(normalized)
+    })
+    .slice(0, 8)
 }
 
 export async function searchJudokas(query: string): Promise<JudokaData[]> {

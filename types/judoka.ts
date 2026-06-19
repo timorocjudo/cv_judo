@@ -16,6 +16,7 @@ export interface Identity {
 }
 
 export interface PalmaresEntry {
+  id?: string           // UUID Supabase — présent sur les profils DB
   date: string          // ISO 8601: "2024-03-25"
   competition: string
   result: string

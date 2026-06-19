@@ -1,10 +1,12 @@
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import PodiumPhotoButton from '@/components/blocks/PodiumPhotoButton'
+import PalmaresShareButton from '@/components/blocks/PalmaresShareButton'
 
 interface PalmaresBlockProps {
   palmares: PalmaresEntry[]
   birthDate: string | undefined
+  slug: string
 }
 
 const MEDAL_STYLES: Record<NonNullable<MedalType>, { border: string; dot: string; label: string; rank: string }> = {
@@ -30,7 +32,7 @@ function getSeasonLabel(startYear: number): string {
   return `${startYear}/${startYear + 1}`
 }
 
-export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProps) {
+export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlockProps) {
   const bySeason = palmares.reduce<Record<number, PalmaresEntry[]>>((acc, entry) => {
     const startYear = getSeasonStartYear(entry.date)
     if (!acc[startYear]) acc[startYear] = []
@@ -80,6 +82,7 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
                     return (
                       <article
                         key={i}
+                        id={entry.id ? `result-${entry.id}` : undefined}
                         className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
                         style={{ borderLeft: `4px solid ${medal?.border ?? '#c6c5d4'}` }}
                       >
@@ -99,6 +102,9 @@ export default function PalmaresBlock({ palmares, birthDate }: PalmaresBlockProp
                             </p>
                           </div>
                           <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                            {entry.id && process.env.NEXT_PUBLIC_SITE_URL && (
+                              <PalmaresShareButton slug={slug} resultId={entry.id} />
+                            )}
                             {entry.podiumPhoto && (
                               <PodiumPhotoButton
                                 photo={entry.podiumPhoto}

@@ -22,7 +22,7 @@ async function getProfile(supabase: ReturnType<typeof createClient>, userId: str
   return data ?? null
 }
 
-export async function addPalmares(formData: FormData): Promise<{ ok: boolean }> {
+export async function addPalmares(formData: FormData): Promise<{ ok: true; id: string } | { ok: false }> {
   try {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -34,21 +34,27 @@ export async function addPalmares(formData: FormData): Promise<{ ok: boolean }> 
     const position = Number(formData.get('position'))
     const { medal, result } = deriveFromPosition(position)
 
-    await supabase.from('palmares').insert({
-      profile_id: profile.id,
-      date: formData.get('date') as string || null,
-      competition: formData.get('competition') as string || null,
-      city: formData.get('city') as string || null,
-      category: formData.get('category') as string || null,
-      level: formData.get('level') as string || null,
-      position,
-      medal,
-      result,
-    })
+    const { data: inserted, error: insertError } = await supabase
+      .from('palmares')
+      .insert({
+        profile_id: profile.id,
+        date: formData.get('date') as string || null,
+        competition: formData.get('competition') as string || null,
+        city: formData.get('city') as string || null,
+        category: formData.get('category') as string || null,
+        level: formData.get('level') as string || null,
+        position,
+        medal,
+        result,
+      })
+      .select('id')
+      .single()
+
+    if (insertError || !inserted) return { ok: false }
 
     revalidatePath('/dashboard/palmares')
     revalidatePath(`/${profile.slug}`)
-    return { ok: true }
+    return { ok: true, id: inserted.id }
   } catch (e) {
     if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e
     return { ok: false }

@@ -3,6 +3,7 @@ import type { Identity, Social } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { getBeltByLabel } from '@/lib/judo-belts'
+import ShareButtons from '@/components/ShareButtons'
 
 const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
   instagram: {
@@ -34,26 +35,25 @@ const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
 interface HeroBlockProps {
   identity: Identity
   social: Social
+  slug: string
 }
 
-export default function HeroBlock({ identity, social }: HeroBlockProps) {
+export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
   const initials = (identity.firstName?.[0] ?? '') + (identity.lastName?.[0] ?? '')
   const belt = getBeltByLabel(identity.grade)
 
   return (
-    <section className={`relative bg-primary-container overflow-hidden flex items-end ${identity.coverPhoto ? 'min-h-[65vh] md:min-h-[75vh]' : ''}`}>
+    <section className="relative min-h-[65vh] md:min-h-[75vh] bg-primary-container overflow-hidden flex items-end">
       {/* Cover photo with gradient overlay */}
       <div className="absolute inset-0">
-        {identity.coverPhoto && (
-          <Image
-            src={identity.coverPhoto}
-            alt={`${identity.firstName} ${identity.lastName} en compétition`}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
-        )}
+        <Image
+          src={identity.coverPhoto}
+          alt={`${identity.firstName} ${identity.lastName} en compétition`}
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
         <div className="absolute inset-0 gi-texture-dark" />
       </div>
@@ -129,6 +129,20 @@ export default function HeroBlock({ identity, social }: HeroBlockProps) {
                     </a>
                   )
                 })}
+              </div>
+            )}
+            {/* Share section */}
+            {process.env.NEXT_PUBLIC_SITE_URL && (
+              <div className="mt-5">
+                <p className="font-inter text-[10px] font-bold uppercase tracking-[0.25em] text-white/40 mb-2">
+                  Partager ce profil
+                </p>
+                <ShareButtons
+                  url={`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`}
+                  imageUrl={`${process.env.NEXT_PUBLIC_SITE_URL}/api/og/profile/${slug}`}
+                  title={`Découvrez le profil judoka de ${identity.firstName} ${identity.lastName} sur IpponId`}
+                  variant="dark"
+                />
               </div>
             )}
             {(identity.height || identity.weight || identity.nationality) && (

@@ -19,15 +19,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const judoka = await getJudokaBySlug(params.slug, { allowDraft: true })
   if (!judoka) return {}
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const ogImageUrl = `${siteUrl}/api/og/profile/${params.slug}`
+
   return {
     title: `${judoka.identity.firstName} ${judoka.identity.lastName} — ${judoka.identity.club} · IpponId`,
     description: judoka.bio.slice(0, 155) + '…',
     openGraph: {
       title: `${judoka.identity.firstName} ${judoka.identity.lastName} — IpponId`,
       description: judoka.bio.slice(0, 155) + '…',
-      ...(judoka.identity.coverPhoto && {
-        images: [{ url: judoka.identity.coverPhoto, width: 1200, height: 630, alt: `${judoka.identity.firstName} ${judoka.identity.lastName} en compétition` }],
-      }),
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `${judoka.identity.firstName} ${judoka.identity.lastName} — IpponId` }],
       type: 'profile',
       locale: 'fr_FR',
       siteName: 'IpponId',
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${judoka.identity.firstName} ${judoka.identity.lastName} — IpponId`,
       description: judoka.bio.slice(0, 155) + '…',
-      ...(judoka.identity.coverPhoto && { images: [judoka.identity.coverPhoto] }),
+      images: [ogImageUrl],
     },
   }
 }
