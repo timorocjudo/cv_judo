@@ -1,7 +1,9 @@
 'use client'
 
 import { useFormState } from 'react-dom'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { toast } from 'sonner'
+import type { VideoState } from './actions'
 import { addVideo, deleteVideo } from './actions'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
 
@@ -12,12 +14,19 @@ interface VideoRow {
   description: string | null
 }
 
-const initialState = { ok: null, error: null }
+const initialState: VideoState = { ok: null, error: null }
 
 export default function VideoManager({ videos }: { videos: VideoRow[] }) {
   const [state, formAction] = useFormState(addVideo, initialState)
   const [confirming, setConfirming] = useState<string | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const isFirstRender = useRef(true)
+
+  useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return }
+    if (state.ok === true) toast.success('Ajouté avec succès')
+    else if (state.ok === false) toast.error(state.error ?? 'Une erreur est survenue, réessaie')
+  }, [state])
 
   return (
     <div className="space-y-6">
@@ -42,13 +51,8 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
               type="url"
               required
               placeholder="https://youtube.com/watch?v=..."
-              className={`w-full border rounded-lg px-3 py-2 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm ${
-                state.error ? 'border-secondary' : 'border-outline-variant'
-              }`}
+              className="w-full border border-outline-variant rounded-lg px-3 py-2 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm"
             />
-            {state.error && (
-              <p className="text-sm text-secondary mt-1">{state.error}</p>
-            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="vid-desc">Description</label>
@@ -97,9 +101,16 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
                       <button
                         onClick={async () => {
                           setDeleting(v.id)
-                          await deleteVideo(v.id)
-                          setConfirming(null)
-                          setDeleting(null)
+                          try {
+                            const result = await deleteVideo(v.id)
+                            if (result.ok) toast.success('Supprimé')
+                            else toast.error('Une erreur est survenue, réessaie')
+                          } catch {
+                            toast.error('Une erreur est survenue, réessaie')
+                          } finally {
+                            setConfirming(null)
+                            setDeleting(null)
+                          }
                         }}
                         disabled={deleting === v.id}
                         className="text-xs font-semibold text-secondary hover:underline active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary/50 rounded transition-all disabled:opacity-60"
