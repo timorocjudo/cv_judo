@@ -3,6 +3,7 @@ import type { Identity, Social } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { getBeltByLabel } from '@/lib/judo-belts'
+import ShareButtons from '@/components/ShareButtons'
 
 const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
   instagram: {
@@ -34,9 +35,10 @@ const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
 interface HeroBlockProps {
   identity: Identity
   social: Social
+  slug: string
 }
 
-export default function HeroBlock({ identity, social }: HeroBlockProps) {
+export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
   const initials = (identity.firstName?.[0] ?? '') + (identity.lastName?.[0] ?? '')
   const belt = getBeltByLabel(identity.grade)
 
@@ -127,6 +129,20 @@ export default function HeroBlock({ identity, social }: HeroBlockProps) {
                     </a>
                   )
                 })}
+              </div>
+            )}
+            {/* Share section */}
+            {process.env.NEXT_PUBLIC_SITE_URL && (
+              <div className="mt-5">
+                <p className="font-inter text-[10px] font-bold uppercase tracking-[0.25em] text-white/40 mb-2">
+                  Partager ce profil
+                </p>
+                <ShareButtons
+                  url={`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`}
+                  imageUrl={`${process.env.NEXT_PUBLIC_SITE_URL}/api/og/profile/${slug}`}
+                  title={`Découvrez le profil judoka de ${identity.firstName} ${identity.lastName} sur IpponId`}
+                  variant="dark"
+                />
               </div>
             )}
             {(identity.height || identity.weight || identity.nationality) && (

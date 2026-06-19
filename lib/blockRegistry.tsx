@@ -11,7 +11,7 @@ import TechniquesBlock from '@/components/blocks/TechniquesBlock'
 type BlockRenderer = (data: JudokaData) => React.ReactElement
 
 export const blockRegistry: Record<BlockName, BlockRenderer> = {
-  hero:       (data) => <HeroBlock identity={data.identity} social={data.social} />,
+  hero:       (data) => <HeroBlock identity={data.identity} social={data.social} slug={data.slug} />,
   bio:        (data) => <BioBlock bio={data.bio} firstName={data.identity.firstName} />,
   palmares:   (data) => <PalmaresBlock palmares={data.palmares} birthDate={data.identity.birthDate} />,
   videos:     (data) => <VideosBlock videos={data.videos} />,
