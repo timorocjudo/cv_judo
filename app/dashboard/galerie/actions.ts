@@ -6,8 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function addPhoto(
   url: string,
-  caption: string,
-  profileId: string
+  caption: string
 ): Promise<{ ok: boolean }> {
   try {
     const supabase = createClient()

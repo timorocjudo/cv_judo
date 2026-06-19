@@ -14,11 +14,9 @@ interface Photo {
 export default function GalerieManager({
   photos,
   ownerId,
-  profileId,
 }: {
   photos: Photo[]
   ownerId: string
-  profileId: string
 }) {
   const [pendingUrl, setPendingUrl] = useState('')
   const [caption, setCaption] = useState('')
@@ -29,7 +27,7 @@ export default function GalerieManager({
     if (!pendingUrl) return
     setSaving(true)
     try {
-      const result = await addPhoto(pendingUrl, caption, profileId)
+      const result = await addPhoto(pendingUrl, caption)
       if (result.ok) {
         toast.success('Ajouté avec succès')
         setPendingUrl('')
