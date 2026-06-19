@@ -16,46 +16,59 @@ async function getProfileId(supabase: ReturnType<typeof createClient>, userId: s
   return data?.id ?? null
 }
 
+export type VideoState = { ok: boolean | null; error: string | null }
+
 export async function addVideo(
-  _state: { error: string | null },
+  _state: VideoState,
   formData: FormData
-): Promise<{ error: string | null }> {
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/')
+): Promise<VideoState> {
+  try {
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) redirect('/')
 
-  const profileId = await getProfileId(supabase, user.id)
-  if (!profileId) redirect('/')
+    const profileId = await getProfileId(supabase, user.id)
+    if (!profileId) redirect('/')
 
-  const youtubeUrl = (formData.get('youtube_url') as string).trim()
-  if (!YOUTUBE_RE.test(youtubeUrl)) {
-    return { error: 'Lien YouTube invalide. Utilise un lien youtube.com/watch?v=… ou youtu.be/…' }
+    const youtubeUrl = (formData.get('youtube_url') as string).trim()
+    if (!YOUTUBE_RE.test(youtubeUrl)) {
+      return { ok: false, error: 'Lien YouTube invalide. Utilise un lien youtube.com/watch?v=… ou youtu.be/…' }
+    }
+
+    await supabase.from('videos').insert({
+      profile_id: profileId,
+      title: formData.get('title') as string || null,
+      youtube_url: youtubeUrl,
+      description: formData.get('description') as string || null,
+    })
+
+    revalidatePath('/dashboard/videos')
+    return { ok: true, error: null }
+  } catch (e) {
+    if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e
+    return { ok: false, error: 'Une erreur est survenue, réessaie' }
   }
-
-  await supabase.from('videos').insert({
-    profile_id: profileId,
-    title: formData.get('title') as string || null,
-    youtube_url: youtubeUrl,
-    description: formData.get('description') as string || null,
-  })
-
-  revalidatePath('/dashboard/videos')
-  return { error: null }
 }
 
-export async function deleteVideo(id: string) {
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/')
+export async function deleteVideo(id: string): Promise<{ ok: boolean }> {
+  try {
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) redirect('/')
 
-  const profileId = await getProfileId(supabase, user.id)
-  if (!profileId) return
+    const profileId = await getProfileId(supabase, user.id)
+    if (!profileId) return { ok: false }
 
-  await supabase
-    .from('videos')
-    .delete()
-    .eq('id', id)
-    .eq('profile_id', profileId)
+    await supabase
+      .from('videos')
+      .delete()
+      .eq('id', id)
+      .eq('profile_id', profileId)
 
-  revalidatePath('/dashboard/videos')
+    revalidatePath('/dashboard/videos')
+    return { ok: true }
+  } catch (e) {
+    if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e
+    return { ok: false }
+  }
 }

@@ -7,9 +7,10 @@ interface SubmitButtonProps {
   pendingText?: string
   className?: string
   disabled?: boolean
+  title?: string
 }
 
-export function SubmitButton({ children, pendingText, className = '', disabled }: SubmitButtonProps) {
+export function SubmitButton({ children, pendingText, className = '', disabled, title }: SubmitButtonProps) {
   const { pending } = useFormStatus()
   const isDisabled = pending || disabled
 
@@ -17,6 +18,7 @@ export function SubmitButton({ children, pendingText, className = '', disabled }
     <button
       type="submit"
       disabled={isDisabled}
+      title={title}
       className={`${className} transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100`}
     >
       {pending ? (

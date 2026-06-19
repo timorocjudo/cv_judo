@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useFormState } from 'react-dom'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
@@ -65,9 +66,10 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
   const computedCategory = computeAgeCategory(birthDate || undefined)
   const initialAgeGroup = getAgeGroupFromCategory(computedCategory)
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(initialAgeGroup)
+  const [, formAction] = useFormState(saveProfile, { ok: null })
 
   return (
-    <form action={saveProfile} className="space-y-6 max-w-xl">
+    <form action={formAction} className="space-y-6 max-w-xl">
       <fieldset className="space-y-4">
         <legend className="font-montserrat font-bold text-primary text-lg mb-2">Identité</legend>
 

@@ -1,9 +1,15 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { togglePublished } from './actions'
+import { togglePublished, ToggleResult } from './actions'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
+
+const TOGGLE_INITIAL: ToggleResult = { ok: null, missing: [], unpublished: false }
+async function togglePublishedAction(formData: FormData): Promise<void> {
+  'use server'
+  await togglePublished(TOGGLE_INITIAL, formData)
+}
 
 export default async function DashboardPage({
   searchParams,
@@ -118,7 +124,7 @@ export default async function DashboardPage({
           Voir ma page publique ↗
         </Link>
 
-        <form action={togglePublished}>
+        <form action={togglePublishedAction}>
           <input type="hidden" name="profileId" value={profile.id} />
           <input type="hidden" name="slug" value={profile.slug} />
           <input type="hidden" name="next" value={String(!profile.published)} />

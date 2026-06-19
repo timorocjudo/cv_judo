@@ -12,7 +12,7 @@ interface VideoRow {
   description: string | null
 }
 
-const initialState = { error: null }
+const initialState = { ok: null, error: null }
 
 export default function VideoManager({ videos }: { videos: VideoRow[] }) {
   const [state, formAction] = useFormState(addVideo, initialState)
