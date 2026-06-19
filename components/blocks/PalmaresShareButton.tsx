@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import ShareButtons from '@/components/ShareButtons'
 
 interface PalmaresShareButtonProps {
@@ -10,13 +11,51 @@ interface PalmaresShareButtonProps {
 
 export default function PalmaresShareButton({ slug, resultId }: PalmaresShareButtonProps) {
   const [open, setOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
   const url = `${siteUrl}/${slug}#result-${resultId}`
   const imageUrl = `${siteUrl}/api/og/result/${slug}/${resultId}`
 
+  useEffect(() => {
+    if (!open) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [open])
+
+  const popover = open ? (
+    <div
+      className="fixed inset-0 z-50"
+      onClick={() => setOpen(false)}
+    >
+      <div
+        className="absolute p-3 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-lg min-w-max"
+        style={(() => {
+          if (!buttonRef.current) return { top: 0, right: 0 }
+          const rect = buttonRef.current.getBoundingClientRect()
+          return {
+            top: rect.bottom + 8,
+            left: Math.max(8, rect.right - 280),
+          }
+        })()}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ShareButtons
+          url={url}
+          imageUrl={imageUrl}
+          title={`Découvrez ce résultat sur IpponId — ipponid.com/${slug}`}
+          variant="light"
+        />
+      </div>
+    </div>
+  ) : null
+
   return (
-    <div className="relative flex flex-col items-center">
+    <>
       <button
+        ref={buttonRef}
         onClick={() => setOpen((prev) => !prev)}
         aria-label="Partager ce résultat"
         title="Partager ce résultat"
@@ -40,16 +79,7 @@ export default function PalmaresShareButton({ slug, resultId }: PalmaresShareBut
         </svg>
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-8 z-20 p-3 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-lg min-w-max">
-          <ShareButtons
-            url={url}
-            imageUrl={imageUrl}
-            title={`Découvrez ce résultat sur IpponId — ipponid.com/${slug}`}
-            variant="light"
-          />
-        </div>
-      )}
-    </div>
+      {typeof document !== 'undefined' && createPortal(popover, document.body)}
+    </>
   )
 }
