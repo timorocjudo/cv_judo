@@ -124,7 +124,7 @@ export default function CguPage() {
         </h2>
         <p>
           IpponId est fourni &laquo; en l&apos;état &raquo;, sans garantie
-          d&apos;disponibilité continue, d&apos;exactitude ou d&apos;adéquation
+          d&apos;une disponibilité continue, d&apos;exactitude ou d&apos;adéquation
           à un usage particulier.
         </p>
         <p>
