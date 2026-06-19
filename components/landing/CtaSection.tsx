@@ -5,7 +5,7 @@ export default function CtaSection() {
   return (
     <section className="px-margin-mobile md:px-margin-desktop py-16">
       <div className="max-w-container-max mx-auto">
-        <div className="bg-primary rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+        <div className="bg-primary rounded-3xl p-10 md:p-16 text-center relative">
           <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary-container/40 pointer-events-none" />
           <div className="relative z-10">
             <h2 className="font-montserrat text-headline-md font-bold text-on-primary mb-4">
