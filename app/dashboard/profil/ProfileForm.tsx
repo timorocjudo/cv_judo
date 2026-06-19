@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useFormState } from 'react-dom'
+import { toast } from 'sonner'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
@@ -59,6 +60,8 @@ interface Profile {
 }
 
 export default function ProfileForm({ profile }: { profile: Profile }) {
+  const [state, formAction] = useFormState(saveProfile, { ok: null })
+  const isFirstRender = useRef(true)
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(profile.profile_photo_url ?? '')
   const [coverPhotoUrl, setCoverPhotoUrl] = useState(profile.cover_photo_url ?? '')
   const [selectedGrade, setSelectedGrade] = useState(profile.grade ?? '')
@@ -66,7 +69,12 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
   const computedCategory = computeAgeCategory(birthDate || undefined)
   const initialAgeGroup = getAgeGroupFromCategory(computedCategory)
   const [ageGroup, setAgeGroup] = useState<AgeGroup>(initialAgeGroup)
-  const [, formAction] = useFormState(saveProfile, { ok: null })
+
+  useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return }
+    if (state.ok) toast.success('Profil mis à jour')
+    else toast.error('Une erreur est survenue, réessaie')
+  }, [state])
 
   return (
     <form action={formAction} className="space-y-6 max-w-xl">
