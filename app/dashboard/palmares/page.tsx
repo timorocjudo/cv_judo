@@ -9,7 +9,7 @@ export default async function PalmaresPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id')
+    .select('id, slug, published')
     .eq('owner_id', user.id)
     .single()
 
@@ -29,7 +29,11 @@ export default async function PalmaresPage() {
           Mon Palmarès
         </h1>
       </div>
-      <PalmaresManager entries={entries ?? []} />
+      <PalmaresManager
+        entries={entries ?? []}
+        isPublished={profile.published}
+        profileSlug={profile.slug}
+      />
     </div>
   )
 }
