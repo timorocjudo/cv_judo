@@ -19,7 +19,7 @@ const navItems = [
   },
   {
     href: '#videos',
-    label: 'Highlights',
+    label: 'Vidéos',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
         <path d="M8 5v14l11-7z" />

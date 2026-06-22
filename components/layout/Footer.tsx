@@ -12,7 +12,7 @@ export default function Footer({ identity, social }: FooterProps) {
     <footer className="bg-surface-container-highest border-t border-outline-variant">
       <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="font-montserrat text-xl font-black text-primary tracking-tighter">
-          IpponId
+          Ippon<span className="text-tertiary-container">Id</span>
         </div>
 
         <nav className="flex gap-6" aria-label="Réseaux sociaux">

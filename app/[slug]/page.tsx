@@ -4,7 +4,6 @@ import { getJudokaBySlug } from '@/lib/judokaService'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
 
@@ -82,8 +81,7 @@ export default async function JudokaPage({ params }: Props) {
         })}
         <div className="h-16 md:hidden" aria-hidden="true" />
       </main>
-      <Footer identity={judoka.identity} social={judoka.social} />
-      <MobileNav />
+<MobileNav />
     </>
   )
 }

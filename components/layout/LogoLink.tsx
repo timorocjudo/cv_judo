@@ -13,7 +13,7 @@ export default function LogoLink() {
         className="font-montserrat text-xl font-black text-primary tracking-tighter"
         aria-label="Retour en haut de page"
       >
-        IpponId
+        Ippon<span className="text-tertiary-container">Id</span>
       </button>
     )
   }
@@ -23,7 +23,7 @@ export default function LogoLink() {
       href="/"
       className="font-montserrat text-xl font-black text-primary tracking-tighter"
     >
-      IpponId
+      Ippon<span className="text-tertiary-container">Id</span>
     </Link>
   )
 }

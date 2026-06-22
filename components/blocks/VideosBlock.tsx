@@ -13,12 +13,12 @@ export default function VideosBlock({ videos }: VideosBlockProps) {
   if (!videos.length) return null
 
   return (
-    <section className="py-10 md:py-14 bg-surface-container border-y border-outline-variant">
+    <section className="py-16 md:py-20 bg-primary-container">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="flex items-center gap-3 mb-10">
           <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
-          <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase tracking-tight">
-            Highlights
+          <h2 className="font-montserrat text-headline-md font-bold text-white">
+            Vidéos
           </h2>
         </div>
 
@@ -27,7 +27,7 @@ export default function VideosBlock({ videos }: VideosBlockProps) {
             const videoId = extractYouTubeId(video.youtubeUrl)
             return (
               <div key={i}>
-                <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-primary-container">
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-primary">
                   {videoId ? (
                     <iframe
                       src={`https://www.youtube.com/embed/${videoId}`}
@@ -37,17 +37,17 @@ export default function VideosBlock({ videos }: VideosBlockProps) {
                       className="absolute inset-0 w-full h-full border-0"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-on-primary-container">
+                    <div className="absolute inset-0 flex items-center justify-center text-white/60">
                       <p className="font-inter text-sm">Vidéo non disponible</p>
                     </div>
                   )}
                 </div>
                 <div className="mt-3 px-1">
-                  <h3 className="font-montserrat text-base font-bold text-primary leading-snug">
+                  <h3 className="font-montserrat text-base font-bold text-white leading-snug">
                     {video.title}
                   </h3>
                   {video.description && (
-                    <p className="font-inter text-sm text-on-surface-variant mt-1 leading-relaxed">
+                    <p className="font-inter text-sm text-white/60 mt-1 leading-relaxed">
                       {video.description}
                     </p>
                   )}
