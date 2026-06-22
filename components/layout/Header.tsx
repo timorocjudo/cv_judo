@@ -16,18 +16,20 @@ export default function Header({ isLoggedIn }: HeaderProps) {
         <LogoLink />
 
         <nav className="hidden md:flex gap-8 items-center" aria-label="Navigation principale">
-          <a href="#bio" className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
-            Profil
-          </a>
-          <a href="#palmares" className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
-            Palmarès
-          </a>
-          <a href="#videos" className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
-            Highlights
-          </a>
-          <a href="#gallery" className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
-            Galerie
-          </a>
+          {[
+            { href: '#bio',      label: 'Profil' },
+            { href: '#palmares', label: 'Palmarès' },
+            { href: '#videos',   label: 'Vidéos' },
+            { href: '#gallery',  label: 'Galerie' },
+          ].map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="relative font-inter text-sm font-medium text-on-surface-variant hover:text-primary transition-colors pb-0.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-tertiary-container after:transition-[width] after:duration-300 hover:after:w-full"
+            >
+              {label}
+            </a>
+          ))}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">

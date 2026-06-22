@@ -18,7 +18,7 @@ export default function LandingNav({ isLoggedIn }: LandingNavProps) {
           className="font-montserrat text-2xl font-black text-primary tracking-tight"
           aria-label="Retour en haut de page"
         >
-          IpponId
+          Ippon<span className="text-tertiary-container">Id</span>
         </button>
 
         {/* Desktop links */}

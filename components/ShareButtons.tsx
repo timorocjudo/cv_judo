@@ -7,7 +7,7 @@ interface ShareButtonsProps {
   url: string
   imageUrl: string
   title: string
-  variant?: 'light' | 'dark'
+  variant?: 'light' | 'dark' | 'accent'
 }
 
 export default function ShareButtons({
@@ -16,7 +16,7 @@ export default function ShareButtons({
   title,
   variant = 'dark',
 }: ShareButtonsProps) {
-  const [canNativeShare, setCanNativeShare] = useState(false)
+  const [canNativeShare, setCanNativeShare] = useState<boolean | null>(null)
   const [isDownloading, setIsDownloading] = useState(false)
 
   useEffect(() => {
@@ -24,9 +24,12 @@ export default function ShareButtons({
   }, [])
 
   const isDark = variant === 'dark'
-  const btnClass = isDark
-    ? 'flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors'
-    : 'flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors'
+  const btnClass =
+    variant === 'accent'
+      ? 'flex items-center gap-2 bg-tertiary-container text-primary px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-tertiary-container/40 active:scale-100'
+      : isDark
+      ? 'flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors'
+      : 'flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors'
 
   async function handleNativeShare() {
     try {
@@ -64,6 +67,15 @@ export default function ShareButtons({
     } catch {
       toast.error('Impossible de copier le lien')
     }
+  }
+
+  if (canNativeShare === null) {
+    return (
+      <div className={`${btnClass} opacity-0 pointer-events-none select-none`} aria-hidden>
+        <ShareIcon />
+        Partager
+      </div>
+    )
   }
 
   if (canNativeShare) {
@@ -111,7 +123,7 @@ export default function ShareButtons({
         </button>
         <p
           className={`text-[10px] leading-tight max-w-[180px] ${
-            isDark ? 'text-white/40' : 'text-on-surface-variant'
+            variant === 'accent' || isDark ? 'text-white/40' : 'text-on-surface-variant'
           }`}
         >
           Télécharge l&apos;image et partage-la depuis l&apos;app Instagram ou TikTok

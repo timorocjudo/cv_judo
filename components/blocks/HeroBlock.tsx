@@ -64,7 +64,7 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
       <div className="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
         <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
           {/* Profile photo */}
-          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0 bg-primary-container">
+          <div className="relative w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-[3px] border-tertiary-container flex-shrink-0 bg-primary-container shadow-lg shadow-black/30">
             {identity.profilePhoto ? (
               <Image
                 src={identity.profilePhoto}
@@ -75,7 +75,7 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <span className="font-montserrat font-black text-on-primary text-3xl md:text-4xl uppercase">
+                <span className="font-montserrat font-black text-on-primary text-3xl md:text-5xl uppercase">
                   {initials}
                 </span>
               </div>
@@ -84,8 +84,8 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
 
           {/* Text */}
           <div>
-            <p className="font-inter text-xs font-bold uppercase tracking-[0.25em] text-tertiary-fixed-dim mb-2">
-              IpponId · Profil Athlete
+            <p className="font-inter text-xs font-bold uppercase tracking-[0.25em] mb-2">
+              <span className="text-white">Ippon</span><span className="text-tertiary-container">Id</span><span className="text-tertiary-container"> · Profil Athlete</span>
             </p>
             <h1 className="font-montserrat text-5xl md:text-7xl font-black text-white uppercase tracking-tight leading-none">
               {identity.firstName}
@@ -135,15 +135,12 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
             )}
             {/* Share section */}
             {process.env.NEXT_PUBLIC_SITE_URL && (
-              <div className="mt-5">
-                <p className="font-inter text-[10px] font-bold uppercase tracking-[0.25em] text-white/40 mb-2">
-                  Partager ce profil
-                </p>
+              <div className="mt-6">
                 <ShareButtons
                   url={`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`}
                   imageUrl={`${process.env.NEXT_PUBLIC_SITE_URL}/api/og/profile/${slug}`}
                   title={`Découvrez le profil judoka de ${identity.firstName} ${identity.lastName} sur IpponId`}
-                  variant="dark"
+                  variant="accent"
                 />
               </div>
             )}
