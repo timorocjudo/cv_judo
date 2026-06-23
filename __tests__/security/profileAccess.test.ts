@@ -19,13 +19,14 @@ const OTHER_PASSWORD = 'Test1234!'
 let admin: SupabaseClient
 let ownerId: string
 let otherId: string
-let publishedProfileId: string
-let unpublishedProfileId: string
+let publicProfileId: string
+let privateProfileId: string
+let draftProfileId: string
 
 async function insertProfile(
   admin: SupabaseClient,
   ownerId: string,
-  published: boolean
+  visibility: 'draft' | 'private' | 'public'
 ): Promise<string> {
   const { data, error } = await admin
     .from('profiles')
@@ -34,7 +35,8 @@ async function insertProfile(
       slug: `test-profile-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       first_name: 'Test',
       last_name: 'Judoka',
-      published,
+      published: visibility === 'public',
+      visibility,
     })
     .select('id')
     .single()
@@ -54,144 +56,97 @@ afterAll(async () => {
 }, TIMEOUT)
 
 beforeEach(async () => {
-  publishedProfileId = await insertProfile(admin, ownerId, true)
-  unpublishedProfileId = await insertProfile(admin, ownerId, false)
+  publicProfileId  = await insertProfile(admin, ownerId, 'public')
+  privateProfileId = await insertProfile(admin, ownerId, 'private')
+  draftProfileId   = await insertProfile(admin, ownerId, 'draft')
 }, TIMEOUT)
 
 afterEach(async () => {
-  await admin.from('profiles').delete().eq('id', publishedProfileId)
-  await admin.from('profiles').delete().eq('id', unpublishedProfileId)
+  await admin.from('profiles').delete().eq('id', publicProfileId)
+  await admin.from('profiles').delete().eq('id', privateProfileId)
+  await admin.from('profiles').delete().eq('id', draftProfileId)
 }, TIMEOUT)
 
-describe('Profil publié (published = true)', () => {
+describe('Profil public (visibility = public)', () => {
   it('client anonyme peut lire', async () => {
     const anon = createAnonClient()
-    const { data, error } = await anon
-      .from('profiles')
-      .select('id')
-      .eq('id', publishedProfileId)
-      .single()
-    expect(error).toBeNull()
-    expect(data?.id).toBe(publishedProfileId)
+    const { data } = await anon.from('profiles').select('id').eq('id', publicProfileId).single()
+    expect(data?.id).toBe(publicProfileId)
   }, TIMEOUT)
 
   it('client anonyme ne peut PAS modifier', async () => {
     const anon = createAnonClient()
     // RLS bloque silencieusement les UPDATEs non autorisés (0 lignes affectées)
     // On vérifie que la valeur n'a pas changé côté admin
-    await anon
-      .from('profiles')
-      .update({ first_name: 'HACKER' })
-      .eq('id', publishedProfileId)
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', publishedProfileId)
-      .single()
+    await anon.from('profiles').update({ first_name: 'HACKER' }).eq('id', publicProfileId)
+    const { data } = await admin.from('profiles').select('first_name').eq('id', publicProfileId).single()
     expect(data?.first_name).not.toBe('HACKER')
-  }, TIMEOUT)
-
-  it('propriétaire peut lire', async () => {
-    const owner = await createAuthenticatedClient(OWNER_EMAIL, OWNER_PASSWORD)
-    const { data, error } = await owner
-      .from('profiles')
-      .select('id')
-      .eq('id', publishedProfileId)
-      .single()
-    expect(error).toBeNull()
-    expect(data?.id).toBe(publishedProfileId)
   }, TIMEOUT)
 
   it('propriétaire peut modifier', async () => {
     const owner = await createAuthenticatedClient(OWNER_EMAIL, OWNER_PASSWORD)
-    const { error } = await owner
-      .from('profiles')
-      .update({ first_name: 'Modifié' })
-      .eq('id', publishedProfileId)
+    const { error } = await owner.from('profiles').update({ first_name: 'Modifié' }).eq('id', publicProfileId)
     expect(error).toBeNull()
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', publishedProfileId)
-      .single()
-    expect(data?.first_name).toBe('Modifié')
   }, TIMEOUT)
 
   it('autre utilisateur authentifié peut lire', async () => {
     const other = await createAuthenticatedClient(OTHER_EMAIL, OTHER_PASSWORD)
-    const { data, error } = await other
-      .from('profiles')
-      .select('id')
-      .eq('id', publishedProfileId)
-      .single()
-    expect(error).toBeNull()
-    expect(data?.id).toBe(publishedProfileId)
+    const { data } = await other.from('profiles').select('id').eq('id', publicProfileId).single()
+    expect(data?.id).toBe(publicProfileId)
   }, TIMEOUT)
 
   it('autre utilisateur authentifié ne peut PAS modifier', async () => {
     const other = await createAuthenticatedClient(OTHER_EMAIL, OTHER_PASSWORD)
-    await other
-      .from('profiles')
-      .update({ first_name: 'USURPATEUR' })
-      .eq('id', publishedProfileId)
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', publishedProfileId)
-      .single()
+    await other.from('profiles').update({ first_name: 'USURPATEUR' }).eq('id', publicProfileId)
+    const { data } = await admin.from('profiles').select('first_name').eq('id', publicProfileId).single()
     expect(data?.first_name).not.toBe('USURPATEUR')
   }, TIMEOUT)
 })
 
-describe('Profil non-publié (published = false)', () => {
+describe('Profil privé (visibility = private)', () => {
   it('[CRITIQUE] client anonyme ne peut PAS lire', async () => {
     const anon = createAnonClient()
-    const { data } = await anon
-      .from('profiles')
-      .select('id')
-      .eq('id', unpublishedProfileId)
-      .single()
+    const { data } = await anon.from('profiles').select('id').eq('id', privateProfileId).single()
     // RLS bloque → data est null (pas d'erreur, juste aucune ligne retournée)
+    expect(data).toBeNull()
+  }, TIMEOUT)
+
+  it('utilisateur authentifié (sans accès explicite) peut lire', async () => {
+    const other = await createAuthenticatedClient(OTHER_EMAIL, OTHER_PASSWORD)
+    const { data } = await other.from('profiles').select('id').eq('id', privateProfileId).single()
+    expect(data?.id).toBe(privateProfileId)
+  }, TIMEOUT)
+
+  it('utilisateur authentifié ne peut PAS modifier', async () => {
+    const other = await createAuthenticatedClient(OTHER_EMAIL, OTHER_PASSWORD)
+    await other.from('profiles').update({ first_name: 'HACKER' }).eq('id', privateProfileId)
+    const { data } = await admin.from('profiles').select('first_name').eq('id', privateProfileId).single()
+    expect(data?.first_name).not.toBe('HACKER')
+  }, TIMEOUT)
+})
+
+describe('Profil brouillon (visibility = draft)', () => {
+  it('[CRITIQUE] client anonyme ne peut PAS lire', async () => {
+    const anon = createAnonClient()
+    const { data } = await anon.from('profiles').select('id').eq('id', draftProfileId).single()
     expect(data).toBeNull()
   }, TIMEOUT)
 
   it('[CRITIQUE] autre utilisateur authentifié ne peut PAS lire', async () => {
     const other = await createAuthenticatedClient(OTHER_EMAIL, OTHER_PASSWORD)
-    const { data } = await other
-      .from('profiles')
-      .select('id')
-      .eq('id', unpublishedProfileId)
-      .single()
+    const { data } = await other.from('profiles').select('id').eq('id', draftProfileId).single()
     expect(data).toBeNull()
   }, TIMEOUT)
 
-  it('propriétaire peut lire son profil non-publié', async () => {
+  it('propriétaire peut lire son brouillon', async () => {
     const owner = await createAuthenticatedClient(OWNER_EMAIL, OWNER_PASSWORD)
-    const { data, error } = await owner
-      .from('profiles')
-      .select('id')
-      .eq('id', unpublishedProfileId)
-      .single()
-    expect(error).toBeNull()
-    expect(data?.id).toBe(unpublishedProfileId)
+    const { data } = await owner.from('profiles').select('id').eq('id', draftProfileId).single()
+    expect(data?.id).toBe(draftProfileId)
   }, TIMEOUT)
 
-  it('propriétaire peut modifier son profil non-publié', async () => {
+  it('propriétaire peut modifier son brouillon', async () => {
     const owner = await createAuthenticatedClient(OWNER_EMAIL, OWNER_PASSWORD)
-    const { error } = await owner
-      .from('profiles')
-      .update({ first_name: 'BrouillonModifié' })
-      .eq('id', unpublishedProfileId)
+    const { error } = await owner.from('profiles').update({ first_name: 'BrouillonModifié' }).eq('id', draftProfileId)
     expect(error).toBeNull()
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', unpublishedProfileId)
-      .single()
-    expect(data?.first_name).toBe('BrouillonModifié')
   }, TIMEOUT)
 })
