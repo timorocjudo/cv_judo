@@ -1,5 +1,6 @@
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
+import { computePalmaresStats } from '@/lib/palmaresStats'
 import PodiumPhotoButton from '@/components/blocks/PodiumPhotoButton'
 import PalmaresShareButton from '@/components/blocks/PalmaresShareButton'
 import PalmaresStatsCounter from '@/components/blocks/PalmaresStatsCounter'
@@ -59,12 +60,15 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
           </h2>
         </div>
 
-        {palmares.length >= 3 && (
-          <PalmaresStatsCounter
-            totalCompetitions={palmares.length}
-            totalPodiums={palmares.filter((e) => e.medal != null).length}
-          />
-        )}
+        {palmares.length >= 3 && (() => {
+          const stats = computePalmaresStats(palmares)
+          return (
+            <PalmaresStatsCounter
+              totalCompetitions={stats.totalCompetitions}
+              totalPodiums={stats.totalPodiums}
+            />
+          )
+        })()}
 
         <div className="space-y-10">
           {seasons.map((startYear) => (
