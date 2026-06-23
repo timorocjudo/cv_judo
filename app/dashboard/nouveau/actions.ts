@@ -34,19 +34,9 @@ export async function createProfile(formData: FormData) {
   const termsAccepted = formData.get('termsAccepted')
   if (termsAccepted !== 'on') return
 
-  // Idempotence : vérifie si un profil existe déjà
-  const { data: existing } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('owner_id', user.id)
-    .maybeSingle()
-
-  if (existing) {
-    redirect('/dashboard')
-  }
-
   const slug = await findUniqueSlug(supabase, firstName, lastName)
 
+  // The SECURITY DEFINER trigger auto-creates the profile_access owner row.
   await supabase.from('profiles').insert({
     owner_id: user.id,
     slug,
