@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700');</style>
+  <rect width="100" height="40" fill="#FFFFFF"/>
+  <text x="50" y="27" text-anchor="middle" font-family="'Montserrat',sans-serif" font-weight="700" font-size="22">
+    <tspan fill="#1B3A6B">Ippon</tspan><tspan fill="#D4A017">Id</tspan>
+  </text>
+</svg>

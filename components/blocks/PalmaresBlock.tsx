@@ -1,7 +1,9 @@
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
+import { computePalmaresStats } from '@/lib/palmaresStats'
 import PodiumPhotoButton from '@/components/blocks/PodiumPhotoButton'
 import PalmaresShareButton from '@/components/blocks/PalmaresShareButton'
+import PalmaresStatsCounter from '@/components/blocks/PalmaresStatsCounter'
 
 interface PalmaresBlockProps {
   palmares: PalmaresEntry[]
@@ -48,8 +50,10 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
     bySeason[season].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   }
 
+  const stats = palmares.length >= 3 ? computePalmaresStats(palmares) : null
+
   return (
-    <section className="py-16 md:py-20 bg-surface-container-lowest">
+    <section className="py-10 md:py-14 bg-surface-container-lowest">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
@@ -58,87 +62,96 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
           </h2>
         </div>
 
-        <div className="space-y-12">
-          {seasons.map((startYear, seasonIdx) => (
-            <div key={startYear} className="flex gap-6 relative">
-              <div className="flex flex-col items-center flex-shrink-0">
-                <div className="h-9 md:h-12 flex items-center justify-center">
-                  <div className="w-6 h-6 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                  </div>
-                </div>
-                {seasonIdx < seasons.length - 1 && (
-                  <div className="flex-1 w-px bg-primary/20 mt-1 min-h-[2rem]" />
-                )}
-              </div>
+        {stats && (
+          <PalmaresStatsCounter
+            totalCompetitions={stats.totalCompetitions}
+            totalPodiums={stats.totalPodiums}
+          />
+        )}
 
-              <div className="flex-1 pb-4">
-                <span className="font-montserrat text-3xl md:text-5xl font-black text-primary-container block mb-6">
+        <div className="space-y-10">
+          {seasons.map((startYear) => (
+            <div key={startYear}>
+              {/* Season header */}
+              <div className="flex items-center gap-4 mb-5">
+                <span className="font-montserrat text-3xl md:text-5xl font-black text-primary-container flex-shrink-0">
                   {getSeasonLabel(startYear)}
                 </span>
-                <div className="grid grid-cols-1 gap-3">
-                  {bySeason[startYear].map((entry, i) => {
-                    const medal = entry.medal ? MEDAL_STYLES[entry.medal] : null
-                    return (
-                      <article
-                        key={i}
-                        id={entry.id ? `result-${entry.id}` : undefined}
-                        className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
-                        style={{ borderLeft: `4px solid ${medal?.border ?? '#c6c5d4'}` }}
-                      >
-                        <div className="p-5 flex justify-between items-start gap-4">
-                          <div className="min-w-0">
-                            <p className="font-inter text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-                              {formatDate(entry.date)} · {entry.level}{entry.city ? ` · ${entry.city}` : ''}
+                <div className="flex-1 h-px bg-primary/20" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                {bySeason[startYear].map((entry, i) => {
+                  const medal = entry.medal ? MEDAL_STYLES[entry.medal] : null
+                  return (
+                    <article
+                      key={i}
+                      id={entry.id ? `result-${entry.id}` : undefined}
+                      className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
+                      style={{ borderLeft: `4px solid ${medal?.border ?? '#c6c5d4'}` }}
+                    >
+                      <div className="px-4 py-5 flex justify-between items-start gap-3">
+                        <div className="min-w-0 flex-1">
+                          {/* Ligne 1: date · niveau · lieu */}
+                          <p className="font-inter text-xs uppercase tracking-widest text-on-surface-variant mb-1 leading-snug">
+                            {formatDate(entry.date)} · {entry.level}{entry.city ? ` · ${entry.city}` : ''}
+                          </p>
+                          {/* Ligne 2: rang uniquement, large, bold, couleur accent ou discret */}
+                          {medal ? (
+                            <p
+                              className="font-montserrat text-xl font-black leading-tight mb-1"
+                              style={{ color: medal.dot }}
+                            >
+                              {entry.result}
                             </p>
-                            <h3 className="font-inter text-base font-bold text-primary leading-snug">
-                              {entry.result} — {entry.competition}
-                            </h3>
-                            <p className="font-inter text-sm text-on-surface-variant mt-1 flex items-center gap-2 flex-wrap">
+                          ) : (
+                            <p className="font-inter text-sm font-semibold text-on-surface-variant leading-tight mb-1">
+                              {entry.result}
+                            </p>
+                          )}
+                          {/* Ligne 3: nom de la compétition seul */}
+                          <h3 className="font-inter text-base font-semibold text-primary leading-snug mb-3">
+                            {entry.competition}
+                          </h3>
+                          {/* Ligne 4: badge poids + badge catégorie côte à côte */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
                               {entry.category}
-                              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
-                                {computeAgeCategory(birthDate, entry.date)}
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                            {entry.id && process.env.NEXT_PUBLIC_SITE_URL && (
-                              <PalmaresShareButton slug={slug} resultId={entry.id} />
-                            )}
-                            {entry.podiumPhoto && (
-                              <PodiumPhotoButton
-                                photo={entry.podiumPhoto}
-                                alt={`Photo du podium — ${entry.competition} ${entry.result}`}
-                              />
-                            )}
-                            {medal && (
-                              <svg
-                                width="32"
-                                height="40"
-                                viewBox="0 0 32 40"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-label={`Médaille ${medal.label}`}
-                                role="img"
-                                className="flex-shrink-0"
-                              >
-                                {/* Ruban gauche */}
-                                <rect x="10" y="0" width="5" height="16" rx="1.5" fill={medal.border} opacity="0.85" transform="rotate(-10 10 0)" />
-                                {/* Ruban droit */}
-                                <rect x="17" y="0" width="5" height="16" rx="1.5" fill={medal.dot} opacity="0.85" transform="rotate(10 17 0)" />
-                                {/* Disque */}
-                                <circle cx="16" cy="28" r="11" fill={medal.dot} />
-                                <circle cx="16" cy="28" r="9" fill={medal.border} opacity="0.4" />
-                                <circle cx="16" cy="28" r="7" fill={medal.dot} />
-                                <text x="16" y="32.5" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="sans-serif">{medal.rank}</text>
-                              </svg>
-                            )}
+                            </span>
+                            <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
+                              {computeAgeCategory(birthDate, entry.date)}
+                            </span>
                           </div>
                         </div>
-                      </article>
-                    )
-                  })}
-                </div>
+
+                        {/* Colonne droite: partage + médaille */}
+                        <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                          {entry.id && process.env.NEXT_PUBLIC_SITE_URL && (
+                            <PalmaresShareButton slug={slug} resultId={entry.id} />
+                          )}
+                          {entry.podiumPhoto && (
+                            <PodiumPhotoButton
+                              photo={entry.podiumPhoto}
+                              alt={`Photo du podium — ${entry.competition} ${entry.result}`}
+                            />
+                          )}
+                          {medal && (
+                            <div
+                              className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 font-montserrat text-base font-black text-white shadow-md"
+                              style={{
+                                background: `radial-gradient(circle at 35% 35%, ${medal.border}, ${medal.dot})`,
+                              }}
+                              aria-label={`Médaille ${medal.label}`}
+                              role="img"
+                            >
+                              {medal.rank}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             </div>
           ))}

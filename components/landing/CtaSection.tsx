@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import SearchAutocomplete from '@/components/SearchAutocomplete'
 
@@ -15,10 +16,12 @@ export default function CtaSection() {
               Rejoins les judokas qui font passer leur carrière au niveau supérieur.
             </p>
 
-            <SearchAutocomplete
-              className="max-w-xl mx-auto mb-6"
-              placeholder="Vérifie si ton profil existe déjà…"
-            />
+            <Suspense>
+              <SearchAutocomplete
+                className="max-w-xl mx-auto mb-6"
+                placeholder="Vérifie si ton profil existe déjà…"
+              />
+            </Suspense>
 
             <p className="text-on-primary/60 text-sm">
               Tu n&apos;as pas encore de profil ?{' '}

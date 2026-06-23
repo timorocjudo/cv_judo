@@ -79,7 +79,6 @@ export default async function JudokaPage({ params }: Props) {
             </div>
           )
         })}
-        <div className="h-16 md:hidden" aria-hidden="true" />
       </main>
 <MobileNav />
     </>
