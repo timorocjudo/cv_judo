@@ -11,7 +11,7 @@ type Props = { params: { slug: string } }
 
 export async function generateStaticParams() {
   const supabase = createBrowserClient()
-  const { data } = await supabase.from('profiles').select('slug').eq('published', true)
+  const { data } = await supabase.from('profiles').select('slug').eq('visibility', 'public')
   return (data ?? []).map((row) => ({ slug: row.slug as string }))
 }
 
@@ -48,24 +48,26 @@ export default async function JudokaPage({ params }: Props) {
     createClient().auth.getUser(),
   ])
 
-  const isOwner = !!user && !!judoka && judoka.ownerId === user.id
-
+  // RLS has already filtered: if judoka is null, current user cannot access it
   if (!judoka) notFound()
-  if (!judoka.published && !isOwner) notFound()
 
   return (
     <>
-      {!judoka.published && isOwner && (
+      {judoka.visibility === 'draft' && (
         <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3 flex items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant font-medium">
             Brouillon — cette page n&apos;est pas visible publiquement.
           </p>
-          <a
-            href="/dashboard"
-            className="text-sm font-semibold text-primary hover:underline whitespace-nowrap"
-          >
+          <a href={`/dashboard`} className="text-sm font-semibold text-primary hover:underline whitespace-nowrap">
             Gérer →
           </a>
+        </div>
+      )}
+      {judoka.visibility === 'private' && user && (
+        <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3">
+          <p className="text-sm text-on-surface-variant font-medium">
+            Profil privé — visible uniquement par les membres IpponId connectés.
+          </p>
         </div>
       )}
       <Header identity={judoka.identity} social={judoka.social} isLoggedIn={!!user} />
