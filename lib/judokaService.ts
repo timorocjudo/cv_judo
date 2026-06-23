@@ -35,6 +35,7 @@ type ProfileRow = {
   id: string
   owner_id: string
   published: boolean
+  visibility: 'draft' | 'private' | 'public'
   slug: string
   first_name: string
   last_name: string
@@ -62,6 +63,7 @@ function mapProfile(row: ProfileRow): JudokaData {
     slug: row.slug,
     ownerId: row.owner_id,
     published: row.published,
+    visibility: row.visibility ?? 'draft',
     identity: {
       firstName: row.first_name,
       lastName: row.last_name,
@@ -107,7 +109,10 @@ export async function getJudokaBySlug(
   options?: { allowDraft?: boolean }
 ): Promise<JudokaData | null> {
   const supabase = createClient()
-  let query = supabase
+  // RLS on profiles handles visibility filtering — no need to filter by published.
+  // allowDraft option is kept for API compatibility but is now a no-op
+  // (RLS already shows drafts to their owners/managers).
+  const { data, error } = await supabase
     .from('profiles')
     .select(`
       *,
@@ -116,12 +121,8 @@ export async function getJudokaBySlug(
       gallery_photos (*)
     `)
     .eq('slug', slug)
+    .maybeSingle()
 
-  if (!options?.allowDraft) {
-    query = query.eq('published', true)
-  }
-
-  const { data, error } = await query.maybeSingle()
   if (error || !data) return null
   return mapProfile(data as unknown as ProfileRow)
 }
@@ -146,7 +147,7 @@ export async function searchJudokasAutocomplete(
   const { data, error } = await supabase
     .from('profiles')
     .select('slug, first_name, last_name, club, grade, category, profile_photo_url')
-    .eq('published', true)
+    .eq('visibility', 'public')
 
   if (error || !data) return []
 
@@ -166,7 +167,7 @@ export async function searchJudokas(query: string): Promise<JudokaData[]> {
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
-    .eq('published', true)
+    .eq('visibility', 'public')
 
   if (error || !data) return []
 
