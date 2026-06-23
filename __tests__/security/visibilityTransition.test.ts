@@ -44,42 +44,22 @@ const isSupabaseAvailable = !!process.env.SUPABASE_SERVICE_ROLE_KEY
 
 ;(isSupabaseAvailable ? describe : describe.skip)('Transitions de visibilité — RLS UPDATE', () => {
   beforeAll(async () => {
-    try {
-      admin = createAdminSetupClient()
-      ownerId   = await createTestUser(admin, OWNER_EMAIL, OWNER_PASS)
-      managerId = await createTestUser(admin, MANAGER_EMAIL, MANAGER_PASS)
-    } catch (error) {
-      // Gracefully skip if Supabase dependencies are not available
-      if (error instanceof Error && (error.message.includes('Variable d\'environnement') || error.message.includes('WebSocket'))) {
-        console.log('Skipping security tests: Supabase not available')
-        return
-      }
-      throw error
-    }
+    admin = createAdminSetupClient()
+    ownerId   = await createTestUser(admin, OWNER_EMAIL, OWNER_PASS)
+    managerId = await createTestUser(admin, MANAGER_EMAIL, MANAGER_PASS)
   }, TIMEOUT)
 
   afterAll(async () => {
-    if (!admin) return
-    try {
-      await deleteTestUser(admin, ownerId)
-      await deleteTestUser(admin, managerId)
-    } catch (error) {
-      // Ignore cleanup errors when Supabase was not initialized
-    }
+    await deleteTestUser(admin, ownerId)
+    await deleteTestUser(admin, managerId)
   }, TIMEOUT)
 
   beforeEach(async () => {
-    if (!admin) return
     profileId = await insertProfile(admin, ownerId, COMPLETE_PROFILE)
   }, TIMEOUT)
 
   afterEach(async () => {
-    if (!admin) return
-    try {
-      await admin.from('profiles').delete().eq('id', profileId)
-    } catch (error) {
-      // Ignore cleanup errors when Supabase was not initialized
-    }
+    await admin.from('profiles').delete().eq('id', profileId)
   }, TIMEOUT)
   it('owner peut passer de draft à public (UPDATE)', async () => {
     const owner = await createAuthenticatedClient(OWNER_EMAIL, OWNER_PASS)
