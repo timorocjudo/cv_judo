@@ -50,6 +50,8 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
     bySeason[season].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   }
 
+  const stats = palmares.length >= 3 ? computePalmaresStats(palmares) : null
+
   return (
     <section className="py-10 md:py-14 bg-surface-container-lowest">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
@@ -60,15 +62,12 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
           </h2>
         </div>
 
-        {palmares.length >= 3 && (() => {
-          const stats = computePalmaresStats(palmares)
-          return (
-            <PalmaresStatsCounter
-              totalCompetitions={stats.totalCompetitions}
-              totalPodiums={stats.totalPodiums}
-            />
-          )
-        })()}
+        {stats && (
+          <PalmaresStatsCounter
+            totalCompetitions={stats.totalCompetitions}
+            totalPodiums={stats.totalPodiums}
+          />
+        )}
 
         <div className="space-y-10">
           {seasons.map((startYear) => (

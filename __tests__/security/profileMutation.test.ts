@@ -91,6 +91,8 @@ describe('Protection UPDATE profiles', () => {
 describe('Protection DELETE profiles', () => {
   it("un utilisateur ne peut pas supprimer le profil d'un autre", async () => {
     const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
+    // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
+    // → la ligne existe toujours, vérifiée via admin
     await attacker.from('profiles').delete().eq('id', profileId)
 
     const { data } = await admin
@@ -103,6 +105,8 @@ describe('Protection DELETE profiles', () => {
 
   it('un utilisateur anonyme ne peut pas supprimer un profil', async () => {
     const anon = createAnonClient()
+    // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
+    // → la ligne existe toujours, vérifiée via admin
     await anon.from('profiles').delete().eq('id', profileId)
 
     const { data } = await admin
