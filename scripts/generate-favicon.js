@@ -1,4 +1,5 @@
 'use strict';
+const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
@@ -7,7 +8,8 @@ const sharp = require('sharp');
 function fetchUrl(url, headers = {}) {
   return new Promise((resolve, reject) => {
     const parsed = new URL(url);
-    https.get(
+    const client = parsed.protocol === 'https:' ? https : http;
+    client.get(
       { hostname: parsed.hostname, path: parsed.pathname + parsed.search, headers },
       (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -31,7 +33,8 @@ async function fetchMontserratBold() {
   const css = cssBuffer.toString('utf8');
   const match = css.match(/src:\s*url\(([^)]+)\)/);
   if (!match) throw new Error('URL de font introuvable dans le CSS Google Fonts:\n' + css);
-  const fontBuffer = await fetchUrl(match[1]);
+  const fontUrl = match[1].replace(/['"]/g, '');
+  const fontBuffer = await fetchUrl(fontUrl);
   return fontBuffer.toString('base64');
 }
 
@@ -39,7 +42,7 @@ function makeSvg({ width, height, fontSize, bgColor, ipponColor, idColor, fontBa
   const x = width / 2;
   const y = Math.round(height / 2 + fontSize * 0.35);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <defs><style>@font-face{font-family:'Montserrat';font-weight:700;src:url('data:font/truetype;base64,${fontBase64}')format('truetype')}</style></defs>
+  <defs><style>@font-face{font-family:'Montserrat';font-weight:700;src:url('data:font/truetype;base64,${fontBase64}') format('truetype')}</style></defs>
   <rect width="${width}" height="${height}" fill="${bgColor}"/>
   <text x="${x}" y="${y}" text-anchor="middle" font-family="'Montserrat',sans-serif" font-weight="700" font-size="${fontSize}"><tspan fill="${ipponColor}">Ippon</tspan><tspan fill="${idColor}">Id</tspan></text>
 </svg>`;
