@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { searchJudokasAutocomplete, type JudokaAutocompleteResult } from '@/lib/judokaService'
@@ -28,6 +28,14 @@ export default function SearchAutocomplete({
   const containerRef = useRef<HTMLDivElement>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const searchIdRef = useRef(0)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('focus') === 'search') {
+      inputRef.current?.focus()
+    }
+  }, [searchParams])
 
   useEffect(() => {
     function onMouseDown(e: MouseEvent) {
@@ -111,6 +119,7 @@ export default function SearchAutocomplete({
     <div ref={containerRef} className={`relative ${className}`}>
       <div className="flex items-center bg-white rounded-xl shadow-xl border border-outline-variant p-2">
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={handleChange}

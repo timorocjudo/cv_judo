@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import SearchAutocomplete from '@/components/SearchAutocomplete'
 
 export default function HeroSection() {
@@ -17,7 +18,9 @@ export default function HeroSection() {
           Crée ta page CV de judoka gratuitement. Partage ton parcours, tes grades et tes victoires avec ton URL personnalisée.
         </p>
 
-        <SearchAutocomplete className="max-w-2xl mx-auto" />
+        <Suspense>
+          <SearchAutocomplete className="max-w-2xl mx-auto" />
+        </Suspense>
       </div>
     </section>
   )
