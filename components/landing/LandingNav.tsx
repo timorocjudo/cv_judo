@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
 import LoginButton from '@/components/auth/LoginButton'
+import NavUserAvatar from '@/components/NavUserAvatar'
 
 interface LandingNavProps {
   isLoggedIn: boolean
@@ -29,16 +29,7 @@ export default function LandingNav({ isLoggedIn }: LandingNavProps) {
           <a href="#profiles" className="text-on-surface-variant text-sm font-semibold hover:text-secondary transition-colors">
             Exemples de profils
           </a>
-          {isLoggedIn ? (
-            <Link
-              href="/dashboard"
-              className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-container transition-colors active:scale-95"
-            >
-              Tableau de bord
-            </Link>
-          ) : (
-            <LoginButton />
-          )}
+          <NavUserAvatar initialIsLoggedIn={isLoggedIn} />
         </div>
 
         {/* Mobile toggle */}
@@ -65,13 +56,7 @@ export default function LandingNav({ isLoggedIn }: LandingNavProps) {
             Exemples de profils
           </a>
           {isLoggedIn ? (
-            <Link
-              href="/dashboard"
-              onClick={() => setOpen(false)}
-              className="bg-primary text-on-primary px-6 py-3 rounded-lg text-sm font-semibold w-11/12 text-center"
-            >
-              Tableau de bord
-            </Link>
+            <NavUserAvatar initialIsLoggedIn={isLoggedIn} />
           ) : (
             <div className="w-11/12 flex justify-center">
               <LoginButton />
