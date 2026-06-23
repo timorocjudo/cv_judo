@@ -8,7 +8,7 @@ import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
 import { BELTS } from '@/lib/judo-belts'
 import { computeAgeCategory } from '@/lib/ageCategory'
-import { saveProfile } from './actions'
+import { saveProfile } from '@/app/dashboard/[profileId]/profil/actions'
 
 type AgeGroup = 'Benjamin' | 'Minime' | 'Cadet' | 'Junior' | 'Sénior'
 
@@ -59,7 +59,7 @@ interface Profile {
   owner_id: string
 }
 
-export default function ProfileForm({ profile }: { profile: Profile }) {
+export default function ProfileForm({ profile, profileId }: { profile: Profile; profileId: string }) {
   const [state, formAction] = useFormState(saveProfile, { ok: null })
   const isFirstRender = useRef(true)
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(profile.profile_photo_url ?? '')
@@ -78,6 +78,7 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
 
   return (
     <form action={formAction} className="space-y-6 max-w-xl">
+      <input type="hidden" name="profileId" value={profileId} />
       <fieldset className="space-y-4">
         <legend className="font-montserrat font-bold text-primary text-lg mb-2">Identité</legend>
 

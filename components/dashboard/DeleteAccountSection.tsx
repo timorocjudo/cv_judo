@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { deleteAccount } from './actions'
+import { deleteAccount } from '@/app/dashboard/[profileId]/profil/actions'
 
 export default function DeleteAccountSection() {
   const [isOpen, setIsOpen] = useState(false)

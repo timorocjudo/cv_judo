@@ -27,10 +27,10 @@ export default function MentionsLegalesPage() {
         <p>
           <strong>Email :</strong>{' '}
           <a
-            href="mailto:[À COMPLÉTER : adresse email de contact]"
+            href="mailto:oliv.francois@gmail.com"
             className="text-primary hover:underline"
           >
-            [À COMPLÉTER : adresse email de contact]
+            oliv.francois@gmail.com
           </a>
         </p>
       </section>
@@ -60,7 +60,7 @@ export default function MentionsLegalesPage() {
           <p>
             Les données des utilisateurs et les fichiers (photos, etc.) sont
             hébergés sur des serveurs situés en Europe{' '}
-            [À COMPLÉTER : région exacte du projet Supabase, ex. eu-west-1].
+            eu-north-1.
           </p>
           <p>
             <a

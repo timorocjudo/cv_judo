@@ -124,7 +124,7 @@ export default function ConfidentialitePage() {
               <tr>
                 <td className="py-2 pr-4">Supabase</td>
                 <td className="py-2 pr-4">Hébergement données et fichiers</td>
-                <td className="py-2">Europe [À COMPLÉTER : région exacte]</td>
+                <td className="py-2">Europe eu-north-1</td>
               </tr>
               <tr>
                 <td className="py-2 pr-4">Google</td>
@@ -168,10 +168,10 @@ export default function ConfidentialitePage() {
         <p>
           Contact pour l&apos;exercice de vos droits :{' '}
           <a
-            href="mailto:[À COMPLÉTER : adresse email de contact]"
+            href="mailto:oliv.francois@gmail.com"
             className="text-primary hover:underline"
           >
-            [À COMPLÉTER : adresse email de contact]
+            oliv.francois@gmail.com
           </a>
         </p>
         <p>
@@ -200,10 +200,10 @@ export default function ConfidentialitePage() {
           ne peut pas être désactivé sans désactiver le service et ne requiert
           pas votre consentement au titre de la directive ePrivacy.
         </p>
-        <p className="text-on-surface-variant text-sm">
+        {/* <p className="text-on-surface-variant text-sm">
           [À COMPLÉTER : cette section devra être mise à jour si des outils
           d&apos;analyse d&apos;audience sont ajoutés à l&apos;avenir.]
-        </p>
+        </p> */}
       </section>
     </LegalLayout>
   )
