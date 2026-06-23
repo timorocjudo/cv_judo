@@ -1,7 +1,6 @@
-import Link from 'next/link'
 import type { Identity, Social } from '@/types/judoka'
-import LoginButton from '@/components/auth/LoginButton'
 import LogoLink from '@/components/layout/LogoLink'
+import NavUserAvatar from '@/components/NavUserAvatar'
 
 interface HeaderProps {
   identity: Identity
@@ -32,17 +31,8 @@ export default function Header({ isLoggedIn }: HeaderProps) {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          {isLoggedIn ? (
-            <Link
-              href="/dashboard"
-              className="font-inter text-xs font-bold uppercase tracking-widest text-primary hover:text-primary-container transition-colors"
-            >
-              Tableau de bord
-            </Link>
-          ) : (
-            <LoginButton />
-          )}
+        <div className="flex items-center gap-4">
+          <NavUserAvatar initialIsLoggedIn={isLoggedIn} />
         </div>
       </div>
     </header>

@@ -1,15 +1,21 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
 import type { GalleryImage } from '@/types/judoka'
+import Lightbox from '@/components/Lightbox'
 
 interface GalleryBlockProps {
   gallery: GalleryImage[]
 }
 
 export default function GalleryBlock({ gallery }: GalleryBlockProps) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
   if (!gallery.length) return null
 
   return (
-    <section className="py-16 md:py-20 bg-surface-container-lowest">
+    <section className="py-10 md:py-14 bg-surface-container-lowest">
       <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="flex items-center gap-3 mb-10">
           <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
@@ -24,7 +30,8 @@ export default function GalleryBlock({ gallery }: GalleryBlockProps) {
             return (
               <figure
                 key={i}
-                className={`relative overflow-hidden rounded-xl bg-surface-container-high group ${
+                onClick={() => setLightboxIndex(i)}
+                className={`relative overflow-hidden rounded-xl bg-surface-container-high group cursor-pointer ${
                   isFeature ? 'col-span-2 md:col-span-2 md:row-span-2' : ''
                 }`}
               >
@@ -53,6 +60,14 @@ export default function GalleryBlock({ gallery }: GalleryBlockProps) {
           })}
         </div>
       </div>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={gallery}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </section>
   )
 }

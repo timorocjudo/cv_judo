@@ -59,7 +59,7 @@ export default function PalmaresShareButton({ slug, resultId }: PalmaresShareBut
         onClick={() => setOpen((prev) => !prev)}
         aria-label="Partager ce résultat"
         title="Partager ce résultat"
-        className="text-on-surface-variant hover:text-primary transition-colors p-1"
+        className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
       >
         <svg
           width="18"

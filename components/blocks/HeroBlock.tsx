@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { Identity, Social } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
@@ -39,8 +42,45 @@ interface HeroBlockProps {
 }
 
 export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
+  const shouldReduceMotion = useReducedMotion()
   const initials = (identity.firstName?.[0] ?? '') + (identity.lastName?.[0] ?? '')
   const belt = getBeltByLabel(identity.grade)
+
+  const firstNameWords = identity.firstName.split(' ')
+  const lastNameWords = identity.lastName.split(' ')
+  const totalNameWords = firstNameWords.length + lastNameWords.length
+
+  const badges = [
+    { key: 'club', content: identity.club },
+    { key: 'category', content: `${computeAgeCategory(identity.birthDate)} · ${identity.weightCategory}` },
+    ...(belt
+      ? [{ key: 'grade-belt', content: null, belt: true }]
+      : identity.grade
+        ? [{ key: 'grade', content: identity.grade }]
+        : []),
+  ]
+
+  const wordMotion = (delay: number) =>
+    shouldReduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.3, ease: 'easeOut' as const, delay },
+        }
+
+  const badgeMotion = (index: number) => {
+    const delay = totalNameWords * 0.08 + 0.06 + index * 0.06
+    return shouldReduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.25, ease: 'easeOut' as const, delay },
+        }
+  }
+
+  const shareDelay = totalNameWords * 0.08 + 0.06 + badges.length * 0.06 + 0.10
 
   return (
     <section className={`relative bg-primary-container overflow-hidden flex items-end ${identity.coverPhoto ? 'min-h-[65vh] md:min-h-[75vh]' : ''}`}>
@@ -87,29 +127,55 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
             <p className="font-inter text-xs font-bold uppercase tracking-[0.25em] mb-2">
               <span className="text-white">Ippon</span><span className="text-tertiary-container">Id</span><span className="text-tertiary-container"> · Profil Athlete</span>
             </p>
+
+            {/* Animated name */}
             <h1 className="font-montserrat text-5xl md:text-7xl font-black text-white uppercase tracking-tight leading-none">
-              {identity.firstName}
+              {firstNameWords.map((word, i) => (
+                <motion.span key={`fn-${i}`} className="inline-block mr-[0.2em]" {...wordMotion(i * 0.08)}>
+                  {word}
+                </motion.span>
+              ))}
               <br />
-              {identity.lastName}
+              {lastNameWords.map((word, i) => (
+                <motion.span key={`ln-${i}`} className="inline-block mr-[0.2em]" {...wordMotion((firstNameWords.length + i) * 0.08)}>
+                  {word}
+                </motion.span>
+              ))}
             </h1>
+
+            {/* Animated badges */}
             <div className="flex flex-wrap gap-2 mt-5">
-              <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
+              <motion.span
+                className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20"
+                {...badgeMotion(0)}
+              >
                 {identity.club}
-              </span>
-              <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">
+              </motion.span>
+              <motion.span
+                className="bg-tertiary-container text-on-tertiary-container text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full"
+                {...badgeMotion(1)}
+              >
                 {computeAgeCategory(identity.birthDate)} · {identity.weightCategory}
-              </span>
+              </motion.span>
               {belt ? (
-                <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                <motion.span
+                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20"
+                  {...badgeMotion(2)}
+                >
                   <BeltBadge belt={belt} width={56} height={14} />
                   <span className="text-white text-xs font-bold uppercase tracking-wider">{identity.grade}</span>
-                </span>
+                </motion.span>
               ) : identity.grade ? (
-                <span className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
+                <motion.span
+                  className="bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20"
+                  {...badgeMotion(2)}
+                >
                   {identity.grade}
-                </span>
+                </motion.span>
               ) : null}
             </div>
+
+            {/* Social links */}
             {social.length > 0 && (
               <div className="flex gap-3 mt-5">
                 {social.map(({ network, url }) => {
@@ -133,17 +199,29 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
                 })}
               </div>
             )}
-            {/* Share section */}
+
+            {/* Animated share button */}
             {process.env.NEXT_PUBLIC_SITE_URL && (
-              <div className="mt-6">
+              <motion.div
+                className="mt-6"
+                {...(shouldReduceMotion
+                  ? {}
+                  : {
+                      initial: { opacity: 0, y: 20 },
+                      animate: { opacity: 1, y: 0 },
+                      transition: { duration: 0.25, ease: 'easeOut', delay: shareDelay },
+                    })}
+              >
                 <ShareButtons
                   url={`${process.env.NEXT_PUBLIC_SITE_URL}/${slug}`}
                   imageUrl={`${process.env.NEXT_PUBLIC_SITE_URL}/api/og/profile/${slug}`}
                   title={`Découvrez le profil judoka de ${identity.firstName} ${identity.lastName} sur IpponId`}
                   variant="accent"
                 />
-              </div>
+              </motion.div>
             )}
+
+            {/* Stats physiques */}
             {(identity.height || identity.weight || identity.nationality) && (
               <div className="mt-6 flex flex-wrap gap-6">
                 {identity.nationality && (
