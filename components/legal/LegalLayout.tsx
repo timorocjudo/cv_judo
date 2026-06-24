@@ -15,7 +15,7 @@ export default function LegalLayout({ title, lastUpdated, children }: LegalLayou
             href="/"
             className="font-montserrat text-lg font-black text-primary tracking-tight"
           >
-            IpponId
+            Ippon<span className="text-tertiary-container">Id</span>
           </Link>
           <Link
             href="/"
@@ -35,24 +35,10 @@ export default function LegalLayout({ title, lastUpdated, children }: LegalLayou
             Dernière mise à jour : {lastUpdated}
           </p>
         </header>
-        <div className="space-y-10 font-inter text-on-surface leading-relaxed">
+        <div className="space-y-10 font-inter text-on-surface leading-relaxed text-justify">
           {children}
         </div>
       </main>
-
-      <footer className="border-t border-outline-variant mt-auto">
-        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-wrap gap-6 justify-center">
-          <Link href="/mentions-legales" className="font-inter text-xs text-on-surface-variant hover:text-primary transition-colors">
-            Mentions légales
-          </Link>
-          <Link href="/confidentialite" className="font-inter text-xs text-on-surface-variant hover:text-primary transition-colors">
-            Politique de confidentialité
-          </Link>
-          <Link href="/cgu" className="font-inter text-xs text-on-surface-variant hover:text-primary transition-colors">
-            CGU
-          </Link>
-        </div>
-      </footer>
     </div>
   )
 }
