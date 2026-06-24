@@ -23,15 +23,22 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: () => mockSupabase,
 }))
 
-import { togglePublished, type ToggleResult } from '@/app/dashboard/actions'
+vi.mock('@/lib/profileAccessService', () => ({
+  isProfileOwner: vi.fn(),
+}))
 
-const PREV_STATE: ToggleResult = { ok: null, missing: [], unpublished: false }
+import { setVisibility, type SetVisibilityResult } from '@/app/dashboard/[profileId]/actions'
+import { isProfileOwner } from '@/lib/profileAccessService'
 
-function makeFormData(opts: { profileId: string; slug: string; next: boolean }): FormData {
+const mockIsProfileOwner = vi.mocked(isProfileOwner)
+
+const PREV_STATE: SetVisibilityResult = { ok: null, missing: [] }
+
+function makeFormData(opts: { profileId: string; slug: string; visibility: 'draft' | 'private' | 'public' }): FormData {
   const fd = new FormData()
   fd.set('profileId', opts.profileId)
   fd.set('slug', opts.slug)
-  fd.set('next', String(opts.next))
+  fd.set('visibility', opts.visibility)
   return fd
 }
 
@@ -43,6 +50,7 @@ function makeProfileData(overrides: Partial<Record<string, string | null>> = {})
     bio: 'Judoka depuis 10 ans.',
     profile_photo_url: 'https://cdn.example.com/photo.jpg',
     birth_date: '2010-04-02',
+    slug: 'timothe-francois',
     ...overrides,
   }
 }
@@ -50,6 +58,7 @@ function makeProfileData(overrides: Partial<Record<string, string | null>> = {})
 function setupMocks(opts: {
   userId?: string | null
   profileData?: Record<string, string | null> | null
+  isOwner?: boolean
 }) {
   const userId = opts.userId !== undefined ? opts.userId : 'user-1'
 
@@ -57,65 +66,73 @@ function setupMocks(opts: {
     data: { user: userId ? { id: userId } : null },
   })
 
+  mockIsProfileOwner.mockResolvedValue(opts.isOwner ?? true)
+
+  // Mock for profile data fetch (used when visibility !== 'draft')
+  const singleMock = vi.fn().mockResolvedValue({
+    data: opts.profileData ?? null,
+    error: opts.profileData === null ? { message: 'Not found' } : null,
+  })
+
   mockFrom.mockImplementation(() => ({
     select: vi.fn().mockReturnValue({
       eq: vi.fn().mockReturnValue({
-        eq: vi.fn().mockReturnValue({
-          single: vi.fn().mockResolvedValue({
-            data: opts.profileData ?? null,
-            error: opts.profileData === null ? { message: 'Not found' } : null,
-          }),
+        single: vi.fn().mockResolvedValue({
+          data: opts.profileData ?? null,
+          error: opts.profileData === null ? { message: 'Not found' } : null,
         }),
       }),
     }),
     update: vi.fn().mockReturnValue({
       eq: vi.fn().mockReturnValue({
-        eq: vi.fn().mockResolvedValue({ data: null, error: null }),
+        data: null,
+        error: null,
       }),
     }),
   }))
+
+  return singleMock
 }
 
 beforeEach(() => {
   vi.clearAllMocks()
 })
 
-describe('togglePublished — publication (next = true)', () => {
+describe('setVisibility — passage en public', () => {
   it('profil complet → publication réussie', async () => {
-    setupMocks({ userId: 'user-1', profileData: makeProfileData() })
+    setupMocks({ userId: 'user-1', profileData: makeProfileData(), isOwner: true })
 
-    const result = await togglePublished(
+    const result = await setVisibility(
       PREV_STATE,
-      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', next: true })
+      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', visibility: 'public' })
     )
 
     expect(result.ok).toBe(true)
     expect(result.missing).toEqual([])
-    expect(result.unpublished).toBe(false)
   })
 
   it('profil incomplet (bio manquante) → refus avec champs manquants', async () => {
-    setupMocks({ userId: 'user-1', profileData: makeProfileData({ bio: null }) })
+    setupMocks({ userId: 'user-1', profileData: makeProfileData({ bio: null }), isOwner: true })
 
-    const result = await togglePublished(
+    const result = await setVisibility(
       PREV_STATE,
-      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', next: true })
+      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', visibility: 'public' })
     )
 
     expect(result.ok).toBe(false)
     expect(result.missing).toContain('Bio')
-    expect(result.unpublished).toBe(false)
   })
 
   it('profil incomplet (photo + club manquants) → les deux champs listés', async () => {
     setupMocks({
       userId: 'user-1',
       profileData: makeProfileData({ profile_photo_url: null, club: null }),
+      isOwner: true,
     })
 
-    const result = await togglePublished(
+    const result = await setVisibility(
       PREV_STATE,
-      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', next: true })
+      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', visibility: 'public' })
     )
 
     expect(result.ok).toBe(false)
@@ -124,36 +141,37 @@ describe('togglePublished — publication (next = true)', () => {
   })
 })
 
-describe('togglePublished — dépublication (next = false)', () => {
+describe('setVisibility — passage en draft', () => {
   it('dépublication → succès sans vérification des champs', async () => {
-    setupMocks({ userId: 'user-1' })
+    setupMocks({ userId: 'user-1', isOwner: true })
 
-    const result = await togglePublished(
+    const result = await setVisibility(
       PREV_STATE,
-      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', next: false })
+      makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', visibility: 'draft' })
     )
 
     expect(result.ok).toBe(true)
-    expect(result.unpublished).toBe(true)
-    // La sélection du profil n'est PAS appelée pour la dépublication
-    expect(mockFrom).toHaveBeenCalledTimes(1) // seulement update
+    expect(result.missing).toEqual([])
   })
 })
 
-describe("togglePublished — cas d'erreur", () => {
+describe("setVisibility — cas d'erreur", () => {
   it('utilisateur non authentifié → redirect lancé', async () => {
-    setupMocks({ userId: null })
+    setupMocks({ userId: null, isOwner: false })
 
     await expect(
-      togglePublished(PREV_STATE, makeFormData({ profileId: 'p', slug: 's', next: true }))
+      setVisibility(PREV_STATE, makeFormData({ profileId: 'p', slug: 's', visibility: 'public' }))
     ).rejects.toMatchObject({ digest: 'NEXT_REDIRECT' })
   })
 
-  it('profil non trouvé (autre propriétaire) → redirect lancé', async () => {
-    setupMocks({ userId: 'user-1', profileData: null })
+  it('non propriétaire → retourne ok false', async () => {
+    setupMocks({ userId: 'user-1', isOwner: false })
 
-    await expect(
-      togglePublished(PREV_STATE, makeFormData({ profileId: 'autre-profile', slug: 's', next: true }))
-    ).rejects.toMatchObject({ digest: 'NEXT_REDIRECT' })
+    const result = await setVisibility(
+      PREV_STATE,
+      makeFormData({ profileId: 'autre-profile', slug: 's', visibility: 'public' })
+    )
+
+    expect(result.ok).toBe(false)
   })
 })

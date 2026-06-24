@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import ImageUploader from '@/components/dashboard/ImageUploader'
-import { addPhoto, deletePhoto } from './actions'
+import { addPhoto, deletePhoto } from '@/app/dashboard/[profileId]/galerie/actions'
 
 interface Photo {
   id: string
@@ -13,9 +13,11 @@ interface Photo {
 
 export default function GalerieManager({
   photos,
+  profileId,
   ownerId,
 }: {
   photos: Photo[]
+  profileId: string
   ownerId: string
 }) {
   const [pendingUrl, setPendingUrl] = useState('')
@@ -27,7 +29,7 @@ export default function GalerieManager({
     if (!pendingUrl) return
     setSaving(true)
     try {
-      const result = await addPhoto(pendingUrl, caption)
+      const result = await addPhoto(pendingUrl, caption, profileId)
       if (result.ok) {
         toast.success('Ajouté avec succès')
         setPendingUrl('')
@@ -104,7 +106,7 @@ export default function GalerieManager({
                       <button
                         onClick={async () => {
                           try {
-                            const result = await deletePhoto(photo.id)
+                            const result = await deletePhoto(photo.id, profileId)
                             if (result.ok) toast.success('Supprimé')
                             else toast.error('Une erreur est survenue, réessaie')
                           } catch {
@@ -140,7 +142,7 @@ export default function GalerieManager({
                       <button
                         onClick={async () => {
                           try {
-                            const result = await deletePhoto(photo.id)
+                            const result = await deletePhoto(photo.id, profileId)
                             if (result.ok) toast.success('Supprimé')
                             else toast.error('Une erreur est survenue, réessaie')
                           } catch {

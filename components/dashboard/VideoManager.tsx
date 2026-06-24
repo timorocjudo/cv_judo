@@ -3,8 +3,8 @@
 import { useFormState } from 'react-dom'
 import { useState, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import type { VideoState } from './actions'
-import { addVideo, deleteVideo } from './actions'
+import type { VideoState } from '@/app/dashboard/[profileId]/videos/actions'
+import { addVideo, deleteVideo } from '@/app/dashboard/[profileId]/videos/actions'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
 
 interface VideoRow {
@@ -16,7 +16,7 @@ interface VideoRow {
 
 const initialState: VideoState = { ok: null, error: null }
 
-export default function VideoManager({ videos }: { videos: VideoRow[] }) {
+export default function VideoManager({ videos, profileId }: { videos: VideoRow[]; profileId: string }) {
   const [state, formAction] = useFormState(addVideo, initialState)
   const [confirming, setConfirming] = useState<string | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -33,6 +33,7 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
       <div>
         <h2 className="font-montserrat font-bold text-primary text-lg mb-4">Ajouter une vidéo</h2>
         <form action={formAction} className="space-y-4 bg-surface-container-low rounded-xl p-5 border border-outline-variant max-w-xl">
+          <input type="hidden" name="profileId" value={profileId} />
           <div>
             <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="vid-title">Titre</label>
             <input
@@ -102,7 +103,7 @@ export default function VideoManager({ videos }: { videos: VideoRow[] }) {
                         onClick={async () => {
                           setDeleting(v.id)
                           try {
-                            const result = await deleteVideo(v.id)
+                            const result = await deleteVideo(v.id, profileId)
                             if (result.ok) toast.success('Supprimé')
                             else toast.error('Une erreur est survenue, réessaie')
                           } catch {

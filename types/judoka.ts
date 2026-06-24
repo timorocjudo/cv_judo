@@ -56,7 +56,8 @@ export type BlockName = 'hero' | 'bio' | 'palmares' | 'videos' | 'gallery' | 'te
 export interface JudokaData {
   slug: string
   ownerId: string
-  published: boolean
+  published: boolean           // kept for compat — equals visibility === 'public'
+  visibility: 'draft' | 'private' | 'public'
   identity: Identity
   bio: string
   palmares: PalmaresEntry[]

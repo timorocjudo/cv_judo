@@ -3,18 +3,10 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { canEditProfile } from '@/lib/profileAccessService'
 
 const YOUTUBE_RE =
   /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+|youtube\.com\/shorts\/[\w-]+)/
-
-async function getProfileId(supabase: ReturnType<typeof createClient>, userId: string) {
-  const { data } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('owner_id', userId)
-    .single()
-  return data?.id ?? null
-}
 
 export type VideoState = { ok: boolean | null; error: string | null }
 
@@ -27,8 +19,8 @@ export async function addVideo(
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/')
 
-    const profileId = await getProfileId(supabase, user.id)
-    if (!profileId) redirect('/')
+    const profileId = formData.get('profileId') as string
+    if (!(await canEditProfile(profileId, user.id))) redirect('/dashboard')
 
     const youtubeUrl = (formData.get('youtube_url') as string).trim()
     if (!YOUTUBE_RE.test(youtubeUrl)) {
@@ -37,12 +29,12 @@ export async function addVideo(
 
     await supabase.from('videos').insert({
       profile_id: profileId,
-      title: formData.get('title') as string || null,
+      title: (formData.get('title') as string) || null,
       youtube_url: youtubeUrl,
-      description: formData.get('description') as string || null,
+      description: (formData.get('description') as string) || null,
     })
 
-    revalidatePath('/dashboard/videos')
+    revalidatePath(`/dashboard/${profileId}/videos`)
     return { ok: true, error: null }
   } catch (e) {
     if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e
@@ -50,14 +42,13 @@ export async function addVideo(
   }
 }
 
-export async function deleteVideo(id: string): Promise<{ ok: boolean }> {
+export async function deleteVideo(id: string, profileId: string): Promise<{ ok: boolean }> {
   try {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/')
 
-    const profileId = await getProfileId(supabase, user.id)
-    if (!profileId) return { ok: false }
+    if (!(await canEditProfile(profileId, user.id))) return { ok: false }
 
     await supabase
       .from('videos')
@@ -65,7 +56,7 @@ export async function deleteVideo(id: string): Promise<{ ok: boolean }> {
       .eq('id', id)
       .eq('profile_id', profileId)
 
-    revalidatePath('/dashboard/videos')
+    revalidatePath(`/dashboard/${profileId}/videos`)
     return { ok: true }
   } catch (e) {
     if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e

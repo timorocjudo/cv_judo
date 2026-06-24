@@ -1,110 +1,96 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
-import PublishForm from './PublishForm'
+import { getProfilesForAccount } from '@/lib/profileAccessService'
+
+const VISIBILITY_BADGE: Record<string, { label: string; className: string }> = {
+  draft:   { label: 'Brouillon', className: 'bg-surface-container text-on-surface-variant' },
+  private: { label: 'Privé',     className: 'bg-primary-container/20 text-primary' },
+  public:  { label: 'Public',    className: 'bg-tertiary-container/20 text-tertiary' },
+}
+
+const ROLE_BADGE: Record<string, string> = {
+  owner:   'Propriétaire',
+  manager: 'Gestionnaire',
+}
 
 export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, slug, first_name, last_name, profile_photo_url, published, club, category, grade, bio, birth_date')
-    .eq('owner_id', user.id)
-    .single()
-
-  if (!profile) redirect('/dashboard/setup')
-
-  const missingFields = getMissingFieldsForPublishing(profile)
-  const isPublishable = missingFields.length === 0
-
-  const initials =
-    (profile.first_name?.[0] ?? '') + (profile.last_name?.[0] ?? '')
+  const profiles = await getProfilesForAccount(user.id)
+  if (profiles.length === 0) redirect('/dashboard/nouveau')
 
   return (
-    <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
-
-      {/* Carte résumé */}
-      <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 flex items-center gap-5 mb-8">
-        {profile.profile_photo_url ? (
-          <img
-            src={profile.profile_photo_url}
-            alt={`${profile.first_name} ${profile.last_name}`}
-            className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
-            <span className="font-montserrat font-black text-on-primary text-lg">
-              {initials.toUpperCase()}
-            </span>
-          </div>
-        )}
-        <div className="min-w-0">
-          <p className="font-montserrat font-bold text-primary text-xl">
-            {profile.first_name} {profile.last_name}
-          </p>
-          <p className="text-on-surface-variant text-sm">@{profile.slug}</p>
-          <span
-            className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
-              profile.published
-                ? 'bg-tertiary-container/20 text-tertiary'
-                : 'bg-surface-container text-on-surface-variant'
-            }`}
+    <div className="min-h-screen bg-background px-margin-mobile md:px-margin-desktop py-10">
+      <div className="max-w-container-max mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
+            Mes judokas
+          </h1>
+          <Link
+            href="/dashboard/nouveau"
+            className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
           >
-            {profile.published ? 'Publié' : 'Brouillon'}
-          </span>
+            + Créer un nouveau judoka
+          </Link>
         </div>
-      </div>
 
-      {/* Checklist avant publication */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 mb-6">
-        <p className="font-montserrat font-bold text-primary text-sm mb-3 uppercase tracking-wide">
-          Avant de publier
-        </p>
-        <ul className="space-y-2">
-          {REQUIRED_FIELD_LABELS.map((label) => {
-            const isMissing = missingFields.includes(label)
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {profiles.map((profile) => {
+            const initials = (profile.first_name?.[0] ?? '') + (profile.last_name?.[0] ?? '')
+            const vis = VISIBILITY_BADGE[profile.visibility] ?? VISIBILITY_BADGE.draft
             return (
-              <li key={label} className="flex items-center gap-2 text-sm">
-                <span className={isMissing ? 'text-secondary' : 'text-tertiary'}>
-                  {isMissing ? '✗' : '✓'}
-                </span>
-                <span className={isMissing ? 'text-on-surface font-medium' : 'text-on-surface-variant'}>
-                  {label}
-                </span>
-                {isMissing && (
-                  <Link
-                    href="/dashboard/profil"
-                    className="ml-auto text-xs text-primary underline hover:no-underline"
-                  >
-                    Compléter →
-                  </Link>
-                )}
-              </li>
+              <div
+                key={profile.id}
+                className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-5 flex flex-col gap-4"
+              >
+                <div className="flex items-center gap-4">
+                  {profile.profile_photo_url ? (
+                    <img
+                      src={profile.profile_photo_url}
+                      alt={`${profile.first_name} ${profile.last_name}`}
+                      className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+                      <span className="font-montserrat font-black text-on-primary text-base">
+                        {initials.toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-montserrat font-bold text-primary truncate">
+                      {profile.first_name} {profile.last_name}
+                    </p>
+                    {profile.club && (
+                      <p className="text-on-surface-variant text-sm truncate">{profile.club}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${vis.className}`}>
+                    {vis.label}
+                  </span>
+                  {ROLE_BADGE[profile.role] && (
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">
+                      {ROLE_BADGE[profile.role]}
+                    </span>
+                  )}
+                </div>
+
+                <Link
+                  href={`/dashboard/${profile.id}`}
+                  className="w-full text-center bg-primary text-on-primary font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
+                >
+                  Gérer
+                </Link>
+              </div>
             )
           })}
-        </ul>
-      </div>
-
-      {/* Actions */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <Link
-          href={`/${profile.slug}`}
-          target="_blank"
-          className="flex items-center justify-center gap-2 border border-outline-variant text-on-surface font-semibold px-6 py-3 rounded-lg hover:bg-surface-container transition-colors text-sm"
-        >
-          Voir ma page publique ↗
-        </Link>
-
-        <PublishForm
-          profileId={profile.id}
-          slug={profile.slug}
-          published={profile.published}
-          isPublishable={isPublishable}
-          missingFields={missingFields}
-        />
+        </div>
       </div>
     </div>
   )

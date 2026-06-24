@@ -1,0 +1,37 @@
+# IpponId
+
+> La plateforme de CV en ligne pour judokas. Crée ta page personnalisée, partage ton palmarès et tes grades avec ton URL unique.
+
+IpponId permet à chaque judoka de créer gratuitement une page publique présentant son identité, son palmarès de compétition, ses techniques de prédilection, ses vidéos de combats et sa galerie photo. Chaque profil est accessible via une URL personnalisée : `ipponid.com/[prénom-nom]`.
+
+## Page d'accueil
+
+- [Accueil](https://ipponid.com/): Landing page présentant la plateforme, un moteur de recherche de judokas, des exemples de profils publiés et les étapes pour créer son profil (3 étapes : créer, ajouter son palmarès, partager son URL).
+
+## Profils judokas
+
+Les profils publics sont accessibles à l'URL `https://ipponid.com/[slug]`. Chaque profil peut contenir les blocs suivants, dans l'ordre choisi par le judoka :
+
+- **hero** — Photo de couverture, photo de profil, prénom, nom, club, catégorie de poids, ceinture.
+- **bio** — Texte de présentation libre du judoka.
+- **palmares** — Tableau des résultats en compétition : date, compétition, niveau (départemental / régional / national individuel / national équipe), catégorie de poids, résultat, médaille (or / argent / bronze). Inclut des statistiques agrégées (total médailles, ratio or).
+- **techniques** — Techniques de judo maîtrisées, avec nom et description.
+- **videos** — Vidéos YouTube de combats ou entraînements.
+- **gallery** — Galerie photos avec légendes.
+
+Exemple de profil : [Timothé François](https://ipponid.com/timothe-francois) — Double Champion de France Individuel Minime (ROC Judo, -81kg, Ceinture noire).
+
+## Création et gestion de profil
+
+- [Créer mon profil](https://ipponid.com/creer-mon-profil): Page d'inscription pour créer un nouveau profil judoka (bientôt disponible).
+- [Dashboard](https://ipponid.com/dashboard): Tableau de bord du judoka connecté — vue d'ensemble du profil, statut de publication (brouillon / publié), checklist des champs requis avant publication.
+- [Modifier le profil](https://ipponid.com/dashboard/profil): Formulaire d'édition des informations de base (identité, bio, photos, grade, catégorie).
+- [Gérer le palmarès](https://ipponid.com/dashboard/palmares): Ajout, modification et suppression des résultats de compétition.
+- [Gérer les vidéos](https://ipponid.com/dashboard/videos): Ajout de vidéos YouTube.
+- [Gérer la galerie](https://ipponid.com/dashboard/galerie): Upload et gestion des photos de galerie.
+
+## Pages légales
+
+- [Conditions Générales d'Utilisation](https://ipponid.com/cgu)
+- [Politique de confidentialité](https://ipponid.com/confidentialite)
+- [Mentions légales](https://ipponid.com/mentions-legales)

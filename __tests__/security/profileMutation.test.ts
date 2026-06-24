@@ -15,139 +15,143 @@ const OWNER_PASSWORD = 'Test1234!'
 const ATTACKER_EMAIL = 'attacker-mutation-test@ipponid.test'
 const ATTACKER_PASSWORD = 'Test1234!'
 
-let admin: SupabaseClient
-let ownerId: string
-let attackerId: string
-let profileId: string
-let palmaresId: string
+const isSupabaseAvailable = !!process.env.SUPABASE_SERVICE_ROLE_KEY
 
-beforeAll(async () => {
-  admin = createAdminSetupClient()
-  ownerId = await createTestUser(admin, OWNER_EMAIL, OWNER_PASSWORD)
-  attackerId = await createTestUser(admin, ATTACKER_EMAIL, ATTACKER_PASSWORD)
-}, TIMEOUT)
+;(isSupabaseAvailable ? describe : describe.skip)('Sécurité mutations — RLS', () => {
+  let admin: SupabaseClient
+  let ownerId: string
+  let attackerId: string
+  let profileId: string
+  let palmaresId: string
 
-afterAll(async () => {
-  await deleteTestUser(admin, ownerId)
-  await deleteTestUser(admin, attackerId)
-}, TIMEOUT)
-
-beforeEach(async () => {
-  const slug = `mut-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
-  const { data: profile, error: profileErr } = await admin
-    .from('profiles')
-    .insert({ owner_id: ownerId, slug, first_name: 'Test', last_name: 'Owner', published: true })
-    .select('id')
-    .single()
-  if (profileErr) throw new Error(profileErr.message)
-  profileId = profile.id
-
-  const { data: palmares, error: palmaresErr } = await admin
-    .from('palmares')
-    .insert({ profile_id: profileId, competition: 'Test compet', result: '1er' })
-    .select('id')
-    .single()
-  if (palmaresErr) throw new Error(palmaresErr.message)
-  palmaresId = palmares.id
-}, TIMEOUT)
-
-afterEach(async () => {
-  await admin.from('palmares').delete().eq('id', palmaresId)
-  await admin.from('profiles').delete().eq('id', profileId)
-}, TIMEOUT)
-
-describe('Protection UPDATE profiles', () => {
-  it("un utilisateur ne peut pas modifier le profil d'un autre", async () => {
-    const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
-    await attacker
-      .from('profiles')
-      .update({ first_name: 'COMPROMIS' })
-      .eq('id', profileId)
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', profileId)
-      .single()
-    expect(data?.first_name).not.toBe('COMPROMIS')
+  beforeAll(async () => {
+    admin = createAdminSetupClient()
+    ownerId = await createTestUser(admin, OWNER_EMAIL, OWNER_PASSWORD)
+    attackerId = await createTestUser(admin, ATTACKER_EMAIL, ATTACKER_PASSWORD)
   }, TIMEOUT)
 
-  it('un utilisateur anonyme ne peut pas modifier un profil', async () => {
-    const anon = createAnonClient()
-    await anon
-      .from('profiles')
-      .update({ first_name: 'COMPROMIS' })
-      .eq('id', profileId)
-
-    const { data } = await admin
-      .from('profiles')
-      .select('first_name')
-      .eq('id', profileId)
-      .single()
-    expect(data?.first_name).not.toBe('COMPROMIS')
+  afterAll(async () => {
+    await deleteTestUser(admin, ownerId)
+    await deleteTestUser(admin, attackerId)
   }, TIMEOUT)
-})
 
-describe('Protection DELETE profiles', () => {
-  it("un utilisateur ne peut pas supprimer le profil d'un autre", async () => {
-    const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
-    // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
-    // → la ligne existe toujours, vérifiée via admin
-    await attacker.from('profiles').delete().eq('id', profileId)
-
-    const { data } = await admin
+  beforeEach(async () => {
+    const slug = `mut-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    const { data: profile, error: profileErr } = await admin
       .from('profiles')
+      .insert({ owner_id: ownerId, slug, first_name: 'Test', last_name: 'Owner', published: true })
       .select('id')
-      .eq('id', profileId)
       .single()
-    expect(data?.id).toBe(profileId)
-  }, TIMEOUT)
+    if (profileErr) throw new Error(profileErr.message)
+    profileId = profile.id
 
-  it('un utilisateur anonyme ne peut pas supprimer un profil', async () => {
-    const anon = createAnonClient()
-    // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
-    // → la ligne existe toujours, vérifiée via admin
-    await anon.from('profiles').delete().eq('id', profileId)
-
-    const { data } = await admin
-      .from('profiles')
+    const { data: palmares, error: palmaresErr } = await admin
+      .from('palmares')
+      .insert({ profile_id: profileId, competition: 'Test compet', result: '1er' })
       .select('id')
-      .eq('id', profileId)
       .single()
-    expect(data?.id).toBe(profileId)
-  }, TIMEOUT)
-})
-
-describe('Protection INSERT/UPDATE palmares', () => {
-  it("un utilisateur ne peut pas ajouter une entrée palmarès sur le profil d'un autre", async () => {
-    const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
-    const { error } = await attacker
-      .from('palmares')
-      .insert({ profile_id: profileId, competition: 'Injection', result: 'Fraude' })
-    // L'INSERT doit être bloqué par RLS (WITH CHECK échoue) → error non null
-    expect(error).not.toBeNull()
+    if (palmaresErr) throw new Error(palmaresErr.message)
+    palmaresId = palmares.id
   }, TIMEOUT)
 
-  it('un utilisateur anonyme ne peut rien insérer dans palmares', async () => {
-    const anon = createAnonClient()
-    const { error } = await anon
-      .from('palmares')
-      .insert({ profile_id: profileId, competition: 'Injection anon', result: 'Fraude' })
-    expect(error).not.toBeNull()
+  afterEach(async () => {
+    await admin.from('palmares').delete().eq('id', palmaresId)
+    await admin.from('profiles').delete().eq('id', profileId)
   }, TIMEOUT)
 
-  it("un utilisateur ne peut pas modifier le palmarès d'un autre", async () => {
-    const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
-    await attacker
-      .from('palmares')
-      .update({ competition: 'HACKED' })
-      .eq('id', palmaresId)
+  describe('Protection UPDATE profiles', () => {
+    it("un utilisateur ne peut pas modifier le profil d'un autre", async () => {
+      const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
+      await attacker
+        .from('profiles')
+        .update({ first_name: 'COMPROMIS' })
+        .eq('id', profileId)
 
-    const { data } = await admin
-      .from('palmares')
-      .select('competition')
-      .eq('id', palmaresId)
-      .single()
-    expect(data?.competition).not.toBe('HACKED')
-  }, TIMEOUT)
+      const { data } = await admin
+        .from('profiles')
+        .select('first_name')
+        .eq('id', profileId)
+        .single()
+      expect(data?.first_name).not.toBe('COMPROMIS')
+    }, TIMEOUT)
+
+    it('un utilisateur anonyme ne peut pas modifier un profil', async () => {
+      const anon = createAnonClient()
+      await anon
+        .from('profiles')
+        .update({ first_name: 'COMPROMIS' })
+        .eq('id', profileId)
+
+      const { data } = await admin
+        .from('profiles')
+        .select('first_name')
+        .eq('id', profileId)
+        .single()
+      expect(data?.first_name).not.toBe('COMPROMIS')
+    }, TIMEOUT)
+  })
+
+  describe('Protection DELETE profiles', () => {
+    it("un utilisateur ne peut pas supprimer le profil d'un autre", async () => {
+      const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
+      // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
+      // → la ligne existe toujours, vérifiée via admin
+      await attacker.from('profiles').delete().eq('id', profileId)
+
+      const { data } = await admin
+        .from('profiles')
+        .select('id')
+        .eq('id', profileId)
+        .single()
+      expect(data?.id).toBe(profileId)
+    }, TIMEOUT)
+
+    it('un utilisateur anonyme ne peut pas supprimer un profil', async () => {
+      const anon = createAnonClient()
+      // RLS bloque silencieusement les DELETEs non autorisés (0 lignes affectées)
+      // → la ligne existe toujours, vérifiée via admin
+      await anon.from('profiles').delete().eq('id', profileId)
+
+      const { data } = await admin
+        .from('profiles')
+        .select('id')
+        .eq('id', profileId)
+        .single()
+      expect(data?.id).toBe(profileId)
+    }, TIMEOUT)
+  })
+
+  describe('Protection INSERT/UPDATE palmares', () => {
+    it("un utilisateur ne peut pas ajouter une entrée palmarès sur le profil d'un autre", async () => {
+      const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
+      const { error } = await attacker
+        .from('palmares')
+        .insert({ profile_id: profileId, competition: 'Injection', result: 'Fraude' })
+      // L'INSERT doit être bloqué par RLS (WITH CHECK échoue) → error non null
+      expect(error).not.toBeNull()
+    }, TIMEOUT)
+
+    it('un utilisateur anonyme ne peut rien insérer dans palmares', async () => {
+      const anon = createAnonClient()
+      const { error } = await anon
+        .from('palmares')
+        .insert({ profile_id: profileId, competition: 'Injection anon', result: 'Fraude' })
+      expect(error).not.toBeNull()
+    }, TIMEOUT)
+
+    it("un utilisateur ne peut pas modifier le palmarès d'un autre", async () => {
+      const attacker = await createAuthenticatedClient(ATTACKER_EMAIL, ATTACKER_PASSWORD)
+      await attacker
+        .from('palmares')
+        .update({ competition: 'HACKED' })
+        .eq('id', palmaresId)
+
+      const { data } = await admin
+        .from('palmares')
+        .select('competition')
+        .eq('id', palmaresId)
+        .single()
+      expect(data?.competition).not.toBe('HACKED')
+    }, TIMEOUT)
+  })
 })

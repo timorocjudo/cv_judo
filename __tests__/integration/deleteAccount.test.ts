@@ -34,7 +34,7 @@ vi.mock('@/lib/supabase/admin', () => ({
   createAdminClient: () => mockAdminClient,
 }))
 
-import { deleteAccount } from '@/app/dashboard/profil/actions'
+import { deleteAccount } from '@/app/dashboard/[profileId]/profil/actions'
 
 beforeEach(() => {
   vi.clearAllMocks()

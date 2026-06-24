@@ -1,24 +1,25 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import VideoManager from './VideoManager'
+import GalerieManager from '@/components/dashboard/GalerieManager'
 
-export default async function VideosPage() {
+export default async function GaleriePage({ params }: { params: { profileId: string } }) {
+  const { profileId } = params
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id')
-    .eq('owner_id', user.id)
+    .select('owner_id')
+    .eq('id', profileId)
     .single()
 
-  if (!profile) redirect('/dashboard/setup')
+  if (!profile) redirect('/dashboard')
 
-  const { data: videos } = await supabase
-    .from('videos')
-    .select('id, title, youtube_url, description')
-    .eq('profile_id', profile.id)
+  const { data: photos } = await supabase
+    .from('gallery_photos')
+    .select('id, photo_url, caption')
+    .eq('profile_id', profileId)
     .order('created_at', { ascending: false })
 
   return (
@@ -26,10 +27,14 @@ export default async function VideosPage() {
       <div className="flex items-center gap-3 mb-8">
         <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
         <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-          Mes Vidéos
+          Galerie
         </h1>
       </div>
-      <VideoManager videos={videos ?? []} />
+      <GalerieManager
+        photos={photos ?? []}
+        profileId={profileId}
+        ownerId={profile.owner_id}
+      />
     </div>
   )
 }
