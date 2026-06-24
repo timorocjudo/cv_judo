@@ -1,9 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { isProfileOwner } from '@/lib/profileAccessService'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
 import VisibilityForm from './VisibilityForm'
+
+export const metadata: Metadata = { title: 'Tableau de bord' }
 
 export default async function ProfileDashboardHome({
   params,

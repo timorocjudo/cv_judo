@@ -1,7 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getProfilesForAccount } from '@/lib/profileAccessService'
+
+export const metadata: Metadata = { title: 'Mes judokas' }
 
 const VISIBILITY_BADGE: Record<string, { label: string; className: string }> = {
   draft:   { label: 'Brouillon', className: 'bg-surface-container text-on-surface-variant' },

@@ -1,7 +1,25 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { canEditProfile, isProfileOwner } from '@/lib/profileAccessService'
 import DashboardProfileNav from '@/components/dashboard/DashboardProfileNav'
+
+export async function generateMetadata({ params }: { params: { profileId: string } }): Promise<Metadata> {
+  const supabase = createClient()
+  const { data } = await supabase
+    .from('profiles')
+    .select('first_name, last_name')
+    .eq('id', params.profileId)
+    .single()
+
+  const name = data ? `${data.first_name} ${data.last_name}` : 'Judoka'
+  return {
+    title: {
+      template: `%s · ${name} — IpponId`,
+      default: `${name} — IpponId`,
+    },
+  }
+}
 
 export default async function ProfileDashboardLayout({
   children,

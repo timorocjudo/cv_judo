@@ -42,6 +42,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+function buildPersonJsonLd(judoka: Awaited<ReturnType<typeof getJudokaBySlug>>) {
+  if (!judoka) return null
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ipponid.com'
+  const topAwards = judoka.palmares
+    .filter((p) => p.medal)
+    .slice(0, 5)
+    .map((p) => `${p.result} — ${p.competition}${p.date ? ` (${p.date.slice(0, 4)})` : ''}`)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: `${judoka.identity.firstName} ${judoka.identity.lastName}`,
+    url: `${siteUrl}/${judoka.slug}`,
+    ...(judoka.identity.profilePhoto ? { image: judoka.identity.profilePhoto } : {}),
+    ...(judoka.bio ? { description: judoka.bio } : {}),
+    ...(judoka.identity.club
+      ? { memberOf: { '@type': 'SportsOrganization', name: judoka.identity.club } }
+      : {}),
+    ...(topAwards.length > 0 ? { award: topAwards } : {}),
+  }
+}
+
 export default async function JudokaPage({ params }: Props) {
   const [judoka, { data: { user } }] = await Promise.all([
     getJudokaBySlug(params.slug, { allowDraft: true }),
@@ -51,8 +73,16 @@ export default async function JudokaPage({ params }: Props) {
   // RLS has already filtered: if judoka is null, current user cannot access it
   if (!judoka) notFound()
 
+  const personJsonLd = buildPersonJsonLd(judoka)
+
   return (
     <>
+      {personJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      )}
       {judoka.visibility === 'draft' && (
         <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3 flex items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant font-medium">

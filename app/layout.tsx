@@ -18,8 +18,13 @@ const inter = Inter({
   weight: ['400', '700'],
 })
 
+// INDEXATION PILOTABLE — basculer NEXT_PUBLIC_SITE_INDEXABLE à "true" sur Vercel
+// uniquement au moment de l'ouverture publique réelle (après mise en place des pages légales).
+const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true'
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://ipponid.com'),
+  ...(isIndexable ? {} : { robots: { index: false, follow: false } }),
 }
 
 export default function RootLayout({

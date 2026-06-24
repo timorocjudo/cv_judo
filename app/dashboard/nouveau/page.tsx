@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createProfile } from './actions'
+
+export const metadata: Metadata = { title: 'Créer un judoka' }
 
 export default async function NouveauPage() {
   const supabase = createClient()
