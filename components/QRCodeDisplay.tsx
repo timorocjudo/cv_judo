@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface QRCodeDisplayProps {
   slug: string
@@ -15,6 +16,7 @@ export default function QRCodeDisplay({ slug, size = 200, showLabel = true }: QR
     setIsDownloading(true)
     try {
       const res = await fetch(`/api/qrcode/${slug}`)
+      if (!res.ok) throw new Error('QR code unavailable')
       const blob = await res.blob()
       const blobUrl = URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -24,6 +26,8 @@ export default function QRCodeDisplay({ slug, size = 200, showLabel = true }: QR
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(blobUrl)
+    } catch {
+      toast.error('Échec du téléchargement')
     } finally {
       setIsDownloading(false)
     }
