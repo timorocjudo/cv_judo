@@ -89,7 +89,6 @@ export default async function ProfileDashboardHome({
       <div className="mb-6">
         <VisibilityForm
           profileId={profileId}
-          slug={profile.slug}
           currentVisibility={profile.visibility as 'draft' | 'private' | 'public'}
           isOwner={ownerStatus}
           missingFields={missingFields}

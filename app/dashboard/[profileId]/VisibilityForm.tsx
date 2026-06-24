@@ -21,7 +21,6 @@ const INITIAL: SetVisibilityResult = { ok: null, missing: [] }
 
 type Props = {
   profileId: string
-  slug: string
   currentVisibility: 'draft' | 'private' | 'public'
   isOwner: boolean
   missingFields: string[]
@@ -29,7 +28,6 @@ type Props = {
 
 export default function VisibilityForm({
   profileId,
-  slug,
   currentVisibility,
   isOwner,
   missingFields,
