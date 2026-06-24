@@ -18,7 +18,18 @@ export default function HeroSection() {
           Crée ta page CV de judoka gratuitement. Partage ton parcours, tes grades et tes victoires avec ton URL personnalisée.
         </p>
 
-        <Suspense>
+        <Suspense
+          fallback={
+            <div className="max-w-2xl mx-auto flex items-center bg-white rounded-xl shadow-xl border border-outline-variant p-2">
+              <input
+                type="text"
+                disabled
+                placeholder="Rechercher un judoka…"
+                className="flex-1 border-none outline-none px-4 py-3 text-on-surface placeholder:text-outline bg-transparent"
+              />
+            </div>
+          }
+        >
           <SearchAutocomplete className="max-w-2xl mx-auto" />
         </Suspense>
       </div>

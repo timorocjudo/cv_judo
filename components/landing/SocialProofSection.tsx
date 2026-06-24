@@ -76,8 +76,8 @@ export default function SocialProofSection({ profiles, totalCount }: Props) {
           ))}
         </div>
 
-        <p className="text-center text-on-surface-variant text-sm mt-6 italic">
-          « Enfin un outil qui comprend la réalité de notre discipline. »
+        <p className="text-center text-on-surface-variant text-sm mt-6">
+          {totalCount} judoka{totalCount > 1 ? 's ont' : ' a'} déjà leur IpponId — et toi&nbsp;?
         </p>
       </div>
     </section>
