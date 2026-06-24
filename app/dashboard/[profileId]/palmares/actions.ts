@@ -105,7 +105,7 @@ export async function deletePalmares(id: string, profileId: string): Promise<{ o
 
     if (!(await canEditProfile(profileId, user.id))) return { ok: false }
 
-    await supabase.from('palmares').delete().eq('id', id)
+    await supabase.from('palmares').delete().eq('id', id).eq('profile_id', profileId)
 
     const slug = await getSlug(supabase, profileId)
     revalidatePath(`/dashboard/${profileId}/palmares`)

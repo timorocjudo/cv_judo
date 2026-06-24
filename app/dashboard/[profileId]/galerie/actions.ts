@@ -5,18 +5,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { canEditProfile } from '@/lib/profileAccessService'
 
-async function getProfileOwnerId(
-  supabase: ReturnType<typeof createClient>,
-  profileId: string
-): Promise<string | null> {
-  const { data } = await supabase
-    .from('profiles')
-    .select('owner_id')
-    .eq('id', profileId)
-    .single()
-  return data?.owner_id ?? null
-}
-
 export async function addPhoto(
   url: string,
   caption: string,
@@ -64,5 +52,3 @@ export async function deletePhoto(id: string, profileId: string): Promise<{ ok: 
     return { ok: false }
   }
 }
-
-export { getProfileOwnerId }
