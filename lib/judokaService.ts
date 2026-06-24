@@ -106,7 +106,7 @@ function mapProfile(row: ProfileRow): JudokaData {
 
 export async function getJudokaBySlug(
   slug: string,
-  options?: { allowDraft?: boolean }
+  _options?: { allowDraft?: boolean }
 ): Promise<JudokaData | null> {
   const supabase = createClient()
   // RLS on profiles handles visibility filtering — no need to filter by published.
