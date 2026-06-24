@@ -48,6 +48,22 @@ export type FeaturedProfile = ProfileCard & {
   palmares: { competition: string | null; result: string | null; medal: string | null }[]
 }
 
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: 'https://ipponid.com',
+  name: 'IpponId',
+  description: 'Crée gratuitement ta page de judoka en quelques secondes. Partage tes grades, compétitions et victoires avec ton URL personnalisée.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://ipponid.com/?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
+
 export default async function LandingPage() {
   const supabase = createClient()
   const [{ data: { user } }, { data: rawProfiles }, { count: totalProfiles }] = await Promise.all([
@@ -97,6 +113,10 @@ export default async function LandingPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <LandingNav isLoggedIn={!!user} />
       <main className="mt-20">
         <HeroSection />
