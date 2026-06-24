@@ -19,7 +19,7 @@ export default function LandingFooter() {
             CGU
           </Link>
           <a
-            href="mailto:[À COMPLÉTER : adresse email de contact]"
+            href="mailto:oliv.francois@gmail.com"
             className="hover:text-secondary transition-colors"
           >
             Contact

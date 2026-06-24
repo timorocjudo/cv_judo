@@ -21,6 +21,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fr_FR',
     siteName: 'IpponId',
+    images: [{ url: '/images/cover.jpg', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'IpponId — Crée ton CV judoka en ligne',
+    description:
+      'Crée gratuitement ta page de judoka en quelques secondes. Partage tes grades, compétitions et victoires avec ton URL personnalisée.',
+    images: ['/images/cover.jpg'],
   },
 }
 
