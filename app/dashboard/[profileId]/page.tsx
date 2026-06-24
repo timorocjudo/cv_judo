@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { isProfileOwner } from '@/lib/profileAccessService'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
 import VisibilityForm from './VisibilityForm'
+import QRCodeDisplay from '@/components/QRCodeDisplay'
 
 export const metadata: Metadata = { title: 'Tableau de bord' }
 
@@ -106,6 +107,22 @@ export default async function ProfileDashboardHome({
       >
         Voir la page publique ↗
       </Link>
+
+      {profile.visibility !== 'draft' && (
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 mt-6">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-8 bg-tertiary-container rounded-full" />
+            <p className="font-montserrat font-bold text-primary text-sm uppercase tracking-wide">
+              Mon QR Code
+            </p>
+          </div>
+          <QRCodeDisplay slug={profile.slug} size={220} showLabel={false} />
+          <p className="text-sm text-on-surface-variant mt-4 max-w-sm">
+            Imprime ce QR code et colle-le sur ton sac, ton kimono, ou donne-le à ton club
+            pour t&apos;identifier facilement.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
