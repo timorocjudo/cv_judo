@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Identity, Social } from '@/types/judoka'
@@ -87,7 +87,15 @@ export default function HeroBlock({ identity, social, slug, visibility }: HeroBl
 
   const [showQR, setShowQR] = useState(false)
 
+  useEffect(() => {
+    if (!showQR) return
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setShowQR(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [showQR])
+
   return (
+  <>
     <section className={`relative bg-primary-container overflow-hidden flex items-end ${identity.coverPhoto ? 'min-h-[65vh] md:min-h-[75vh]' : ''}`}>
       {/* Cover photo with gradient overlay */}
       <div className="absolute inset-0">
@@ -229,19 +237,15 @@ export default function HeroBlock({ identity, social, slug, visibility }: HeroBl
             {visibility === 'public' && (
               <div className="mt-3">
                 <button
-                  onClick={() => setShowQR((v) => !v)}
+                  type="button"
+                  onClick={() => setShowQR(true)}
                   className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M3 11h2v2H3v-2zm0-4h2v2H3V7zm0 8h2v2H3v-2zm4-4h2v2H7v-2zm0-4h2v2H7V7zm0 8h2v2H7v-2zm4 0h2v2h-2v-2zm0-8h2v2h-2V7zm0 4h2v2h-2v-2zM3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zm-2 10h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5z"/>
                   </svg>
-                  {showQR ? 'Masquer le QR Code' : 'Voir le QR Code'}
+                  Voir le QR Code
                 </button>
-                {showQR && (
-                  <div className="mt-3">
-                    <QRCodeDisplay slug={slug} size={160} showLabel={false} />
-                  </div>
-                )}
               </div>
             )}
 
@@ -279,5 +283,28 @@ export default function HeroBlock({ identity, social, slug, visibility }: HeroBl
         </div>
       </div>
     </section>
+
+    {showQR && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        onClick={() => setShowQR(false)}
+        role="dialog"
+        aria-modal="true"
+        aria-label="QR Code du profil"
+      >
+        <div className="relative" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            onClick={() => setShowQR(false)}
+            className="absolute -top-3 -right-3 w-8 h-8 bg-surface-container text-on-surface rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors z-10 text-sm font-bold"
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+          <QRCodeDisplay slug={slug} size={240} showLabel={true} />
+        </div>
+      </div>
+    )}
+  </>
   )
 }
