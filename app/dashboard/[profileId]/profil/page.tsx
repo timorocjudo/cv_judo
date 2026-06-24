@@ -1,7 +1,10 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ProfileForm from '@/components/dashboard/ProfileForm'
 import DeleteAccountSection from '@/components/dashboard/DeleteAccountSection'
+
+export const metadata: Metadata = { title: 'Profil' }
 
 export default async function ProfilPage({ params }: { params: { profileId: string } }) {
   const { profileId } = params

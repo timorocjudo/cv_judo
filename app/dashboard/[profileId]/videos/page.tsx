@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import VideoManager from '@/components/dashboard/VideoManager'
+
+export const metadata: Metadata = { title: 'Vidéos' }
 
 export default async function VideosPage({ params }: { params: { profileId: string } }) {
   const { profileId } = params

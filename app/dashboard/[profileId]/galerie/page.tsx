@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import GalerieManager from '@/components/dashboard/GalerieManager'
+
+export const metadata: Metadata = { title: 'Galerie' }
 
 export default async function GaleriePage({ params }: { params: { profileId: string } }) {
   const { profileId } = params

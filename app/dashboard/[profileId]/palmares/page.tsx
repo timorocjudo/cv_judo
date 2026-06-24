@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import PalmaresManager from '@/components/dashboard/PalmaresManager'
+
+export const metadata: Metadata = { title: 'Palmarès' }
 
 export default async function PalmaresPage({ params }: { params: { profileId: string } }) {
   const { profileId } = params
