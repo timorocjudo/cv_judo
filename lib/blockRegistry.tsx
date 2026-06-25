@@ -12,7 +12,7 @@ import FadeInOnScroll from '@/components/FadeInOnScroll'
 type BlockRenderer = (data: JudokaData) => React.ReactElement
 
 export const blockRegistry: Record<BlockName, BlockRenderer> = {
-  hero:       (data) => <HeroBlock identity={data.identity} social={data.social} slug={data.slug} visibility={data.visibility} />,
+  hero:       (data) => <HeroBlock identity={data.identity} social={data.social} slug={data.slug} visibility={data.visibility} palmares={data.palmares} />,
   bio:        (data) => <FadeInOnScroll delay={0.1}><BioBlock bio={data.bio} /></FadeInOnScroll>,
   palmares:   (data) => <FadeInOnScroll delay={0.1}><PalmaresBlock palmares={data.palmares} birthDate={data.identity.birthDate} slug={data.slug} /></FadeInOnScroll>,
   videos:     (data) => <FadeInOnScroll delay={0.1}><VideosBlock videos={data.videos} /></FadeInOnScroll>,
