@@ -202,7 +202,7 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
               totalCompetitions={stats.totalCompetitions}
               totalPodiums={stats.totalPodiums}
             />
-            {!expanded && hasPreviousSeasons && (
+            {hasPreviousSeasons && (
               <p className="font-inter text-xs text-on-surface-variant mb-8 -mt-6">
                 sur {seasons.length} saisons
               </p>
