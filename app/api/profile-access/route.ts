@@ -5,6 +5,7 @@ import {
   getProfileAccesses,
   addProfileAccess,
   removeProfileAccess,
+  isProfileOwner,
 } from '@/lib/profileAccessService'
 
 function buildDisplayName(
@@ -36,6 +37,8 @@ export async function POST(request: NextRequest) {
   }
 
   if (action === 'list') {
+    const ownerCheck = await isProfileOwner(profileId, user.id)
+    if (!ownerCheck) return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
     const adminClient = createAdminClient()
     const rows = await getProfileAccesses(profileId)
     const accountIds = rows.map((r) => r.account_id)
