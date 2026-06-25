@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { computePalmaresStats } from '@/lib/palmaresStats'
@@ -145,7 +146,13 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
 
   const stats = palmares.length >= 3 ? computePalmaresStats(palmares) : null
 
+  const shouldReduceMotion = useReducedMotion()
   const [expanded, setExpanded] = useState(false)
+
+  function handleReduce() {
+    document.getElementById('palmares')?.scrollIntoView({ behavior: shouldReduceMotion ? 'instant' : 'smooth' })
+    setExpanded(false)
+  }
 
   const currentSeason = seasons[0]
   const previousSeasons = seasons.slice(1)
@@ -213,22 +220,31 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
           )}
 
           {/* Saisons précédentes — visibles uniquement si expanded */}
-          {expanded && previousSeasons.map((startYear) => (
-            <SeasonGroup
-              key={startYear}
-              startYear={startYear}
-              entries={bySeason[startYear]}
-              birthDate={birthDate}
-              slug={slug}
-            />
-          ))}
+          <AnimatePresence>
+            {expanded && previousSeasons.map((startYear, i) => (
+              <motion.div
+                key={startYear}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={shouldReduceMotion ? {} : { opacity: 0, y: 10 }}
+                transition={{ duration: 0.25, ease: 'easeOut', delay: i * 0.07 }}
+              >
+                <SeasonGroup
+                  startYear={startYear}
+                  entries={bySeason[startYear]}
+                  birthDate={birthDate}
+                  slug={slug}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
 
           {/* Bouton repliage — en bas des saisons, uniquement si expanded */}
           {hasPreviousSeasons && expanded && (
             <div className="flex justify-center pt-2">
               <button
                 type="button"
-                onClick={() => setExpanded(false)}
+                onClick={handleReduce}
                 className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors"
               >
                 Réduire
