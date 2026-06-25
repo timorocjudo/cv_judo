@@ -14,7 +14,13 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
   const pathname = usePathname()
   const base = `/dashboard/${profileId}`
 
-  const NAV_ITEMS = [
+  const NAV_ITEMS: Array<{
+    href: string
+    label: string
+    icon: React.ReactNode
+    exact?: boolean
+    ownerOnly?: boolean
+  }> = [
     {
       href: `${base}`,
       label: 'Accueil',
@@ -61,6 +67,16 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
         </svg>
       ),
     },
+    {
+      href: `${base}/acces`,
+      label: 'Accès & partage',
+      ownerOnly: true,
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+        </svg>
+      ),
+    },
   ]
 
   return (
@@ -81,7 +97,7 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
         </div>
 
         <div className="flex-1 px-3 py-3 space-y-1">
-          {NAV_ITEMS.map((item) => {
+          {NAV_ITEMS.filter((item) => !item.ownerOnly || isOwner).map((item) => {
             const isActive = item.exact
               ? pathname === item.href
               : pathname.startsWith(item.href) && item.href !== base
@@ -121,7 +137,7 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
           </svg>
           Tous
         </Link>
-        {NAV_ITEMS.slice(1).map((item) => {
+        {NAV_ITEMS.filter((item) => !item.ownerOnly || isOwner).slice(1).map((item) => {
           const isActive = pathname.startsWith(item.href)
           return (
             <Link
