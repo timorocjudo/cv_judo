@@ -40,7 +40,7 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function ProfileAccessManager({ profileId, currentAccountId, initialAccesses }: Props) {
+export default function ProfileAccessManager({ profileId, currentAccountId: _currentAccountId, initialAccesses }: Props) {
   const [accesses, setAccesses] = useState<DisplayAccess[]>(initialAccesses)
   const [isPending, setIsPending] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
