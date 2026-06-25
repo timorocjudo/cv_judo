@@ -150,8 +150,35 @@ export default function PalmaresBlock({ palmares, birthDate, slug }: PalmaresBlo
   const [expanded, setExpanded] = useState(false)
 
   function handleReduce() {
-    document.getElementById('palmares')?.scrollIntoView({ behavior: shouldReduceMotion ? 'instant' : 'smooth' })
-    setExpanded(false)
+    const target = document.getElementById('palmares')
+    if (!target) { setExpanded(false); return }
+
+    if (shouldReduceMotion) {
+      target.scrollIntoView()
+      setExpanded(false)
+      return
+    }
+
+    target.scrollIntoView({ behavior: 'smooth' })
+
+    let scrollEndTimer: ReturnType<typeof setTimeout>
+    let scrollStarted = false
+
+    function collapse() {
+      window.removeEventListener('scroll', onScroll)
+      setExpanded(false)
+    }
+
+    function onScroll() {
+      scrollStarted = true
+      clearTimeout(scrollEndTimer)
+      scrollEndTimer = setTimeout(collapse, 150)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    // Si l'élément est déjà dans le viewport, aucun scroll ne se déclenche
+    setTimeout(() => { if (!scrollStarted) collapse() }, 100)
   }
 
   const currentSeason = seasons[0]
