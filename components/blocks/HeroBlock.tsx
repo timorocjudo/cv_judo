@@ -1,8 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
-import type { Identity, Social } from '@/types/judoka'
+import type { Identity, Social, PalmaresEntry, MedalType } from '@/types/judoka'
+import { getBestResults } from '@/lib/highlightsService'
+import QRCodeDisplay from '@/components/QRCodeDisplay'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { getBeltByLabel } from '@/lib/judo-belts'
@@ -35,16 +38,30 @@ const socialIcons: Record<string, { label: string; icon: React.ReactNode }> = {
   },
 }
 
+const MEDAL_HIGHLIGHT: Record<NonNullable<MedalType>, { bg: string; text: string; rank: string }> = {
+  gold:   { bg: 'radial-gradient(circle at 35% 35%, #FFD700, #cba72f)', text: '#FFD700', rank: '1' },
+  silver: { bg: 'radial-gradient(circle at 35% 35%, #C0C0C0, #767683)', text: '#C0C0C0', rank: '2' },
+  bronze: { bg: 'radial-gradient(circle at 35% 35%, #CD7F32, #8d6e63)', text: '#CD7F32', rank: '3' },
+}
+const HIGHLIGHT_DEFAULT = {
+  bg: 'radial-gradient(circle at 35% 35%, #1a237e, #000666)',
+  text: 'white',
+  rank: '',
+}
+
 interface HeroBlockProps {
   identity: Identity
   social: Social
   slug: string
+  visibility: 'draft' | 'private' | 'public'
+  palmares: PalmaresEntry[]   // ← nouveau
 }
 
-export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
+export default function HeroBlock({ identity, social, slug, visibility, palmares }: HeroBlockProps) {
   const shouldReduceMotion = useReducedMotion()
   const initials = (identity.firstName?.[0] ?? '') + (identity.lastName?.[0] ?? '')
   const belt = getBeltByLabel(identity.grade)
+  const highlights = getBestResults(palmares)
 
   const firstNameWords = identity.firstName.split(' ')
   const lastNameWords = identity.lastName.split(' ')
@@ -80,9 +97,19 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
         }
   }
 
-  const shareDelay = totalNameWords * 0.08 + 0.06 + badges.length * 0.06 + 0.10
+  const highlightBaseDelay = totalNameWords * 0.08 + 0.06 + badges.length * 0.06 + 0.10
+
+  const [showQR, setShowQR] = useState(false)
+
+  useEffect(() => {
+    if (!showQR) return
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setShowQR(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [showQR])
 
   return (
+  <>
     <section className={`relative bg-primary-container overflow-hidden flex items-end ${identity.coverPhoto ? 'min-h-[65vh] md:min-h-[75vh]' : ''}`}>
       {/* Cover photo with gradient overlay */}
       <div className="absolute inset-0">
@@ -175,6 +202,50 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
               ) : null}
             </div>
 
+            {/* Highlights */}
+            {highlights.length > 0 && (
+              <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+                {highlights.map((entry, i) => {
+                  const m = entry.medal ? MEDAL_HIGHLIGHT[entry.medal] : HIGHLIGHT_DEFAULT
+                  const motionProps = shouldReduceMotion
+                    ? {}
+                    : {
+                        initial: { opacity: 0, y: 20 },
+                        animate: { opacity: 1, y: 0 },
+                        transition: { duration: 0.25, ease: 'easeOut' as const, delay: highlightBaseDelay + i * 0.08 },
+                      }
+                  return (
+                    <motion.div
+                      key={`hl-${i}`}
+                      className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-3 border border-white/20"
+                      {...motionProps}
+                    >
+                      <div
+                        className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center font-montserrat text-sm font-black text-white shadow-md"
+                        style={{ background: m.bg }}
+                        aria-hidden="true"
+                      >
+                        {m.rank}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-montserrat text-sm font-black leading-tight" style={{ color: m.text }}>
+                          {entry.result}
+                        </p>
+                        <p className="font-inter text-xs text-white/60 mt-0.5 truncate">
+                          {entry.competition} · {new Date(entry.date).getFullYear()}
+                        </p>
+                      </div>
+                      {entry.category && (
+                        <span className="flex-shrink-0 self-start text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/20 text-white/50">
+                          {entry.category}
+                        </span>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </div>
+            )}
+
             {/* Social links */}
             {social.length > 0 && (
               <div className="flex gap-3 mt-5">
@@ -209,7 +280,7 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
                   : {
                       initial: { opacity: 0, y: 20 },
                       animate: { opacity: 1, y: 0 },
-                      transition: { duration: 0.25, ease: 'easeOut', delay: shareDelay },
+                      transition: { duration: 0.25, ease: 'easeOut', delay: highlightBaseDelay },
                     })}
               >
                 <ShareButtons
@@ -219,6 +290,21 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
                   variant="accent"
                 />
               </motion.div>
+            )}
+
+            {visibility === 'public' && (
+              <div className="mt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowQR(true)}
+                  className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M3 11h2v2H3v-2zm0-4h2v2H3V7zm0 8h2v2H3v-2zm4-4h2v2H7v-2zm0-4h2v2H7V7zm0 8h2v2H7v-2zm4 0h2v2h-2v-2zm0-8h2v2h-2V7zm0 4h2v2h-2v-2zM3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zm-2 10h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5z"/>
+                  </svg>
+                  Voir le QR Code
+                </button>
+              </div>
             )}
 
             {/* Stats physiques */}
@@ -255,5 +341,28 @@ export default function HeroBlock({ identity, social, slug }: HeroBlockProps) {
         </div>
       </div>
     </section>
+
+    {showQR && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        onClick={() => setShowQR(false)}
+        role="dialog"
+        aria-modal="true"
+        aria-label="QR Code du profil"
+      >
+        <div className="relative" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            onClick={() => setShowQR(false)}
+            className="absolute -top-3 -right-3 w-8 h-8 bg-surface-container text-on-surface rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors z-10 text-sm font-bold"
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+          <QRCodeDisplay slug={slug} size={240} showLabel={true} />
+        </div>
+      </div>
+    )}
+  </>
   )
 }
