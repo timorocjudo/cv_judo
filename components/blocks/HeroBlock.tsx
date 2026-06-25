@@ -98,7 +98,6 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
   }
 
   const highlightBaseDelay = totalNameWords * 0.08 + 0.06 + badges.length * 0.06 + 0.10
-  const shareDelay = totalNameWords * 0.08 + 0.06 + badges.length * 0.06 + 0.10
 
   const [showQR, setShowQR] = useState(false)
 
@@ -281,7 +280,7 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
                   : {
                       initial: { opacity: 0, y: 20 },
                       animate: { opacity: 1, y: 0 },
-                      transition: { duration: 0.25, ease: 'easeOut', delay: shareDelay },
+                      transition: { duration: 0.25, ease: 'easeOut', delay: highlightBaseDelay },
                     })}
               >
                 <ShareButtons
