@@ -10,8 +10,13 @@ function getSupabaseUrl() {
   return process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://localhost:54321'
 }
 
+// Node.js 20 doesn't have native WebSocket; disable realtime to avoid the error
+// (tests don't use realtime subscriptions)
+class NoOpWebSocket {}
+
 const CLIENT_OPTIONS = {
   auth: { autoRefreshToken: false, persistSession: false },
+  realtime: { transport: NoOpWebSocket as never },
 }
 
 export function createAnonClient(): SupabaseClient {
