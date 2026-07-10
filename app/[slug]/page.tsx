@@ -6,6 +6,7 @@ import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import Header from '@/components/layout/Header'
 import MobileNav from '@/components/layout/MobileNav'
 import { blockRegistry } from '@/lib/blockRegistry'
+import { switchToPrivate } from './actions'
 
 type Props = { params: { slug: string } }
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
   const ogImageUrl = `${siteUrl}/api/og/profile/${params.slug}`
 
-  return {
+  const base: Metadata = {
     title: `${judoka.identity.firstName} ${judoka.identity.lastName} — ${judoka.identity.club} · IpponId`,
     description: judoka.bio.slice(0, 155) + '…',
     openGraph: {
@@ -40,6 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [ogImageUrl],
     },
   }
+
+  if (judoka.visibility === 'private') {
+    return { ...base, robots: { index: false, follow: false } }
+  }
+
+  return base
 }
 
 function buildPersonJsonLd(judoka: Awaited<ReturnType<typeof getJudokaBySlug>>) {
@@ -86,17 +93,23 @@ export default async function JudokaPage({ params }: Props) {
       {judoka.visibility === 'draft' && (
         <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3 flex items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant font-medium">
-            Brouillon — cette page n&apos;est pas visible publiquement.
+            Aperçu — Ce profil est en brouillon. Il n&apos;est visible que par toi.
           </p>
-          <a href={`/dashboard`} className="text-sm font-semibold text-primary hover:underline whitespace-nowrap">
-            Gérer →
-          </a>
+          <form action={switchToPrivate}>
+            <input type="hidden" name="slug" value={judoka.slug} />
+            <button
+              type="submit"
+              className="text-sm font-semibold text-primary hover:underline whitespace-nowrap"
+            >
+              Passer en Privé →
+            </button>
+          </form>
         </div>
       )}
-      {judoka.visibility === 'private' && user && (
+      {judoka.visibility === 'private' && (
         <div className="sticky top-0 z-50 bg-surface-container border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-3">
           <p className="text-sm text-on-surface-variant font-medium">
-            Profil privé — visible uniquement par les membres IpponId connectés.
+            Profil privé — Cette page est accessible par lien direct mais n&apos;apparaît pas dans les moteurs de recherche.
           </p>
         </div>
       )}
