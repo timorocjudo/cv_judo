@@ -38,7 +38,7 @@ export default function NavUserAvatar({ initialIsLoggedIn = false }: NavUserAvat
           .from('profiles')
           .select('first_name, last_name, profile_photo_url')
           .eq('owner_id', user.id)
-          .single()
+          .maybeSingle()
         setProfile(data)
       }
       setLoaded(true)

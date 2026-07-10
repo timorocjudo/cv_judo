@@ -1,5 +1,3 @@
-'use server'
-
 import { createClient } from '@/lib/supabase/server'
 
 export type AccountType = 'manager' | 'parent_judoka' | 'judoka'
