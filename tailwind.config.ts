@@ -37,6 +37,7 @@ const config: Config = {
         secondary: '#b6171e',
         'on-secondary': '#ffffff',
         'secondary-container': '#da3433',
+        error: '#B3261E',
       },
       fontFamily: {
         montserrat: ['var(--font-montserrat)', 'sans-serif'],

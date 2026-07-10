@@ -6,6 +6,7 @@ import LandingMobileNav from '@/components/landing/LandingMobileNav'
 import HeroSection from '@/components/landing/HeroSection'
 import MockupSection from '@/components/landing/MockupSection'
 import HowItWorksSection from '@/components/landing/HowItWorksSection'
+import WhoIsItForSection from '@/components/landing/WhoIsItForSection'
 import SocialProofSection from '@/components/landing/SocialProofSection'
 import CtaSection from '@/components/landing/CtaSection'
 import LandingFooter from '@/components/landing/LandingFooter'
@@ -121,6 +122,7 @@ export default async function LandingPage() {
       <main className="mt-20">
         <HeroSection />
         <MockupSection featured={featured} />
+        <WhoIsItForSection />
         <HowItWorksSection />
         <SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} />
         <CtaSection />

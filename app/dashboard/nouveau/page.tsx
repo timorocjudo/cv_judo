@@ -5,7 +5,11 @@ import { createProfile } from './actions'
 
 export const metadata: Metadata = { title: 'Créer un judoka' }
 
-export default async function NouveauPage() {
+export default async function NouveauPage({
+  searchParams,
+}: {
+  searchParams: { context?: string }
+}) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -13,6 +17,21 @@ export default async function NouveauPage() {
   const defaultFirst: string = meta.given_name ?? meta.full_name?.split(' ')[0] ?? ''
   const defaultLast: string =
     meta.family_name ?? meta.full_name?.split(' ').slice(1).join(' ') ?? ''
+
+  const CONTEXT_COPY: Record<string, { title: string; subtitle: string }> = {
+    manager: {
+      title: 'Premier profil de tes enfants',
+      subtitle: 'Créons ensemble le premier profil judoka de tes enfants.',
+    },
+    parent_judoka: {
+      title: 'Ton profil judoka',
+      subtitle: 'Commençons par ton propre profil — tu pourras ajouter ceux de tes enfants ensuite.',
+    },
+  }
+  const copy = CONTEXT_COPY[searchParams.context ?? ''] ?? {
+    title: 'Nouveau profil judoka',
+    subtitle: 'Ces informations seront visibles sur la page publique.',
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-margin-mobile">
@@ -27,10 +46,10 @@ export default async function NouveauPage() {
           Mes judokas
         </Link>
         <h1 className="font-montserrat text-headline-md font-bold text-primary mb-2">
-          Nouveau profil judoka
+          {copy.title}
         </h1>
         <p className="text-on-surface-variant text-body-md mb-8">
-          Ces informations seront visibles sur la page publique.
+          {copy.subtitle}
         </p>
         <form action={createProfile} className="space-y-4">
           <div>
