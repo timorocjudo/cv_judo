@@ -71,13 +71,13 @@ export default async function LandingPage() {
     supabase
       .from('profiles')
       .select('id, slug, first_name, last_name, profile_photo_url, cover_photo_url, grade, category, club, birth_date')
-      .eq('published', true)
+      .eq('visibility', 'public')
       .order('created_at', { ascending: true })
       .limit(6),
     supabase
       .from('profiles')
       .select('*', { count: 'exact', head: true })
-      .eq('published', true),
+      .eq('visibility', 'public'),
   ])
 
   const profiles: ProfileCard[] = (rawProfiles ?? []).map((p) => ({
