@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getProfilesForAccount } from '@/lib/profileAccessService'
+import { getAccount, canCreateMoreProfiles } from '@/lib/accountService'
 
 export const metadata: Metadata = { title: 'Mes judokas' }
 
@@ -25,6 +26,10 @@ export default async function DashboardPage() {
   const profiles = await getProfilesForAccount(user.id)
   if (profiles.length === 0) redirect('/dashboard/nouveau')
 
+  const account = await getAccount(user.id)
+  const ownedCount = profiles.filter((p) => p.role === 'owner').length
+  const canCreate = canCreateMoreProfiles(account?.max_profiles ?? 1, ownedCount)
+
   return (
     <div className="min-h-screen bg-background px-margin-mobile md:px-margin-desktop py-10">
       <div className="max-w-container-max mx-auto">
@@ -32,12 +37,23 @@ export default async function DashboardPage() {
           <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
             Mes judokas
           </h1>
-          <Link
-            href="/dashboard/nouveau"
-            className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
-          >
-            + Créer un nouveau judoka
-          </Link>
+          {canCreate ? (
+            <Link
+              href="/dashboard/nouveau"
+              className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
+            >
+              + Créer un nouveau judoka
+            </Link>
+          ) : (
+            <div className="text-right">
+              <p className="text-sm text-on-surface-variant max-w-xs">
+                Limite atteinte pour ton type de compte.{' '}
+                <Link href="/dashboard/parametres" className="text-primary hover:underline font-medium">
+                  Passer en compte famille
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

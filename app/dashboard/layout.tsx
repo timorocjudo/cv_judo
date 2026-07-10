@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Toaster } from 'sonner'
@@ -27,7 +28,15 @@ export default async function DashboardLayout({
       <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
         <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
           <LogoLink />
-          <NavUserAvatar initialIsLoggedIn />
+          <nav className="flex items-center gap-4">
+            <Link
+              href="/dashboard/parametres"
+              className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              Paramètres
+            </Link>
+            <NavUserAvatar initialIsLoggedIn />
+          </nav>
         </div>
       </header>
       {children}
