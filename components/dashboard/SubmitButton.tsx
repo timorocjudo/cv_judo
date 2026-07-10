@@ -8,9 +8,10 @@ interface SubmitButtonProps {
   className?: string
   disabled?: boolean
   title?: string
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export function SubmitButton({ children, pendingText, className = '', disabled, title }: SubmitButtonProps) {
+export function SubmitButton({ children, pendingText, className = '', disabled, title, onClick }: SubmitButtonProps) {
   const { pending } = useFormStatus()
   const isDisabled = pending || disabled
 
@@ -19,6 +20,7 @@ export function SubmitButton({ children, pendingText, className = '', disabled, 
       type="submit"
       disabled={isDisabled}
       title={title}
+      onClick={onClick}
       className={`${className} transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100`}
     >
       {pending ? (
