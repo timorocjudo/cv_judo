@@ -64,11 +64,12 @@ export async function hasAccount(userId: string): Promise<boolean> {
 
 export async function createAccount(userId: string, type: AccountType): Promise<void> {
   const supabase = createClient()
-  await supabase.from('accounts').insert({
+  const { error } = await supabase.from('accounts').insert({
     id: userId,
     account_type: type,
     max_profiles: maxProfilesForType(type),
   })
+  if (error) throw new Error(error.message)
 }
 
 export async function getOwnedProfileCount(userId: string): Promise<number> {
