@@ -89,7 +89,7 @@ export default function ParametresPage() {
           <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 mb-6">
             <h2 className="font-montserrat font-bold text-primary mb-4">Changer de type</h2>
             {state.error && (
-              <p className="text-sm text-red-600 bg-red-50 rounded-lg px-4 py-2 mb-4">
+              <p className="text-sm text-error bg-error/10 rounded-lg px-4 py-2 mb-4">
                 {state.error}
               </p>
             )}
@@ -116,7 +116,7 @@ export default function ParametresPage() {
         </section>
 
         {/* Suppression de compte */}
-        <section className="bg-surface-container-lowest rounded-2xl border border-red-200 p-6">
+        <section className="bg-surface-container-lowest rounded-2xl border border-error/20 p-6">
           <DeleteAccountSection />
         </section>
       </div>
