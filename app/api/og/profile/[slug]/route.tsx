@@ -43,7 +43,7 @@ export async function GET(
     .from('profiles')
     .select('id, first_name, last_name, club, grade, category, profile_photo_url')
     .eq('slug', params.slug)
-    .eq('visibility', 'public')
+    .in('visibility', ['public', 'private'])
     .maybeSingle()
 
   if (!profile) {

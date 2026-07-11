@@ -107,11 +107,17 @@ async function insertProfile(
   })
 
   describe('Profil privé (visibility = private)', () => {
-    it('[CRITIQUE] client anonyme ne peut PAS lire', async () => {
+    it('client anonyme PEUT lire un profil privé par URL directe', async () => {
       const anon = createAnonClient()
       const { data } = await anon.from('profiles').select('id').eq('id', privateProfileId).single()
-      // RLS bloque → data est null (pas d'erreur, juste aucune ligne retournée)
-      expect(data).toBeNull()
+      expect(data?.id).toBe(privateProfileId)
+    }, TIMEOUT)
+
+    it('client anonyme ne peut PAS modifier un profil privé', async () => {
+      const anon = createAnonClient()
+      await anon.from('profiles').update({ first_name: 'HACKER' }).eq('id', privateProfileId)
+      const { data } = await admin.from('profiles').select('first_name').eq('id', privateProfileId).single()
+      expect(data?.first_name).not.toBe('HACKER')
     }, TIMEOUT)
 
     it('utilisateur authentifié (sans accès explicite) peut lire', async () => {

@@ -96,6 +96,7 @@ export default async function ProfileDashboardHome({
           currentVisibility={profile.visibility as 'draft' | 'private' | 'public'}
           isOwner={ownerStatus}
           missingFields={missingFields}
+          firstName={profile.first_name}
         />
       </div>
 
