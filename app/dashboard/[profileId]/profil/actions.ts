@@ -32,7 +32,7 @@ export async function saveProfile(
       .update({
         first_name: (formData.get('first_name') as string) || profile.first_name,
         last_name: (formData.get('last_name') as string) || profile.last_name,
-        club: (formData.get('club') as string) || null,
+        club_id: (formData.get('club_id') as string) || null,
         category: (formData.get('category') as string) || null,
         grade: (formData.get('grade') as string) || null,
         bio: (formData.get('bio') as string) || null,

@@ -14,11 +14,18 @@ export default async function ProfilPage({ params }: { params: { profileId: stri
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('first_name, last_name, club, category, grade, bio, profile_photo_url, cover_photo_url, owner_id, birth_date')
+    .select('first_name, last_name, club, club_id, clubs(id, name), category, grade, bio, profile_photo_url, cover_photo_url, owner_id, birth_date')
     .eq('id', profileId)
     .single()
 
   if (!profile) redirect('/dashboard')
+
+  const clubJoin = profile.clubs as unknown as { id: string; name: string } | null
+  const profileData = {
+    ...profile,
+    club_id: clubJoin?.id ?? (profile.club_id as string | null) ?? null,
+    club_name: clubJoin?.name ?? profile.club ?? null,
+  }
 
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
@@ -28,7 +35,7 @@ export default async function ProfilPage({ params }: { params: { profileId: stri
           Profil
         </h1>
       </div>
-      <ProfileForm profile={profile} profileId={profileId} />
+      <ProfileForm profile={profileData} profileId={profileId} />
       <DeleteAccountSection />
     </div>
   )
