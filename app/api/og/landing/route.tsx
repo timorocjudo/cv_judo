@@ -1,5 +1,7 @@
-import { ImageResponse } from 'next/og'
+import { ImageResponse } from '@vercel/og'
 
+// Edge runtime + fetch avoids a Windows-specific @vercel/og Node runtime bug
+// (fileURLToPath fails on paths with spaces/accents; fs.readFileSync is incompatible with Edge)
 export const runtime = 'edge'
 
 export async function GET(request: Request) {
