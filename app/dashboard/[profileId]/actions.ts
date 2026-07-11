@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { isProfileOwner } from '@/lib/profileAccessService'
 import { getMissingFieldsForPublishing } from '@/lib/profileValidation'
 
@@ -62,4 +63,78 @@ export async function setVisibility(
     if ((e as { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) throw e
     return { ok: false, missing: [] }
   }
+}
+
+export async function removeFromManagement(formData: FormData): Promise<void> {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/')
+
+  const profileId = formData.get('profileId') as string
+
+  const { data: access } = await supabase
+    .from('profile_access')
+    .select('role')
+    .eq('profile_id', profileId)
+    .eq('account_id', user.id)
+    .maybeSingle()
+
+  // Garde : ne pas supprimer si owner ou si pas d'accès
+  if (!access || access.role === 'owner') return
+
+  await supabase
+    .from('profile_access')
+    .delete()
+    .eq('profile_id', profileId)
+    .eq('account_id', user.id)
+
+  redirect('/dashboard')
+}
+
+export async function deleteProfile(formData: FormData): Promise<void> {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/')
+
+  const profileId = formData.get('profileId') as string
+  const confirmedName = (formData.get('confirmedName') as string | null)?.trim() ?? ''
+
+  const owner = await isProfileOwner(profileId, user.id)
+  if (!owner) return
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('first_name, profile_photo_url, cover_photo_url')
+    .eq('id', profileId)
+    .single()
+
+  if (!profile || confirmedName !== profile.first_name) return
+
+  // Récupérer les URLs des photos de galerie avant suppression cascade
+  const { data: galleryPhotos } = await supabase
+    .from('gallery_photos')
+    .select('photo_url')
+    .eq('profile_id', profileId)
+
+  // Extraire les chemins Storage depuis les URLs publiques Supabase
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+  const storagePrefix = `${supabaseUrl}/storage/v1/object/public/media/`
+  const rawUrls: (string | null)[] = [
+    profile.profile_photo_url,
+    profile.cover_photo_url,
+    ...(galleryPhotos ?? []).map((g) => g.photo_url),
+  ]
+  const storagePaths = rawUrls
+    .filter((url): url is string => !!url && url.startsWith(storagePrefix))
+    .map((url) => url.slice(storagePrefix.length))
+
+  if (storagePaths.length > 0) {
+    const adminClient = createAdminClient()
+    await adminClient.storage.from('media').remove(storagePaths)
+  }
+
+  await supabase.from('profiles').delete().eq('id', profileId)
+
+  revalidatePath('/dashboard')
+  redirect('/dashboard')
 }
