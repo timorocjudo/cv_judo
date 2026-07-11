@@ -1,15 +1,15 @@
-import { ImageResponse } from '@vercel/og'
-import fs from 'fs'
-import path from 'path'
+import { ImageResponse } from 'next/og'
 
-const montserratBlack = fs.readFileSync(
-  path.join(process.cwd(), 'public/fonts/Montserrat-Black.ttf')
-)
-const interBold = fs.readFileSync(
-  path.join(process.cwd(), 'public/fonts/Inter-Bold.ttf')
-)
+export const runtime = 'edge'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { origin } = new URL(request.url)
+
+  const [montserratBlack, interBold] = await Promise.all([
+    fetch(`${origin}/fonts/Montserrat-Black.ttf`).then(r => r.arrayBuffer()),
+    fetch(`${origin}/fonts/Inter-Bold.ttf`).then(r => r.arrayBuffer()),
+  ])
+
   return new ImageResponse(
     (
       <div
@@ -139,13 +139,13 @@ export async function GET() {
       fonts: [
         {
           name: 'Montserrat',
-          data: montserratBlack as unknown as ArrayBuffer,
+          data: montserratBlack,
           weight: 900,
           style: 'normal',
         },
         {
           name: 'Inter',
-          data: interBold as unknown as ArrayBuffer,
+          data: interBold,
           weight: 700,
           style: 'normal',
         },
