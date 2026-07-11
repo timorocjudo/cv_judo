@@ -9,6 +9,7 @@ type DisplayAccess = {
   role: ProfileRole
   created_at: string
   display_name: string
+  email_masked?: string | null
 }
 
 type Props = {
@@ -112,7 +113,12 @@ export default function ProfileAccessManager({ profileId, currentAccountId: _cur
           {accesses.map((access) => (
             <li key={access.account_id} className="flex items-center justify-between py-3 gap-4">
               <div className="flex items-center gap-3 min-w-0">
-                <span className="font-medium text-on-surface truncate">{access.display_name}</span>
+                <div className="min-w-0">
+                  <span className="font-medium text-on-surface truncate block">{access.display_name}</span>
+                  {access.email_masked && (
+                    <span className="text-xs text-on-surface-variant">{access.email_masked}</span>
+                  )}
+                </div>
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border flex-shrink-0 ${ROLE_BADGE_CLASSES[access.role]}`}>
                   {ROLE_LABELS[access.role]}
                 </span>

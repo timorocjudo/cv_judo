@@ -27,25 +27,19 @@ export default async function ProfileAccessPage({ params }: { params: { profileI
   const rows = accessRows ?? []
   const accountIds = rows.map((r) => r.account_id)
 
-  const [profilesResult, usersResult] = await Promise.all([
-    adminClient.from('profiles').select('owner_id, first_name, last_name').in('owner_id', accountIds),
-    adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 }),
-  ])
-
-  const profileMap = new Map(profilesResult.data?.map((p) => [p.owner_id, p]) ?? [])
+  const usersResult = await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 })
   const userMap = new Map(usersResult.data?.users.map((u) => [u.id, u]) ?? [])
 
   const accesses = rows.map((row) => {
-    const profile = profileMap.get(row.account_id)
     const authUser = userMap.get(row.account_id)
-    const firstName = profile?.first_name ?? null
-    const lastName = profile?.last_name ?? null
     const email = authUser?.email ?? null
-    const display_name =
-      firstName && lastName
-        ? `${firstName} ${lastName[0]}.`
-        : firstName ?? (email ? email.split('@')[0] : 'Inconnu')
-    return { account_id: row.account_id, role: row.role as 'owner' | 'manager' | 'viewer', created_at: row.created_at, display_name }
+    const meta = authUser?.user_metadata ?? {}
+    const display_name: string =
+      meta.full_name ?? meta.name ?? email?.split('@')[0] ?? 'Inconnu'
+    const email_masked = email
+      ? `${email.slice(0, 3)}***@${email.split('@')[1]}`
+      : null
+    return { account_id: row.account_id, role: row.role as 'owner' | 'manager' | 'viewer', created_at: row.created_at, display_name, email_masked }
   })
 
   return (
