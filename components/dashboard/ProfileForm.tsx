@@ -38,11 +38,16 @@ const CATEGORIES_BY_AGE: Record<AgeGroup, { garcons: string[]; filles: string[] 
 }
 
 function getAgeGroupFromCategory(category: string): AgeGroup {
-  const raw = category.replace(/\s*\d+$/, '')
-  if (raw === 'Benjamin 1' || raw === 'Benjamin 2' || raw.startsWith('Benjamin')) return 'Benjamin'
-  if (raw.startsWith('Minime')) return 'Minime'
-  if (raw.startsWith('Cadet')) return 'Cadet'
-  if (raw.startsWith('Junior')) return 'Junior'
+  if (!category) return 'Sénior'
+  if (
+    category.startsWith('Éveil') ||
+    category.startsWith('Pré-Poussins') ||
+    category.startsWith('Poussins') ||
+    category.startsWith('Benjamins')
+  ) return 'Benjamin'
+  if (category.startsWith('Minimes')) return 'Minime'
+  if (category.startsWith('Cadets')) return 'Cadet'
+  if (category.startsWith('Juniors')) return 'Junior'
   return 'Sénior'
 }
 
@@ -119,6 +124,23 @@ export default function ProfileForm({ profile, profileId }: { profile: Profile; 
             }}
             className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
+          {birthDate && computedCategory && (
+            <div className="flex flex-wrap items-center gap-2 mt-1.5">
+              <span className="text-xs text-on-surface-variant">
+                Calculé automatiquement :
+              </span>
+              <span className="text-xs font-semibold text-primary">
+                {computedCategory}
+              </span>
+              <button
+                type="button"
+                onClick={() => setAgeGroup(getAgeGroupFromCategory(computedCategory))}
+                className="text-xs text-primary underline hover:no-underline"
+              >
+                Utiliser cette valeur
+              </button>
+            </div>
+          )}
         </div>
 
         <div>

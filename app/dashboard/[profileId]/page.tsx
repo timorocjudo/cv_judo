@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { isProfileOwner } from '@/lib/profileAccessService'
 import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/profileValidation'
 import VisibilityForm from './VisibilityForm'
 import QRCodeDisplay from '@/components/QRCodeDisplay'
+import DeleteProfileSection from '@/components/dashboard/DeleteProfileSection'
 
 export const metadata: Metadata = { title: 'Tableau de bord' }
 
@@ -27,10 +27,19 @@ export default async function ProfileDashboardHome({
 
   if (!profile) redirect('/dashboard')
 
-  const [ownerStatus, missingFields] = await Promise.all([
-    isProfileOwner(profileId, user.id),
+  // Récupère le rôle ET les champs manquants en parallèle
+  const [{ data: accessRow }, missingFields] = await Promise.all([
+    supabase
+      .from('profile_access')
+      .select('role')
+      .eq('profile_id', profileId)
+      .eq('account_id', user.id)
+      .maybeSingle(),
     Promise.resolve(getMissingFieldsForPublishing(profile)),
   ])
+
+  const userRole = (accessRow?.role ?? null) as 'owner' | 'manager' | 'viewer' | null
+  const ownerStatus = userRole === 'owner'
 
   const initials = (profile.first_name?.[0] ?? '') + (profile.last_name?.[0] ?? '')
 
@@ -123,6 +132,14 @@ export default async function ProfileDashboardHome({
             pour t&apos;identifier facilement.
           </p>
         </div>
+      )}
+
+      {(userRole === 'owner' || userRole === 'manager') && (
+        <DeleteProfileSection
+          profileId={profileId}
+          firstName={profile.first_name}
+          userRole={userRole as 'owner' | 'manager'}
+        />
       )}
     </div>
   )

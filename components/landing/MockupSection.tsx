@@ -22,7 +22,12 @@ export default function MockupSection({ featured }: Props) {
 
   return (
     <section className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+      <Link
+        href={`/${featured.slug}`}
+        className="block group"
+        aria-label={`Voir le profil de ${featured.first_name} ${featured.last_name}`}
+      >
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white group-hover:ring-2 group-hover:ring-primary/30 group-hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)] transition-all duration-200">
 
         {/* Browser chrome */}
         <div className="bg-surface-container-high px-4 py-2 flex items-center gap-2 border-b border-outline-variant">
@@ -122,6 +127,7 @@ export default function MockupSection({ featured }: Props) {
           </div>
         )}
       </div>
+      </Link>
 
       <div className="text-center mt-4">
         <Link href={`/${featured.slug}`} className="text-primary font-semibold text-sm hover:underline">

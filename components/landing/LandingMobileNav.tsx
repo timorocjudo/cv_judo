@@ -35,7 +35,7 @@ export default function LandingMobileNav() {
             className="flex flex-col items-center gap-0.5 py-2 px-3 text-on-surface-variant hover:text-primary active:text-primary transition-colors flex-1"
           >
             {icon}
-            <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none">
+            <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none text-center">
               {label}
             </span>
           </a>
@@ -47,7 +47,7 @@ export default function LandingMobileNav() {
           <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
           </svg>
-          <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none">
+          <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none text-center">
             Créer
           </span>
         </Link>
