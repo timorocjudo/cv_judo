@@ -58,7 +58,6 @@ export default function VisibilityForm({
   currentVisibility,
   isOwner,
   missingFields,
-  firstName,
 }: Props) {
   const [state, formAction] = useFormState(setVisibility, INITIAL)
   const isFirstRender = useRef(true)
