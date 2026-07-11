@@ -44,7 +44,7 @@ export async function createClub(name: string): Promise<Club> {
 
   const { data: allClubs } = await supabase
     .from('clubs')
-    .select('id, name, slug, city, department, verified')
+    .select('name')
 
   const normalizedName = normalizeText(name.trim())
   const duplicate = (allClubs ?? []).find(
