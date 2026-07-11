@@ -66,8 +66,12 @@ export default function ClubAutocomplete({
       const club = await createClub(name)
       selectClub(club)
       toast.success('Club créé et sélectionné')
-    } catch {
-      toast.error('Erreur lors de la création du club')
+    } catch (err) {
+      if (err instanceof Error && err.message === 'CLUB_ALREADY_EXISTS') {
+        toast.error('Ce club existe déjà — recherche-le dans la liste')
+      } else {
+        toast.error('Erreur lors de la création du club')
+      }
     } finally {
       setCreating(false)
     }
