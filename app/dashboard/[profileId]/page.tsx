@@ -21,7 +21,7 @@ export default async function ProfileDashboardHome({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, first_name, last_name, profile_photo_url, visibility, club, category, grade, bio, birth_date')
+    .select('id, slug, first_name, last_name, profile_photo_url, visibility, club, club_id, category, grade, bio, birth_date')
     .eq('id', profileId)
     .single()
 

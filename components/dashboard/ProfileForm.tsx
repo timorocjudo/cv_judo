@@ -55,7 +55,6 @@ function getAgeGroupFromCategory(category: string): AgeGroup {
 interface Profile {
   first_name: string
   last_name: string
-  club: string | null
   club_id: string | null
   club_name: string | null
   category: string | null
