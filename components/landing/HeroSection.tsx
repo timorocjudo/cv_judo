@@ -1,6 +1,5 @@
-import { Suspense } from 'react'
 import Link from 'next/link'
-import SearchAutocomplete from '@/components/SearchAutocomplete'
+import SearchWithAdvancedLink from '@/components/landing/SearchWithAdvancedLink'
 
 const PATHS = [
   {
@@ -56,20 +55,7 @@ export default function HeroSection() {
         <p className="text-xs text-on-surface-variant mb-4 uppercase tracking-wide font-semibold">
           Ou recherche un judoka
         </p>
-        <Suspense
-          fallback={
-            <div className="max-w-2xl mx-auto flex items-center bg-white rounded-xl shadow-xl border border-outline-variant p-2">
-              <input
-                type="text"
-                disabled
-                placeholder="Rechercher un judoka…"
-                className="flex-1 border-none outline-none px-4 py-3 text-on-surface placeholder:text-outline bg-transparent"
-              />
-            </div>
-          }
-        >
-          <SearchAutocomplete className="max-w-2xl mx-auto" />
-        </Suspense>
+        <SearchWithAdvancedLink />
       </div>
     </section>
   )
