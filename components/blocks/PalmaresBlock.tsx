@@ -87,12 +87,16 @@ function SeasonGroup({ startYear, entries, birthDate, slug }: SeasonGroupProps) 
                     {entry.competition}
                   </h3>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
-                      {entry.category}
-                    </span>
-                    <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
-                      {computeAgeCategory(birthDate, entry.date)}
-                    </span>
+                    {entry.category && (
+                      <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
+                        {entry.category}
+                      </span>
+                    )}
+                    {computeAgeCategory(birthDate, entry.date) && (
+                      <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">
+                        {computeAgeCategory(birthDate, entry.date)}
+                      </span>
+                    )}
                   </div>
                 </div>
 
