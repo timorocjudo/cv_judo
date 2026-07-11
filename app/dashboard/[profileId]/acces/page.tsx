@@ -25,7 +25,6 @@ export default async function ProfileAccessPage({ params }: { params: { profileI
     .order('created_at', { ascending: true })
 
   const rows = accessRows ?? []
-  const accountIds = rows.map((r) => r.account_id)
 
   const usersResult = await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 })
   const userMap = new Map(usersResult.data?.users.map((u) => [u.id, u]) ?? [])

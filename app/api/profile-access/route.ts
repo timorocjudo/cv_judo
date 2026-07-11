@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
     if (!ownerCheck) return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
     const adminClient = createAdminClient()
     const rows = await getProfileAccesses(profileId)
-    const accountIds = rows.map((r) => r.account_id)
 
     const usersResult = await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 })
     const userMap = new Map(usersResult.data?.users.map((u) => [u.id, u]) ?? [])
