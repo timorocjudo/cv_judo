@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { computeAgeCategory } from '@/lib/ageCategory'
 import LandingNav from '@/components/landing/LandingNav'
 import LandingMobileNav from '@/components/landing/LandingMobileNav'
+import HeroZone from '@/components/landing/HeroZone'
 import HeroSection from '@/components/landing/HeroSection'
 import MockupSection from '@/components/landing/MockupSection'
 import HowItWorksSection from '@/components/landing/HowItWorksSection'
@@ -22,14 +23,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fr_FR',
     siteName: 'IpponId',
-    images: [{ url: '/images/cover.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/api/og/landing', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'IpponId — Crée ton CV judoka en ligne',
     description:
       'Crée gratuitement ta page de judoka en quelques secondes. Partage tes grades, compétitions et victoires avec ton URL personnalisée.',
-    images: ['/images/cover.jpg'],
+    images: ['/api/og/landing'],
   },
 }
 
@@ -120,6 +121,7 @@ export default async function LandingPage() {
       />
       <LandingNav isLoggedIn={!!user} />
       <main className="mt-20">
+        <HeroZone />
         <HeroSection />
         <MockupSection featured={featured} />
         <WhoIsItForSection />
