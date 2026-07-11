@@ -12,9 +12,11 @@ const MIN_QUERY_LEN = 3
 export default function SearchAutocomplete({
   className = '',
   placeholder = 'Rechercher un judoka…',
+  onQueryChange,
 }: {
   className?: string
   placeholder?: string
+  onQueryChange?: (q: string) => void
 }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
@@ -62,6 +64,7 @@ export default function SearchAutocomplete({
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     setQuery(value)
+    onQueryChange?.(value)
     setActiveIndex(-1)
     setHasError(false)
     if (debounceRef.current) clearTimeout(debounceRef.current)
