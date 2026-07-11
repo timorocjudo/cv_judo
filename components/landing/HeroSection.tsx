@@ -28,9 +28,9 @@ export default function HeroSection() {
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <h1 className="font-montserrat text-headline-lg-mobile md:text-headline-lg font-black text-primary mb-6 leading-tight">
+        <h2 className="font-montserrat text-headline-lg-mobile md:text-headline-lg font-black text-primary mb-6 leading-tight">
           Le CV en ligne des judokas
-        </h1>
+        </h2>
         <p className="text-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">
           Crée ta page gratuitement. Partage ton parcours, tes grades et tes victoires avec ton URL personnalisée.
         </p>
