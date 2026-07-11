@@ -47,7 +47,7 @@ export async function GET(
     .select('first_name, last_name, profile_photo_url, cover_photo_url')
     .eq('id', entry.profile_id)
     .eq('slug', params.slug)
-    .eq('published', true)
+    .in('visibility', ['public', 'private'])
     .maybeSingle()
 
   if (!profile) {

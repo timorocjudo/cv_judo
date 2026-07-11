@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const judoka = await getJudokaBySlug(params.slug, { allowDraft: true })
   if (!judoka) return {}
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ipponid.com'
   const ogImageUrl = `${siteUrl}/api/og/profile/${params.slug}`
 
   const base: Metadata = {
