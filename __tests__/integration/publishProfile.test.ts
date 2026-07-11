@@ -44,7 +44,7 @@ function makeFormData(opts: { profileId: string; slug: string; visibility: 'draf
 
 function makeProfileData(overrides: Partial<Record<string, string | null>> = {}) {
   return {
-    club: 'Judo Club Paris',
+    club_id: 'club-uuid-1',
     category: '-66kg',
     grade: 'Ceinture noire',
     bio: 'Judoka depuis 10 ans.',
@@ -126,7 +126,7 @@ describe('setVisibility — passage en public', () => {
   it('profil incomplet (photo + club manquants) → les deux champs listés', async () => {
     setupMocks({
       userId: 'user-1',
-      profileData: makeProfileData({ profile_photo_url: null, club: null }),
+      profileData: makeProfileData({ profile_photo_url: null, club_id: null }),
       isOwner: true,
     })
 
