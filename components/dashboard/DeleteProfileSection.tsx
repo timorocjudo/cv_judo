@@ -15,18 +15,15 @@ export default function DeleteProfileSection({
   userRole,
 }: DeleteProfileSectionProps) {
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [confirmInput, setConfirmInput] = useState('')
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   function openDeleteModal() {
     setConfirmInput('')
-    setDeleteModalOpen(true)
     dialogRef.current?.showModal()
   }
 
   function closeDeleteModal() {
-    setDeleteModalOpen(false)
     setConfirmInput('')
     dialogRef.current?.close()
   }
