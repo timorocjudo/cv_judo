@@ -59,13 +59,16 @@ describe('searchJudokasAdvanced', () => {
       makeProfile({ slug: 'marron-1', grade: '1er kyu' }),
       makeProfile({ slug: 'bleue-1', grade: '2e kyu' }),
     ]
-    // grade filter uses .in() server-side, but mock doesn't actually filter
-    // so we simulate what Supabase would return after .in() filtering
-    mockFrom.mockReturnValue(makeChain({ data: [profiles[0]], error: null }))
+    const chain = makeChain({ data: [profiles[0]], error: null })
+    mockFrom.mockReturnValue(chain)
 
     const result = await searchJudokasAdvanced({ grade: 'marron' })
     expect(result.total).toBe(1)
     expect(result.results[0].slug).toBe('marron-1')
+
+    // Assert .in('grade', [...]) was called with DB values for 'marron'
+    const inCalls = (chain.in as ReturnType<typeof vi.fn>).mock.calls
+    expect(inCalls.some((args: unknown[]) => args[0] === 'grade' && Array.isArray(args[1]) && (args[1] as string[]).includes('1er kyu'))).toBe(true)
   })
 
   it('filtre par catégorie "cadets" → retourne uniquement les profils avec birth_date dans la tranche cadets', async () => {
@@ -94,13 +97,18 @@ describe('searchJudokasAdvanced', () => {
     const profiles = [
       makeProfile({ slug: 'cadet-roc', birth_date: '2011-01-01', clubs: club }),
     ]
+    const profileChain = makeChain({ data: profiles, error: null })
     mockFrom
-      .mockReturnValueOnce(makeChain({ data: club, error: null }))     // club lookup
-      .mockReturnValueOnce(makeChain({ data: profiles, error: null })) // profiles
+      .mockReturnValueOnce(makeChain({ data: club, error: null }))  // club lookup
+      .mockReturnValueOnce(profileChain)                             // profiles
 
     const result = await searchJudokasAdvanced({ clubSlug: 'roc-judo', categorie: 'cadets' })
     expect(result.total).toBe(1)
     expect(result.resolvedClub?.slug).toBe('roc-judo')
+
+    // Assert .eq('club_id', ...) was called
+    const eqCalls = (profileChain.eq as ReturnType<typeof vi.fn>).mock.calls
+    expect(eqCalls.some((args: unknown[]) => args[0] === 'club_id' && args[1] === 'club-1')).toBe(true)
 
     vi.useRealTimers()
   })
@@ -127,6 +135,18 @@ describe('searchJudokasAdvanced', () => {
 
     const result = await searchJudokasAdvanced({ ordre: 'poids-asc' })
     expect(result.results.map(r => r.slug)).toEqual(['p60', 'p73', 'p81'])
+  })
+
+  it('filtre par poids "-73kg" → .in("category", ["-73 kg"]) appelé', async () => {
+    const profiles = [makeProfile({ slug: 'p73', category: '-73 kg' })]
+    const chain = makeChain({ data: profiles, error: null })
+    mockFrom.mockReturnValue(chain)
+
+    const result = await searchJudokasAdvanced({ poids: '-73kg' })
+    expect(result.total).toBe(1)
+
+    const inCalls = (chain.in as ReturnType<typeof vi.fn>).mock.calls
+    expect(inCalls.some((args: unknown[]) => args[0] === 'category' && Array.isArray(args[1]) && (args[1] as string[]).includes('-73 kg'))).toBe(true)
   })
 
   it('profils privés et drafts absents — Supabase RLS gère le filtre, le service ajoute eq visibility=public', async () => {

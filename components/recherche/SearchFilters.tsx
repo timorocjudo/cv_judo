@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ClubAutocomplete from '@/components/ClubAutocomplete'
 import { GRADE_FILTER_OPTIONS, AGE_CATEGORY_GROUPS, WEIGHT_FILTER_OPTIONS } from '@/lib/searchFilterConfig'
 
@@ -74,6 +74,7 @@ export default function SearchFilters({
   hasActiveFilters, onReset,
 }: SearchFiltersProps) {
   const [localQ, setLocalQ] = useState(q)
+  useEffect(() => { setLocalQ(q) }, [q])
 
   function handleQChange(value: string) {
     setLocalQ(value)
