@@ -10,8 +10,9 @@ const MIN_QUERY_LEN = 2
 interface ClubAutocompleteProps {
   value: string | null
   valueName: string | null
-  onChange: (clubId: string | null, clubName: string | null) => void
+  onChange: (clubId: string | null, clubName: string | null, clubSlug?: string | null) => void
   placeholder?: string
+  disableCreate?: boolean
 }
 
 export default function ClubAutocomplete({
@@ -19,6 +20,7 @@ export default function ClubAutocomplete({
   valueName,
   onChange,
   placeholder = 'Recherche ton club...',
+  disableCreate,
 }: ClubAutocompleteProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Club[]>([])
@@ -50,7 +52,7 @@ export default function ClubAutocomplete({
 
   const selectClub = useCallback(
     (club: Club) => {
-      onChange(club.id, club.name)
+      onChange(club.id, club.name, club.slug)
       setIsOpen(false)
       setQuery('')
       setResults([])
@@ -215,7 +217,7 @@ export default function ClubAutocomplete({
             </ul>
           )}
 
-          {showCreateOption && (
+          {showCreateOption && !disableCreate && (
             <button
               type="button"
               role="option"
