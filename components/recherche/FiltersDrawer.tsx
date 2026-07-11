@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import SearchFilters, { type SearchFiltersProps } from '@/components/recherche/SearchFilters'
 
@@ -10,7 +10,12 @@ interface FiltersDrawerProps extends SearchFiltersProps {
 }
 
 export default function FiltersDrawer({ isOpen, onClose, ...filterProps }: FiltersDrawerProps) {
-  const drawerRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+
+  // Mount check for SSR
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Body scroll lock
   useEffect(() => {
@@ -30,7 +35,7 @@ export default function FiltersDrawer({ isOpen, onClose, ...filterProps }: Filte
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen, onClose])
 
-  if (typeof document === 'undefined') return null
+  if (!mounted) return null
 
   return createPortal(
     <div
@@ -50,7 +55,6 @@ export default function FiltersDrawer({ isOpen, onClose, ...filterProps }: Filte
 
       {/* Drawer panel */}
       <div
-        ref={drawerRef}
         className={`absolute bottom-0 left-0 right-0 bg-surface-container-lowest rounded-t-2xl max-h-[85vh] flex flex-col
                     transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
