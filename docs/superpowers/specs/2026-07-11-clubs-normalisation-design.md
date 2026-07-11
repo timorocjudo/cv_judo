@@ -114,16 +114,16 @@ export type Club = {
 
 **`searchClubs(query: string): Promise<Club[]>`**
 - Retourne `[]` immédiatement si `query.length < 2`
-- Filtre via `.ilike('name', '%query%')` côté Supabase (réduit le transfert réseau)
-- `query` est normalisé via `normalizeText()` avant l'appel `.ilike()`
+- Fetch tous les clubs (pas de filtre SQL — le volume sera toujours faible), filtrage client-side via `normalizeText()` pour la recherche accent- et casse-insensible (même pattern que `searchJudokasAutocomplete`)
 - Tri : `verified = true` en premier, puis alphabétique sur `name`
 - Max 8 résultats
 
-**`createClub(name: string, accountId: string): Promise<Club>`**
+**`createClub(name: string): Promise<Club>`**
+- Lit l'userId depuis `supabase.auth.getUser()` en interne — ne pas accepter l'accountId comme paramètre (plus sûr, pas de prop `userId` sur le composant)
 - Vérifie qu'aucun club avec `lower(trim(name))` identique n'existe → `throw new Error('CLUB_ALREADY_EXISTS')` si trouvé
 - Génère `slug` via `normalizeText(name).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')`
 - Boucle de déduplication de slug : si slug pris, essaie `slug-2`, `slug-3`...
-- Insère avec `created_by = accountId`
+- Insère avec `created_by = userId`
 - Retourne le club créé
 
 **`getClubBySlug(slug: string): Promise<Club | null>`**
@@ -179,7 +179,7 @@ interface ClubAutocompleteProps {
 - Résultats : `[NomDuClub] [Ville?] [✓ Vérifié?]`
 - Badge "✓ Vérifié" en `text-tertiary-container` si `verified = true`
 - Option "Créer" : visible en bas de liste si query ≥ 2 chars ET aucun résultat avec `name` exactement égal à `query` (insensible casse). Visuellement distincte (bordure dashed, couleur secondaire).
-- Clic "Créer" → `createClub(query, userId)` → sélection automatique → toast sonner "Club créé et sélectionné"
+- Clic "Créer" → `createClub(query)` → sélection automatique → toast sonner "Club créé et sélectionné"
 - Navigation clavier (↑↓ Entrée Échap) — l'option "Créer" est le dernier index dans le cycle
 
 ### Intégration `ProfileForm`
@@ -199,7 +199,7 @@ Le `<input id="club" name="club" ...>` est remplacé par :
 <input type="hidden" name="club_id" value={clubId ?? ''} />
 ```
 
-`ClubAutocomplete` a besoin du `userId` pour `createClub`. Il le reçoit via une prop `userId: string` passée depuis `ProfileForm` (qui a déjà `profile.owner_id`).
+Pas de prop `userId` sur `ClubAutocomplete` — `createClub` lit l'userId depuis la session Supabase en interne.
 
 ### Mise à jour `saveProfile` (action)
 
