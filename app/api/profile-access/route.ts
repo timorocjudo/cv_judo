@@ -8,15 +8,16 @@ import {
   isProfileOwner,
 } from '@/lib/profileAccessService'
 
-function buildDisplayName(
-  firstName: string | null,
-  lastName: string | null,
-  email: string | null
-): string {
-  if (firstName && lastName) return `${firstName} ${lastName[0]}.`
-  if (firstName) return firstName
+function buildDisplayName(metaName: string | null, email: string | null): string {
+  if (metaName) return metaName
   if (email) return email.split('@')[0]
   return 'Inconnu'
+}
+
+function maskEmail(email: string | null): string | null {
+  if (!email) return null
+  const [local, domain] = email.split('@')
+  return `${local.slice(0, 3)}***@${domain}`
 }
 
 export async function POST(request: NextRequest) {
@@ -41,28 +42,20 @@ export async function POST(request: NextRequest) {
     if (!ownerCheck) return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
     const adminClient = createAdminClient()
     const rows = await getProfileAccesses(profileId)
-    const accountIds = rows.map((r) => r.account_id)
 
-    const [profilesResult, usersResult] = await Promise.all([
-      adminClient.from('profiles').select('owner_id, first_name, last_name').in('owner_id', accountIds),
-      adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 }),
-    ])
-
-    const profileMap = new Map(profilesResult.data?.map((p) => [p.owner_id, p]) ?? [])
+    const usersResult = await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 })
     const userMap = new Map(usersResult.data?.users.map((u) => [u.id, u]) ?? [])
 
     const accesses = rows.map((row) => {
-      const profile = profileMap.get(row.account_id)
       const authUser = userMap.get(row.account_id)
+      const email = authUser?.email ?? null
+      const meta = authUser?.user_metadata ?? {}
       return {
         account_id: row.account_id,
         role: row.role,
         created_at: row.created_at,
-        display_name: buildDisplayName(
-          profile?.first_name ?? null,
-          profile?.last_name ?? null,
-          authUser?.email ?? null
-        ),
+        display_name: buildDisplayName(meta.full_name ?? meta.name ?? null, email),
+        email_masked: maskEmail(email),
       }
     })
 

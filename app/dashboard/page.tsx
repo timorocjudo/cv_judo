@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getProfilesForAccount } from '@/lib/profileAccessService'
-import { getAccount, canCreateMoreProfiles } from '@/lib/accountService'
+import { getAccount, canCreateMoreProfiles, type AccountType } from '@/lib/accountService'
 
 export const metadata: Metadata = { title: 'Mes judokas' }
 
@@ -23,10 +23,39 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')
 
-  const profiles = await getProfilesForAccount(user.id)
-  if (profiles.length === 0) redirect('/dashboard/nouveau')
+  const [profiles, account] = await Promise.all([
+    getProfilesForAccount(user.id),
+    getAccount(user.id),
+  ])
 
-  const account = await getAccount(user.id)
+  if (profiles.length === 0) {
+    const WELCOME: Record<AccountType, string> = {
+      manager: 'Bienvenue ! Crée le premier profil de tes enfants judokas.',
+      parent_judoka: 'Bienvenue ! Commençons par créer ton profil judoka.',
+      judoka: 'Bienvenue ! Crée ton profil judoka.',
+    }
+    const welcomeMsg = account ? WELCOME[account.account_type] : 'Bienvenue !'
+
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-margin-mobile">
+        <div className="max-w-md w-full text-center space-y-6">
+          <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-on-primary">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </div>
+          <h1 className="font-montserrat text-headline-md font-bold text-primary">{welcomeMsg}</h1>
+          <Link
+            href="/dashboard/nouveau"
+            className="inline-block bg-primary text-on-primary font-semibold px-8 py-3 rounded-lg hover:bg-primary-container transition-colors"
+          >
+            Créer mon premier judoka
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   const ownedCount = profiles.filter((p) => p.role === 'owner').length
   const canCreate = canCreateMoreProfiles(account?.max_profiles ?? 1, ownedCount)
 
