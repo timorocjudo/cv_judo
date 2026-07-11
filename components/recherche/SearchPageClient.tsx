@@ -190,7 +190,7 @@ export default function SearchPageClient({ results, total, resolvedClub }: Searc
         {results.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-on-surface-variant mb-4">
-              Aucun judoka ne correspond à ces critères — essaie d'élargir ta recherche.
+              Aucun judoka ne correspond à ces critères — essaie d&apos;élargir ta recherche.
             </p>
             <button
               type="button"
