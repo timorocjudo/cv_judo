@@ -82,11 +82,16 @@ export async function removeFromManagement(formData: FormData): Promise<void> {
   // Garde : ne pas supprimer si owner ou si pas d'accès
   if (!access || access.role === 'owner') return
 
-  await supabase
+  const { error: deleteError } = await supabase
     .from('profile_access')
     .delete()
     .eq('profile_id', profileId)
     .eq('account_id', user.id)
+
+  if (deleteError) {
+    console.error('[removeFromManagement] Delete failed:', deleteError.message)
+    return
+  }
 
   redirect('/dashboard')
 }
@@ -132,10 +137,16 @@ export async function deleteProfile(formData: FormData): Promise<void> {
 
   if (storagePaths.length > 0) {
     const adminClient = createAdminClient()
-    await adminClient.storage.from('media').remove(storagePaths)
+    const { error: storageError } = await adminClient.storage.from('media').remove(storagePaths)
+    if (storageError) console.error('[deleteProfile] Storage cleanup failed:', storageError.message)
   }
 
-  await supabase.from('profiles').delete().eq('id', profileId)
+  const { error: profileDeleteError } = await supabase.from('profiles').delete().eq('id', profileId)
+
+  if (profileDeleteError) {
+    console.error('[deleteProfile] Profile delete failed:', profileDeleteError.message)
+    return
+  }
 
   revalidatePath('/dashboard')
   redirect('/dashboard')
