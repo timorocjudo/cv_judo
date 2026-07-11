@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useFormState } from 'react-dom'
 import { toast } from 'sonner'
+import ClubAutocomplete from '@/components/ClubAutocomplete'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { BeltBadge } from '@/components/dashboard/BeltBadge'
 import { SubmitButton } from '@/components/dashboard/SubmitButton'
@@ -54,7 +55,8 @@ function getAgeGroupFromCategory(category: string): AgeGroup {
 interface Profile {
   first_name: string
   last_name: string
-  club: string | null
+  club_id: string | null
+  club_name: string | null
   category: string | null
   grade: string | null
   bio: string | null
@@ -69,6 +71,8 @@ export default function ProfileForm({ profile, profileId }: { profile: Profile; 
   const isFirstRender = useRef(true)
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(profile.profile_photo_url ?? '')
   const [coverPhotoUrl, setCoverPhotoUrl] = useState(profile.cover_photo_url ?? '')
+  const [clubId, setClubId] = useState<string | null>(profile.club_id ?? null)
+  const [clubName, setClubName] = useState<string | null>(profile.club_name ?? null)
   const [selectedGrade, setSelectedGrade] = useState(profile.grade ?? '')
   const [birthDate, setBirthDate] = useState(profile.birth_date ?? '')
   const computedCategory = computeAgeCategory(birthDate || undefined)
@@ -144,14 +148,16 @@ export default function ProfileForm({ profile, profileId }: { profile: Profile; 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-on-surface mb-1" htmlFor="club">Club</label>
-          <input
-            id="club"
-            name="club"
-            type="text"
-            defaultValue={profile.club ?? ''}
-            className="w-full border border-outline-variant rounded-lg px-4 py-2.5 text-on-surface bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/30"
+          <label className="block text-sm font-medium text-on-surface mb-1">Club</label>
+          <ClubAutocomplete
+            value={clubId}
+            valueName={clubName}
+            onChange={(id, name) => {
+              setClubId(id)
+              setClubName(name)
+            }}
           />
+          <input type="hidden" name="club_id" value={clubId ?? ''} />
         </div>
 
         <div className="grid grid-cols-2 gap-4">

@@ -16,7 +16,7 @@ export async function switchToPrivate(formData: FormData): Promise<void> {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, club, category, grade, bio, profile_photo_url, birth_date')
+    .select('id, club, club_id, category, grade, bio, profile_photo_url, birth_date')
     .eq('slug', slug)
     .maybeSingle()
 
@@ -25,7 +25,7 @@ export async function switchToPrivate(formData: FormData): Promise<void> {
   const ownerCheck = await isProfileOwner(profile.id, user.id)
   if (!ownerCheck) return
 
-  const missing = getMissingFieldsForPublishing(profile)
+  const missing = getMissingFieldsForPublishing({ ...profile, club_id: profile.club_id ?? null })
   if (missing.length > 0) return
 
   await supabase

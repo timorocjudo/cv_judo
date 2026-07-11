@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { getMissingFieldsForPublishing, type PublishableProfile } from '@/lib/profileValidation'
 
 const COMPLETE_PROFILE: PublishableProfile = {
-  club: 'Judo Club Paris',
+  club_id: 'club-uuid-123',
   category: '-66kg',
   grade: 'Ceinture noire 1er dan',
   bio: 'Judoka passionné depuis 10 ans.',
@@ -27,7 +27,7 @@ describe('getMissingFieldsForPublishing', () => {
   })
 
   it('sans club → "Club" dans les manquants', () => {
-    const profile = { ...COMPLETE_PROFILE, club: null }
+    const profile = { ...COMPLETE_PROFILE, club_id: null }
     expect(getMissingFieldsForPublishing(profile)).toContain('Club')
   })
 
@@ -48,7 +48,7 @@ describe('getMissingFieldsForPublishing', () => {
 
   it('profil entièrement vide → tous les 6 champs manquants', () => {
     const emptyProfile: PublishableProfile = {
-      club: null,
+      club_id: null,
       category: null,
       grade: null,
       bio: null,
@@ -71,7 +71,7 @@ describe('getMissingFieldsForPublishing', () => {
   })
 
   it('champ présent mais espaces seulement → considéré manquant', () => {
-    const profile = { ...COMPLETE_PROFILE, club: '   ' }
+    const profile = { ...COMPLETE_PROFILE, club_id: '   ' }
     expect(getMissingFieldsForPublishing(profile)).toContain('Club')
   })
 })

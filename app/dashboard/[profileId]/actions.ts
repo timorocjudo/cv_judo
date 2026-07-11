@@ -34,13 +34,13 @@ export async function setVisibility(
     if (visibility !== 'draft') {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('club, category, grade, bio, profile_photo_url, birth_date')
+        .select('club, club_id, category, grade, bio, profile_photo_url, birth_date')
         .eq('id', profileId)
         .single()
 
       if (!profile) return { ok: false, missing: [] }
 
-      const missing = getMissingFieldsForPublishing(profile)
+      const missing = getMissingFieldsForPublishing({ ...profile, club_id: profile.club_id ?? null })
       if (missing.length > 0) return { ok: false, missing }
     }
 

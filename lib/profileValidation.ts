@@ -1,5 +1,5 @@
 export type PublishableProfile = {
-  club: string | null
+  club_id: string | null
   category: string | null
   grade: string | null
   bio: string | null
@@ -10,7 +10,7 @@ export type PublishableProfile = {
 type RequiredField = { key: keyof PublishableProfile; label: string }
 
 const REQUIRED_FIELDS: RequiredField[] = [
-  { key: 'club',              label: 'Club' },
+  { key: 'club_id',           label: 'Club' },
   { key: 'category',         label: 'Catégorie' },
   { key: 'grade',            label: 'Grade' },
   { key: 'bio',              label: 'Bio' },

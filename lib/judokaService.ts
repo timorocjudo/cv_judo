@@ -40,6 +40,8 @@ type ProfileRow = {
   first_name: string
   last_name: string
   club: string | null
+  club_id: string | null
+  clubs: { id: string; name: string } | null
   category: string | null
   grade: string | null
   bio: string | null
@@ -67,7 +69,8 @@ function mapProfile(row: ProfileRow): JudokaData {
     identity: {
       firstName: row.first_name,
       lastName: row.last_name,
-      club: row.club ?? '',
+      club: (row.clubs as { name: string } | null)?.name ?? row.club ?? '',
+      clubId: (row.clubs as { id: string } | null)?.id ?? row.club_id ?? null,
       birthDate: row.birth_date ?? undefined,
       weightCategory: row.category ?? '',
       grade: row.grade ?? '',
@@ -116,6 +119,7 @@ export async function getJudokaBySlug(
     .from('profiles')
     .select(`
       *,
+      clubs(id, name),
       palmares (*),
       videos (*),
       gallery_photos (*)
@@ -146,7 +150,7 @@ export async function searchJudokasAutocomplete(
   const supabase = createClient()
   const { data, error } = await supabase
     .from('profiles')
-    .select('slug, first_name, last_name, club, grade, category, profile_photo_url')
+    .select('slug, first_name, last_name, club, clubs(id, name), grade, category, profile_photo_url')
     .eq('visibility', 'public')
 
   if (error || !data) return []
@@ -157,6 +161,15 @@ export async function searchJudokasAutocomplete(
       return fullName.includes(normalized)
     })
     .slice(0, 8)
+    .map((row) => ({
+      slug: row.slug,
+      first_name: row.first_name,
+      last_name: row.last_name,
+      club: (row.clubs as unknown as { name: string } | null)?.name ?? row.club ?? null,
+      grade: row.grade,
+      category: row.category,
+      profile_photo_url: row.profile_photo_url,
+    }))
 }
 
 export async function searchJudokas(query: string): Promise<JudokaData[]> {
@@ -166,7 +179,7 @@ export async function searchJudokas(query: string): Promise<JudokaData[]> {
   const supabase = createClient()
   const { data, error } = await supabase
     .from('profiles')
-    .select('*')
+    .select('*, clubs(id, name)')
     .eq('visibility', 'public')
 
   if (error || !data) return []
