@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import SearchFilters from '@/components/recherche/SearchFilters'
 import FiltersDrawer from '@/components/recherche/FiltersDrawer'
 import JudokaCardComponent from '@/components/recherche/JudokaCard'
-import CardSkeleton from '@/components/recherche/CardSkeleton'
 import Pagination from '@/components/recherche/Pagination'
 import type { JudokaCard, SearchResult } from '@/lib/advancedSearch'
 
@@ -29,6 +28,7 @@ export default function SearchPageClient({ results, total, resolvedClub }: Searc
   const [drawerOpen, setDrawerOpen] = useState(false)
   const gridRef = useRef<HTMLDivElement>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const searchParamsRef = useRef(searchParams)
 
   // Derived state from URL
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10)
@@ -52,6 +52,11 @@ export default function SearchPageClient({ results, total, resolvedClub }: Searc
     (activePoids.length) +
     (searchParams.get('club') ? 1 : 0) +
     (searchParams.get('q') ? 1 : 0)
+
+  // Keep searchParamsRef in sync with latest searchParams
+  useEffect(() => {
+    searchParamsRef.current = searchParams
+  }, [searchParams])
 
   // Scroll to grid top when page changes
   const prevPage = useRef(currentPage)
@@ -88,7 +93,7 @@ export default function SearchPageClient({ results, total, resolvedClub }: Searc
   function handleQChange(q: string) {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParamsRef.current.toString())
       if (q) params.set('q', q)
       else params.delete('q')
       params.delete('page')
