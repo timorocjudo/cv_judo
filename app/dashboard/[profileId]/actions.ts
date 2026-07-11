@@ -108,6 +108,8 @@ export async function deleteProfile(formData: FormData): Promise<void> {
     .eq('id', profileId)
     .single()
 
+  if (!confirmedName) return
+
   if (!profile || confirmedName !== profile.first_name) return
 
   // Récupérer les URLs des photos de galerie avant suppression cascade
