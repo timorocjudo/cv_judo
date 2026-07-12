@@ -43,5 +43,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...STATIC_PAGES, ...profilePages]
+  // Competition pages: public profiles, palmares with slug, at least one photo
+  const { data: competitionEntries } = await supabase
+    .from('palmares')
+    .select(`
+      competition_slug,
+      competition_photos (created_at),
+      profiles!inner (slug, visibility)
+    `)
+    .eq('profiles.visibility', 'public')
+    .not('competition_slug', 'is', null)
+
+  type CompetitionEntry = {
+    competition_slug: string
+    competition_photos: { created_at: string }[]
+    profiles: { slug: string }
+  }
+
+  const competitionPages: MetadataRoute.Sitemap = ((competitionEntries ?? []) as unknown as CompetitionEntry[])
+    .filter((e) => e.competition_photos.length > 0)
+    .map((e) => {
+      const latestPhoto = e.competition_photos.reduce(
+        (latest, p) => (p.created_at > latest ? p.created_at : latest),
+        e.competition_photos[0]?.created_at ?? new Date().toISOString()
+      )
+      return {
+        url: `${siteUrl}/${e.profiles.slug}/competition/${e.competition_slug}`,
+        lastModified: new Date(latestPhoto),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }
+    })
+
+  return [...STATIC_PAGES, ...profilePages, ...competitionPages]
 }
