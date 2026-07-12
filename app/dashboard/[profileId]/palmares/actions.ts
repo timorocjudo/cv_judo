@@ -185,6 +185,7 @@ export async function addCompetitionPhoto(
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { ok: false }
+    if (!(await canEditProfile(profileId, user.id))) return { ok: false }
 
     const { data, error } = await supabase
       .from('competition_photos')
@@ -205,6 +206,9 @@ export async function deleteCompetitionPhoto(
 ): Promise<{ ok: boolean }> {
   try {
     const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { ok: false }
+
     const { error } = await supabase
       .from('competition_photos')
       .delete()
@@ -237,6 +241,9 @@ export async function updateCompetitionPhotoCaption(
 ): Promise<{ ok: boolean }> {
   try {
     const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { ok: false }
+
     const { error } = await supabase
       .from('competition_photos')
       .update({ caption: caption || null })
@@ -252,11 +259,15 @@ export async function reorderCompetitionPhotos(
 ): Promise<{ ok: boolean }> {
   try {
     const supabase = createClient()
-    await Promise.all(
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { ok: false }
+
+    const results = await Promise.all(
       orderedIds.map((id, i) =>
         supabase.from('competition_photos').update({ position: i }).eq('id', id)
       )
     )
+    if (results.some(r => r.error)) return { ok: false }
     return { ok: true }
   } catch {
     return { ok: false }
