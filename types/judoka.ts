@@ -26,6 +26,8 @@ export interface PalmaresEntry {
   medal: MedalType
   city?: string
   podiumPhoto?: string  // relative path to podium photo, e.g. "/images/podium-France-2023.jpg"
+  competitionSlug?: string
+  photosCount?: number
 }
 
 export interface Video {

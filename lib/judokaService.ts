@@ -16,6 +16,8 @@ type PalmaresRow = {
   medal: string | null
   city: string | null
   position: number | null
+  competition_slug: string | null
+  competition_photos: { id: string }[]
 }
 
 type VideoRow = {
@@ -87,6 +89,8 @@ function mapProfile(row: ProfileRow): JudokaData {
       level: p.level ?? '',
       medal: (p.medal as MedalType) ?? null,
       city: p.city ?? undefined,
+      competitionSlug: p.competition_slug ?? undefined,
+      photosCount: p.competition_photos?.length ?? 0,
     })),
     videos: videos.map((v) => ({
       title: v.title ?? '',
@@ -120,7 +124,7 @@ export async function getJudokaBySlug(
     .select(`
       *,
       clubs(id, name),
-      palmares (*),
+      palmares (*, competition_photos(id)),
       videos (*),
       gallery_photos (*)
     `)

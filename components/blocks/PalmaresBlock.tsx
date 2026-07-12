@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import type { PalmaresEntry, MedalType } from '@/types/judoka'
 import { computeAgeCategory } from '@/lib/ageCategory'
@@ -59,9 +60,13 @@ function SeasonGroup({ startYear, entries, birthDate, slug }: SeasonGroupProps) 
       <div className="grid grid-cols-1 gap-3">
         {entries.map((entry, i) => {
           const medal = entry.medal ? MEDAL_STYLES[entry.medal] : null
-          return (
+          const competitionHref =
+            entry.competitionSlug && (entry.photosCount ?? 0) > 0
+              ? `/${slug}/competition/${entry.competitionSlug}`
+              : null
+
+          const article = (
             <article
-              key={i}
               id={entry.id ? `result-${entry.id}` : undefined}
               className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
               style={{ borderLeft: `4px solid ${medal?.border ?? '#c6c5d4'}` }}
@@ -122,10 +127,22 @@ function SeasonGroup({ startYear, entries, birthDate, slug }: SeasonGroupProps) 
                       {medal.rank}
                     </div>
                   )}
+                  {competitionHref && (
+                    <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      {entry.photosCount}
+                    </span>
+                  )}
                 </div>
               </div>
             </article>
           )
+
+          return competitionHref
+            ? <Link key={i} href={competitionHref} className="block hover:opacity-95 transition-opacity">{article}</Link>
+            : <Fragment key={i}>{article}</Fragment>
         })}
       </div>
     </div>
