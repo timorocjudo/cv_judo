@@ -18,7 +18,10 @@ export default function CompetitionPhotosGallery({ photos }: Props) {
         {photos.map((photo, i) => (
           <figure
             key={i}
+            role="button"
+            tabIndex={0}
             onClick={() => setLightboxIndex(i)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightboxIndex(i) }}
             className="relative overflow-hidden rounded-xl bg-surface-container-high group cursor-pointer aspect-square"
           >
             <Image
