@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Identity, Social, PalmaresEntry, MedalType } from '@/types/judoka'
@@ -207,6 +208,10 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
               <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
                 {highlights.map((entry, i) => {
                   const m = entry.medal ? MEDAL_HIGHLIGHT[entry.medal] : HIGHLIGHT_DEFAULT
+                  const competitionHref =
+                    entry.competitionSlug && (entry.photosCount ?? 0) > 0
+                      ? `/${slug}/competition/${entry.competitionSlug}`
+                      : null
                   const motionProps = shouldReduceMotion
                     ? {}
                     : {
@@ -214,9 +219,9 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
                         animate: { opacity: 1, y: 0 },
                         transition: { duration: 0.25, ease: 'easeOut' as const, delay: highlightBaseDelay + i * 0.08 },
                       }
-                  return (
+
+                  const HighlightCard = (
                     <motion.div
-                      key={`hl-${i}`}
                       className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-3 border border-white/20"
                       {...motionProps}
                     >
@@ -241,6 +246,14 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
                         </span>
                       )}
                     </motion.div>
+                  )
+
+                  return competitionHref ? (
+                    <Link key={`hl-${i}`} href={competitionHref} className="hover:opacity-90 transition-opacity">
+                      {HighlightCard}
+                    </Link>
+                  ) : (
+                    <div key={`hl-${i}`}>{HighlightCard}</div>
                   )
                 })}
               </div>
