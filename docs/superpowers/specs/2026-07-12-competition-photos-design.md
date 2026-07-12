@@ -31,7 +31,7 @@ ALTER TABLE public.palmares
 ```
 
 - `NULLABLE` — les entrées existantes n'ont pas encore de slug
-- Contrainte partielle via `WHERE competition_slug IS NOT NULL` n'est pas possible avec une contrainte UNIQUE standard ; on l'applique via un index unique partiel séparé (voir migration)
+- La contrainte `UNIQUE (profile_id, competition_slug)` standard suffit : en PostgreSQL, plusieurs NULL sont autorisés dans une contrainte UNIQUE (NULL ≠ NULL en SQL), donc les entrées sans slug ne se bloquent pas mutuellement
 - Régénéré automatiquement à chaque create/update d'une entrée palmarès
 
 #### 1b. Table `competition_photos`
@@ -310,14 +310,21 @@ Les Highlights `getBestResults(palmares)` sont wrappés dans `<Link>` si `entry.
 
 ## Section 6 — Sitemap
 
+Deux requêtes dans `app/sitemap.ts` :
+
+1. Récupérer les `palmares` des profils publics avec `competition_slug IS NOT NULL`
+2. Filtrer côté JS pour ne garder que ceux qui ont au moins une photo (en joignant `competition_photos` avec la relation embarquée Supabase)
+
 ```ts
-// Dans app/sitemap.ts
-const { data: competitions } = await supabase
+// Requête 1 : palmares des profils publics avec slug
+const { data: entries } = await supabase
   .from('palmares')
-  .select('competition_slug, profile_id, competition_photos(created_at), profiles!inner(slug, visibility)')
+  .select('id, competition_slug, competition_photos(created_at), profiles!inner(slug)')
   .eq('profiles.visibility', 'public')
   .not('competition_slug', 'is', null)
-  .gt('competition_photos.count', 0)  // uniquement si photos présentes
+
+// Filtrage JS : uniquement les entrées ayant au moins une photo
+const withPhotos = (entries ?? []).filter(e => e.competition_photos.length > 0)
 
 // Génère: { url: `${siteUrl}/${slug}/competition/${competition_slug}`, lastModified: maxCreatedAt }
 ```
