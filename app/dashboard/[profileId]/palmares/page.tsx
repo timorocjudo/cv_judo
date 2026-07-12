@@ -13,7 +13,7 @@ export default async function PalmaresPage({ params }: { params: { profileId: st
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('slug, visibility')
+    .select('slug, visibility, owner_id')
     .eq('id', profileId)
     .single()
 
@@ -21,7 +21,7 @@ export default async function PalmaresPage({ params }: { params: { profileId: st
 
   const { data: entries } = await supabase
     .from('palmares')
-    .select('id, date, competition, city, category, level, position, result, medal')
+    .select('id, date, competition, city, category, level, position, result, medal, competition_slug, competition_photos(id)')
     .eq('profile_id', profileId)
     .order('date', { ascending: true })
 
@@ -38,6 +38,7 @@ export default async function PalmaresPage({ params }: { params: { profileId: st
         isPublished={profile.visibility === 'public'}
         profileSlug={profile.slug}
         profileId={profileId}
+        ownerId={profile.owner_id}
       />
     </div>
   )

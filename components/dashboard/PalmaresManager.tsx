@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import { addPalmares, updatePalmares, deletePalmares } from '@/app/dashboard/[profileId]/palmares/actions'
 import ShareButtons from '@/components/ShareButtons'
+import CompetitionPhotoAccordion from '@/components/dashboard/CompetitionPhotoAccordion'
 
 const LEVELS = ['Départemental', 'Régional', 'National', 'International']
 const POSITIONS = [
@@ -25,6 +26,8 @@ interface PalmaresRow {
   position: number | null
   result: string | null
   medal: string | null
+  competition_slug: string | null
+  competition_photos: { id: string }[]
 }
 
 function MedalBadge({ medal }: { medal: string | null }) {
@@ -194,11 +197,13 @@ export default function PalmaresManager({
   isPublished,
   profileSlug,
   profileId,
+  ownerId,
 }: {
   entries: PalmaresRow[]
   isPublished: boolean
   profileSlug: string
   profileId: string
+  ownerId: string
 }) {
   const [editing, setEditing] = useState<string | null>(null)
   const [confirming, setConfirming] = useState<string | null>(null)
@@ -247,7 +252,7 @@ export default function PalmaresManager({
                           {entry.date} · {entry.level}{entry.city ? ` · ${entry.city}` : ''}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex flex-col items-center gap-2 flex-shrink-0">
                         {/* Bouton partage persistant */}
                         {isPublished ? (
                           <button
@@ -274,6 +279,13 @@ export default function PalmaresManager({
                             </svg>
                           </button>
                         )}
+
+                        <CompetitionPhotoAccordion
+                          palmaresId={entry.id}
+                          profileId={profileId}
+                          ownerId={ownerId}
+                          initialCount={entry.competition_photos?.length ?? 0}
+                        />
 
                         {/* Modifier / Supprimer */}
                         {confirming === entry.id ? (
