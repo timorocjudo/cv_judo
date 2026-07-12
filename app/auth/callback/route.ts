@@ -6,6 +6,7 @@ import { hasAccount } from '@/lib/accountService'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const type = searchParams.get('type')
 
   if (!code) {
     return NextResponse.redirect(`${origin}/?error=missing_code`)
@@ -20,7 +21,8 @@ export async function GET(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
   if (user && !(await hasAccount(user.id))) {
-    return NextResponse.redirect(`${origin}/creer-mon-profil`)
+    const dest = type ? `/creer-mon-profil?type=${type}` : '/creer-mon-profil'
+    return NextResponse.redirect(`${origin}${dest}`)
   }
 
   return NextResponse.redirect(`${origin}/dashboard`)

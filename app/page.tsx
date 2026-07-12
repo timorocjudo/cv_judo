@@ -128,7 +128,6 @@ export default async function LandingPage() {
         <HowItWorksSection />
         <SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} />
         <CtaSection />
-        <div className="h-16 md:hidden" aria-hidden="true" />
       </main>
       <LandingFooter />
       <LandingMobileNav />

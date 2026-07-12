@@ -120,7 +120,7 @@ export default function SearchAutocomplete({
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
-      <div className="flex items-center bg-white rounded-xl shadow-xl border border-outline-variant p-2">
+      <div className="flex items-center min-w-0 overflow-hidden bg-white rounded-xl shadow-xl border border-outline-variant p-2">
         <input
           ref={inputRef}
           type="text"
@@ -133,7 +133,7 @@ export default function SearchAutocomplete({
           aria-autocomplete="list"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          className="flex-1 border-none outline-none focus:ring-0 px-4 py-3 text-on-surface placeholder:text-outline bg-transparent"
+          className="flex-1 min-w-0 border-none outline-none focus:ring-0 px-4 py-3 text-on-surface placeholder:text-outline bg-transparent"
         />
         {loading && (
           <svg

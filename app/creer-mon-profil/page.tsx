@@ -15,11 +15,11 @@ export default async function CreerMonProfilPage({
 }) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/')
 
-  // Si un compte existe déjà, aller directement au dashboard
-  const accountExists = await hasAccount(user.id)
-  if (accountExists) redirect('/dashboard')
+  if (user) {
+    const accountExists = await hasAccount(user.id)
+    if (accountExists) redirect('/dashboard')
+  }
 
   const rawType = searchParams.type as AccountType | undefined
   const defaultType = rawType && VALID_TYPES.includes(rawType) ? rawType : undefined
@@ -35,7 +35,7 @@ export default async function CreerMonProfilPage({
             Dis-nous qui tu es pour personnaliser ton expérience.
           </p>
         </div>
-        <AccountTypeSelector defaultType={defaultType} />
+        <AccountTypeSelector defaultType={defaultType} isAuthenticated={!!user} />
       </div>
     </main>
   )

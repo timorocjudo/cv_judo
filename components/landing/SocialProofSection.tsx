@@ -12,7 +12,7 @@ export default function SocialProofSection({ profiles, totalCount }: Props) {
   const overflow = totalCount - avatarCount
 
   return (
-    <section id="profiles" className="px-margin-mobile md:px-margin-desktop py-16">
+    <section id="profiles" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-16">
       <div className="max-w-container-max mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
           <div className="text-center md:text-left">

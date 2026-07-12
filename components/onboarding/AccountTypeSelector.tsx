@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { saveAccountType } from '@/app/creer-mon-profil/actions'
+import { createClient } from '@/lib/supabase/client'
 import type { AccountType } from '@/lib/accountService'
 
 const CARDS: {
@@ -42,11 +43,32 @@ const CARDS: {
   },
 ]
 
-export default function AccountTypeSelector({ defaultType }: { defaultType?: AccountType }) {
+export default function AccountTypeSelector({
+  defaultType,
+  isAuthenticated,
+}: {
+  defaultType?: AccountType
+  isAuthenticated: boolean
+}) {
   const [selected, setSelected] = useState<AccountType | null>(defaultType ?? null)
 
+  async function handleGoogleSignIn() {
+    if (!selected) return
+    const supabase = createClient()
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?type=${selected}`,
+      },
+    })
+  }
+
   return (
-    <form action={saveAccountType} className="w-full max-w-3xl mx-auto">
+    <form
+      action={isAuthenticated ? saveAccountType : undefined}
+      onSubmit={!isAuthenticated ? (e) => { e.preventDefault(); handleGoogleSignIn() } : undefined}
+      className="w-full max-w-3xl mx-auto"
+    >
       <input type="hidden" name="account_type" value={selected ?? ''} />
 
       <div className="grid md:grid-cols-3 gap-4 mb-8">
