@@ -184,21 +184,25 @@ export default async function CompetitionPage({ params }: Props) {
         </div>
 
         {/* Photos section */}
-        {data.photos.length > 0 && (
-          <section className="py-10 md:py-14">
-            <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
-                <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-                  Photos de la compétition
-                </h2>
-              </div>
+        <section className="py-10 md:py-14">
+          <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
+              <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
+                Photos de la compétition
+              </h2>
+            </div>
+            {data.photos.length > 0 ? (
               <CompetitionPhotosGallery
                 photos={data.photos.map((p) => ({ src: p.photo_url, caption: p.caption ?? '' }))}
               />
-            </div>
-          </section>
-        )}
+            ) : (
+              <p className="font-inter text-sm text-on-surface-variant">
+                Aucune photo pour cette compétition.
+              </p>
+            )}
+          </div>
+        </section>
       </div>
     </>
   )
