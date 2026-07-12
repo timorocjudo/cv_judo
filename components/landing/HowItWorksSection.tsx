@@ -68,7 +68,7 @@ function Journey({
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="px-margin-mobile md:px-margin-desktop py-16 bg-surface-container">
+    <section id="how-it-works" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-16 bg-surface-container">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-3">

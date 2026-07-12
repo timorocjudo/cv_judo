@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function LandingFooter() {
   return (
-    <footer className="bg-surface-container-highest border-t border-outline-variant">
+    <footer className="bg-surface-container-highest border-t border-outline-variant pb-16 md:pb-0">
       <div className="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-6">
         <div className="flex flex-col items-center md:items-start gap-1">
           <span className="font-montserrat text-lg font-black text-primary tracking-tight">Ippon<span className="text-tertiary-container">Id</span></span>
