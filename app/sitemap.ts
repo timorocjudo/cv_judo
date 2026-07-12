@@ -52,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       profiles!inner (slug, visibility)
     `)
     .eq('profiles.visibility', 'public')
+    .eq('profiles.published', true)
     .not('competition_slug', 'is', null)
 
   type CompetitionEntry = {
