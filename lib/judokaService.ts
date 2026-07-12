@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { JudokaData, BlockName, MedalType } from '@/types/judoka'
-import { normalizeText } from '@/lib/slugify'
+import { normalizeText, generateCompetitionSlug } from '@/lib/slugify'
 
 // ─── Internal DB types ────────────────────────────────────────────────────────
 
@@ -89,7 +89,8 @@ function mapProfile(row: ProfileRow): JudokaData {
       level: p.level ?? '',
       medal: (p.medal as MedalType) ?? null,
       city: p.city ?? undefined,
-      competitionSlug: p.competition_slug ?? undefined,
+      competitionSlug: p.competition_slug ??
+        (p.competition && p.date ? generateCompetitionSlug(p.competition, p.date) : undefined),
       photosCount: p.competition_photos?.length ?? 0,
     })),
     videos: videos.map((v) => ({
