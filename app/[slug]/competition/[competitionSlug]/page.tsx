@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getCompetitionBySlug } from '@/lib/competitionService'
 import CompetitionPhotosGallery from '@/components/CompetitionPhotosGallery'
+import LogoLink from '@/components/layout/LogoLink'
+import NavUserAvatar from '@/components/NavUserAvatar'
 
 type Props = { params: { slug: string; competitionSlug: string } }
 
@@ -82,6 +84,14 @@ export default async function CompetitionPage({ params }: Props) {
       )}
 
       <div className="min-h-screen bg-surface-container-lowest">
+        {/* Header */}
+        <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
+          <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+            <LogoLink />
+            <NavUserAvatar />
+          </div>
+        </header>
+
         {/* Breadcrumb */}
         <div className="bg-primary-container">
           <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-4">
@@ -174,21 +184,25 @@ export default async function CompetitionPage({ params }: Props) {
         </div>
 
         {/* Photos section */}
-        {data.photos.length > 0 && (
-          <section className="py-10 md:py-14">
-            <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
-                <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-                  Photos de la compétition
-                </h2>
-              </div>
+        <section className="py-10 md:py-14">
+          <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-1 h-8 bg-tertiary-container rounded-full flex-shrink-0" />
+              <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
+                Photos de la compétition
+              </h2>
+            </div>
+            {data.photos.length > 0 ? (
               <CompetitionPhotosGallery
                 photos={data.photos.map((p) => ({ src: p.photo_url, caption: p.caption ?? '' }))}
               />
-            </div>
-          </section>
-        )}
+            ) : (
+              <p className="font-inter text-sm text-on-surface-variant">
+                Aucune photo pour cette compétition.
+              </p>
+            )}
+          </div>
+        </section>
       </div>
     </>
   )

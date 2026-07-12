@@ -208,10 +208,9 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
               <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
                 {highlights.map((entry, i) => {
                   const m = entry.medal ? MEDAL_HIGHLIGHT[entry.medal] : HIGHLIGHT_DEFAULT
-                  const competitionHref =
-                    entry.competitionSlug && (entry.photosCount ?? 0) > 0
-                      ? `/${slug}/competition/${entry.competitionSlug}`
-                      : null
+                  const competitionHref = entry.competitionSlug
+                    ? `/${slug}/competition/${entry.competitionSlug}`
+                    : null
                   const motionProps = shouldReduceMotion
                     ? {}
                     : {

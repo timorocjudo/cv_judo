@@ -60,10 +60,9 @@ function SeasonGroup({ startYear, entries, birthDate, slug }: SeasonGroupProps) 
       <div className="grid grid-cols-1 gap-3">
         {entries.map((entry, i) => {
           const medal = entry.medal ? MEDAL_STYLES[entry.medal] : null
-          const competitionHref =
-            entry.competitionSlug && (entry.photosCount ?? 0) > 0
-              ? `/${slug}/competition/${entry.competitionSlug}`
-              : null
+          const competitionHref = entry.competitionSlug
+            ? `/${slug}/competition/${entry.competitionSlug}`
+            : null
 
           const article = (
             <article
