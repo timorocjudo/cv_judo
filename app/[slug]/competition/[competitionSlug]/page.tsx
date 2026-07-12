@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getCompetitionBySlug } from '@/lib/competitionService'
 import CompetitionPhotosGallery from '@/components/CompetitionPhotosGallery'
+import LogoLink from '@/components/layout/LogoLink'
+import NavUserAvatar from '@/components/NavUserAvatar'
 
 type Props = { params: { slug: string; competitionSlug: string } }
 
@@ -82,6 +84,14 @@ export default async function CompetitionPage({ params }: Props) {
       )}
 
       <div className="min-h-screen bg-surface-container-lowest">
+        {/* Header */}
+        <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
+          <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+            <LogoLink />
+            <NavUserAvatar />
+          </div>
+        </header>
+
         {/* Breadcrumb */}
         <div className="bg-primary-container">
           <div className="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-4">
