@@ -63,7 +63,6 @@ export default async function CompetitionPage({ params }: Props) {
   const data = await getCompetitionBySlug(params.slug, params.competitionSlug)
   if (!data) notFound()
 
-  const year = data.palmares.date?.slice(0, 4) ?? ''
   const medal = data.palmares.medal ? MEDAL_STYLES[data.palmares.medal] : null
   const formattedDate = data.palmares.date
     ? new Date(data.palmares.date).toLocaleDateString('fr-FR', {
