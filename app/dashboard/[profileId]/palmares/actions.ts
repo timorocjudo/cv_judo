@@ -187,6 +187,24 @@ export async function addCompetitionPhoto(
     if (!user) return { ok: false }
     if (!(await canEditProfile(profileId, user.id))) return { ok: false }
 
+    // Ensure the parent palmares entry has a competition_slug (missing on entries
+    // created before this feature). Without a slug the public link never appears.
+    const { data: palm } = await supabase
+      .from('palmares')
+      .select('competition, date, competition_slug')
+      .eq('id', palmaresId)
+      .single()
+
+    if (palm && !palm.competition_slug && palm.competition && palm.date) {
+      const slug = await buildCompetitionSlug(supabase, profileId, palm.competition, palm.date)
+      if (slug) {
+        await supabase
+          .from('palmares')
+          .update({ competition_slug: slug })
+          .eq('id', palmaresId)
+      }
+    }
+
     const { data, error } = await supabase
       .from('competition_photos')
       .insert({ palmares_id: palmaresId, profile_id: profileId, photo_url: photoUrl, position })
