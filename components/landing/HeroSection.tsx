@@ -21,7 +21,7 @@ const PATHS = [
 
 export default function HeroSection() {
   return (
-    <section className="relative px-margin-mobile md:px-margin-desktop py-10 text-center">
+    <section id="rechercher" className="relative scroll-mt-24 px-margin-mobile md:px-margin-desktop py-10 text-center">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute top-1/2 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />

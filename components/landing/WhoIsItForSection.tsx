@@ -18,7 +18,7 @@ const PERSONAS = [
 
 export default function WhoIsItForSection() {
   return (
-    <section className="px-margin-mobile md:px-margin-desktop py-12">
+    <section id="cest-pour-qui" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-12">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-3 mb-3">
