@@ -8,12 +8,12 @@ export default function LandingFooter() {
           <span className="font-montserrat text-lg font-black text-primary tracking-tight">Ippon<span className="text-tertiary-container">Id</span></span>
           <p className="text-on-surface-variant text-xs">© 2026 IpponId. Tous droits réservés.</p>
         </div>
-        <div className="flex flex-wrap justify-center gap-6 text-on-surface-variant text-xs">
+        <div className="flex flex-nowrap justify-center gap-2 sm:gap-4 text-on-surface-variant text-xs whitespace-nowrap">
           <Link href="/mentions-legales" className="hover:text-secondary transition-colors">
             Mentions légales
           </Link>
           <Link href="/confidentialite" className="hover:text-secondary transition-colors">
-            Politique de confidentialité
+            Confidentialité
           </Link>
           <Link href="/cgu" className="hover:text-secondary transition-colors">
             CGU

@@ -18,13 +18,13 @@ const PERSONAS = [
 
 export default function WhoIsItForSection() {
   return (
-    <section className="px-margin-mobile md:px-margin-desktop py-16">
+    <section className="px-margin-mobile md:px-margin-desktop py-12">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="w-1 h-8 bg-tertiary-container hidden md:block" />
             <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-              IpponId, c&apos;est pour qui ?
+              IpponId, c&apos;est pour qui&nbsp;?
             </h2>
           </div>
         </div>
@@ -35,10 +35,10 @@ export default function WhoIsItForSection() {
               key={title}
               className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-8"
             >
-              <span className="text-4xl mb-4 block" role="img" aria-hidden>
-                {emoji}
-              </span>
-              <h3 className="font-montserrat font-bold text-primary text-lg mb-3">{title}</h3>
+              <h3 className="font-montserrat font-bold text-primary text-lg mb-3 flex items-center gap-2">
+                <span role="img" aria-hidden>{emoji}</span>
+                {title}
+              </h3>
               <p className="text-on-surface-variant leading-relaxed">{body}</p>
             </div>
           ))}
