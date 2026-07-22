@@ -10,10 +10,18 @@ export const metadata: Metadata = { title: 'Créer mon compte — IpponId' }
 
 const VALID_TYPES: AccountType[] = ['manager', 'parent_judoka', 'judoka']
 
+const ERROR_MESSAGES: Record<string, string> = {
+  missing_code: "La connexion avec Google a échoué. Réessaie.",
+  auth_failed: "La connexion avec Google a échoué. Réessaie.",
+  invalid_type: 'Choisis un profil avant de continuer.',
+  account_creation_failed: "La création de ton compte a échoué. Réessaie, et si le problème persiste, contacte-nous.",
+  session_expired: 'Ta session a expiré. Reconnecte-toi pour continuer.',
+}
+
 export default async function CreerMonProfilPage({
   searchParams,
 }: {
-  searchParams: { type?: string }
+  searchParams: { type?: string; error?: string }
 }) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -25,6 +33,7 @@ export default async function CreerMonProfilPage({
 
   const rawType = searchParams.type as AccountType | undefined
   const defaultType = rawType && VALID_TYPES.includes(rawType) ? rawType : undefined
+  const errorMessage = searchParams.error ? ERROR_MESSAGES[searchParams.error] : undefined
 
   return (
     <>
@@ -40,6 +49,11 @@ export default async function CreerMonProfilPage({
       />
       <main className="flex flex-col items-center px-margin-mobile py-12 md:py-16">
         <div className="w-full max-w-3xl">
+          {errorMessage && (
+            <div className="mb-6 rounded-lg border border-error/30 bg-error/10 px-4 py-3 text-sm font-medium text-error">
+              {errorMessage}
+            </div>
+          )}
           <AccountTypeSelector defaultType={defaultType} isAuthenticated={!!user} />
         </div>
       </main>
