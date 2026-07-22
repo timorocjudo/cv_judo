@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { hasAccount, type AccountType } from '@/lib/accountService'
 import AccountTypeSelector from '@/components/onboarding/AccountTypeSelector'
 import LogoLink from '@/components/layout/LogoLink'
+import HeroZone from '@/components/landing/HeroZone'
 
 export const metadata: Metadata = { title: 'Créer mon compte — IpponId' }
 
@@ -27,19 +28,18 @@ export default async function CreerMonProfilPage({
 
   return (
     <>
-      <header className="px-margin-mobile md:px-margin-desktop h-16 flex items-center">
+      <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant px-margin-mobile md:px-margin-desktop h-16 flex items-center">
         <LogoLink />
       </header>
-      <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-margin-mobile py-16">
+      <HeroZone
+        title="Crée ton profil IpponId"
+        subtitle="Choisis le profil qui te correspond pour commencer"
+        showWordmark={false}
+        minHeightClassName="min-h-[35vh] md:min-h-[40vh]"
+        cta={null}
+      />
+      <main className="flex flex-col items-center px-margin-mobile py-12 md:py-16">
         <div className="w-full max-w-3xl">
-          <div className="text-center mb-10">
-            <h1 className="font-montserrat text-headline-md font-bold text-primary mb-3">
-              Bienvenue sur IpponId
-            </h1>
-            <p className="text-body-lg text-on-surface-variant max-w-xl mx-auto">
-              Dis-nous qui tu es pour personnaliser ton expérience.
-            </p>
-          </div>
           <AccountTypeSelector defaultType={defaultType} isAuthenticated={!!user} />
         </div>
       </main>

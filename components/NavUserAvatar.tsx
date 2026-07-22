@@ -30,22 +30,31 @@ export default function NavUserAvatar({ initialIsLoggedIn = false, hideLoginOnMo
   useEffect(() => {
     const supabase = createClient()
 
-    async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+    async function syncUser(nextUser: User | null) {
+      setUser(nextUser)
 
-      if (user) {
+      if (nextUser) {
         const { data } = await supabase
           .from('profiles')
           .select('first_name, last_name, profile_photo_url')
-          .eq('owner_id', user.id)
+          .eq('owner_id', nextUser.id)
           .maybeSingle()
         setProfile(data)
+      } else {
+        setProfile(null)
       }
       setLoaded(true)
     }
 
-    load()
+    // onAuthStateChange fires immediately with the current session (event
+    // INITIAL_SESSION) and again on every SIGNED_IN/SIGNED_OUT — this keeps
+    // the avatar in sync with signOut() calls fired from anywhere else
+    // (same client singleton), without needing a manual reload.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      syncUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   useEffect(() => {
@@ -63,6 +72,7 @@ export default function NavUserAvatar({ initialIsLoggedIn = false, hideLoginOnMo
     await supabase.auth.signOut()
     setOpen(false)
     router.push('/')
+    router.refresh()
   }
 
   // Not yet loaded — use server hint to avoid layout flash
