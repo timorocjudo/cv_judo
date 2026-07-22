@@ -130,7 +130,7 @@ export default async function LandingPage() {
         <FadeInOnScroll><SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} /></FadeInOnScroll>
         <FadeInOnScroll><CtaSection /></FadeInOnScroll>
       </main>
-      <LandingFooter />
+      <LandingFooter hasStickyBottomNav />
       <LandingMobileNav />
     </>
   )
