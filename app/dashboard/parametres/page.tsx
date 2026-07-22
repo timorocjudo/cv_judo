@@ -41,7 +41,7 @@ export default function ParametresPage() {
 
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-10">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg mx-auto md:max-w-2xl md:mx-0 lg:max-w-3xl">
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-tertiary-container transition-colors mb-6"
@@ -70,10 +70,11 @@ export default function ParametresPage() {
                   }`
                 : 'Chargement…'
             }
+            className="md:p-6"
           />
 
           {/* Changement de type */}
-          <Alert variant="info" title="Changer de type">
+          <Alert variant="info" title="Changer de type" className="md:p-6">
             {state.error && (
               <p className="text-sm text-error bg-error/10 rounded-lg px-4 py-2 mt-3">
                 {state.error}
@@ -118,6 +119,7 @@ export default function ParametresPage() {
             variant="warning"
             title="Session"
             description="Déconnecte-toi de ton compte IpponId sur cet appareil."
+            className="md:p-6"
           >
             <div className="mt-3">
               <LogoutButton />
@@ -129,6 +131,7 @@ export default function ParametresPage() {
             variant="danger"
             title="Zone dangereuse"
             description="Supprime définitivement ton compte, toutes tes données et tes fichiers. Cette action est irréversible."
+            className="md:p-6"
           >
             <div className="mt-3">
               <DeleteAccountSection />
