@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max animate-pulse">
+    <div className="px-margin-mobile md:px-margin-desktop py-6 md:py-10 max-w-container-max animate-pulse">
       {/* Carte résumé */}
       <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 flex items-center gap-5 mb-8">
         <div className="w-16 h-16 rounded-full bg-surface-container-highest shrink-0" />

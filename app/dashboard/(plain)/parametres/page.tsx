@@ -40,7 +40,7 @@ export default function ParametresPage() {
   }, [state])
 
   return (
-    <div className="px-margin-mobile md:px-margin-desktop py-10">
+    <div className="px-margin-mobile md:px-margin-desktop py-6 md:py-10">
       <div className="max-w-lg mx-auto md:max-w-2xl md:mx-0 lg:max-w-3xl">
         <Link
           href="/dashboard"

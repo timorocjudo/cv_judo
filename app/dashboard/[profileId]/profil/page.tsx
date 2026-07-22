@@ -29,7 +29,7 @@ export default async function ProfilPage({ params }: { params: { profileId: stri
   }
 
   return (
-    <div className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max">
+    <div className="px-margin-mobile md:px-margin-desktop py-6 md:py-10 max-w-container-max">
       <Link
         href={`/dashboard/${profileId}`}
         className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-tertiary-container transition-colors mb-6"
