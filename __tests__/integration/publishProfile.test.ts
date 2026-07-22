@@ -111,7 +111,7 @@ describe('setVisibility — passage en public', () => {
     expect(result.missing).toEqual([])
   })
 
-  it('profil incomplet (bio manquante) → refus avec champs manquants', async () => {
+  it('bio manquante → publication réussie quand même (bio est optionnelle)', async () => {
     setupMocks({ userId: 'user-1', profileData: makeProfileData({ bio: null }), isOwner: true })
 
     const result = await setVisibility(
@@ -119,8 +119,8 @@ describe('setVisibility — passage en public', () => {
       makeFormData({ profileId: 'profile-1', slug: 'timothe-francois', visibility: 'public' })
     )
 
-    expect(result.ok).toBe(false)
-    expect(result.missing).toContain('Bio')
+    expect(result.ok).toBe(true)
+    expect(result.missing).not.toContain('Bio')
   })
 
   it('profil incomplet (photo + club manquants) → les deux champs listés', async () => {

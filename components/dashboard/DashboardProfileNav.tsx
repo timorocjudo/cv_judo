@@ -135,17 +135,10 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
 
       {/* Mobile bottom tabs */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface border-t border-outline-variant z-40 flex">
-        <Link
-          href="/dashboard"
-          className="flex-1 flex flex-col items-center justify-center gap-1 text-xs font-medium text-on-surface-variant"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-          </svg>
-          Tous
-        </Link>
-        {NAV_ITEMS.filter((item) => !item.ownerOnly || isOwner).slice(1).map((item) => {
-          const isActive = pathname.startsWith(item.href)
+        {NAV_ITEMS.filter((item) => !item.ownerOnly || isOwner).map((item) => {
+          const isActive = item.exact
+            ? pathname === item.href
+            : pathname.startsWith(item.href)
           return (
             <Link
               key={item.href}

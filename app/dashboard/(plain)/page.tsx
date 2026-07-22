@@ -61,30 +61,32 @@ export default async function DashboardPage() {
   const canCreate = canCreateMoreProfiles(account?.max_profiles ?? 1, ownedCount)
 
   return (
-    <div className="px-margin-mobile md:px-margin-desktop py-10">
+    <div className="px-margin-mobile md:px-margin-desktop py-10 md:pt-6">
       <div className="max-w-container-max mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
             Mes judokas
           </h1>
-          {canCreate ? (
+          {canCreate && (
             <Link
               href="/dashboard/nouveau"
               className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors w-full text-center md:w-auto"
             >
               + Créer un nouveau judoka
             </Link>
-          ) : (
-            <div className="md:max-w-xs">
-              <Alert
-                variant="warning"
-                title="Limite de profils atteinte"
-                description="Ton type de compte actuel permet de gérer un seul profil judoka."
-                action={{ label: 'Passer en compte famille →', href: '/dashboard/parametres' }}
-              />
-            </div>
           )}
         </div>
+
+        {!canCreate && (
+          <div className="w-full md:max-w-md mb-6">
+            <Alert
+              variant="warning"
+              title="Limite de profils atteinte"
+              description="Ton type de compte actuel permet de gérer un seul profil judoka."
+              action={{ label: 'Passer en compte famille →', href: '/dashboard/parametres' }}
+            />
+          </div>
+        )}
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {profiles.map((profile) => {

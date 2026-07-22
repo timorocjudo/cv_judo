@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { createProfile } from '@/app/dashboard/nouveau/actions'
+import { createProfile } from '@/app/dashboard/(plain)/nouveau/actions'
 
 export const metadata: Metadata = { title: 'Bienvenue' }
 

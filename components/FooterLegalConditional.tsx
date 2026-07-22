@@ -14,9 +14,10 @@ const RESERVED_TOP_LEVEL_ROUTES = new Set([
   'auth',
 ])
 
-// /dashboard/nouveau, /dashboard/parametres, /dashboard/setup use the plain
-// dashboard layout, not the profile layout with its sidebar + bottom tabs
-const RESERVED_DASHBOARD_SEGMENTS = new Set(['nouveau', 'parametres', 'setup'])
+// /dashboard/nouveau, /dashboard/parametres, /dashboard/setup and
+// /dashboard/bienvenue use the plain dashboard layout, not the profile
+// layout with its sidebar + bottom tabs
+const RESERVED_DASHBOARD_SEGMENTS = new Set(['nouveau', 'parametres', 'setup', 'bienvenue'])
 
 function isDashboardProfileRoute(segments: string[]) {
   return segments[0] === 'dashboard' && segments.length >= 2 && !RESERVED_DASHBOARD_SEGMENTS.has(segments[1])
