@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import IpponIdWordmark from '@/components/IpponIdWordmark'
 
 export default function LogoLink() {
   const pathname = usePathname()
@@ -10,20 +11,16 @@ export default function LogoLink() {
     return (
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="font-montserrat text-xl font-black text-primary tracking-tighter"
         aria-label="Retour en haut de page"
       >
-        Ippon<span className="text-tertiary-container">Id</span>
+        <IpponIdWordmark className="text-xl tracking-tighter" />
       </button>
     )
   }
 
   return (
-    <Link
-      href="/"
-      className="font-montserrat text-xl font-black text-primary tracking-tighter"
-    >
-      Ippon<span className="text-tertiary-container">Id</span>
+    <Link href="/">
+      <IpponIdWordmark className="text-xl tracking-tighter" />
     </Link>
   )
 }
