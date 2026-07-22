@@ -143,7 +143,7 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex-1 flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors ${
+              className={`relative flex-1 flex flex-col items-center justify-center gap-1 text-xs font-medium text-center transition-colors ${
                 isActive ? 'text-[#D4A017] bg-[#D4A017]/10' : 'text-on-surface-variant'
               }`}
             >
