@@ -84,7 +84,7 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
   return (
     <>
       {/* Desktop sidebar */}
-      <nav className="hidden md:flex fixed left-0 top-0 h-full w-60 flex-col bg-surface border-r border-outline-variant z-40">
+      <nav className="hidden md:flex fixed left-0 top-16 bottom-0 w-60 flex-col bg-surface border-r border-outline-variant z-40">
         <Link href="/dashboard" className="p-5 flex items-center gap-2 border-b border-outline-variant text-primary hover:text-tertiary-container transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 flex-shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
