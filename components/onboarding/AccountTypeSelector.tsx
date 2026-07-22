@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { saveAccountType } from '@/app/creer-mon-profil/actions'
 import { createClient } from '@/lib/supabase/client'
+import { setPendingAccountTypeCookie } from '@/lib/pendingAccountType'
 import type { AccountType } from '@/lib/accountService'
 
 const CARDS: {
@@ -69,6 +70,8 @@ export default function AccountTypeSelector({
       await saveAccountType(formData)
       return
     }
+
+    setPendingAccountTypeCookie(selected)
 
     await supabase.auth.signInWithOAuth({
       provider: 'google',

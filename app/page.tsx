@@ -12,6 +12,7 @@ import SocialProofSection from '@/components/landing/SocialProofSection'
 import CtaSection from '@/components/landing/CtaSection'
 import LandingFooter from '@/components/landing/LandingFooter'
 import FadeInOnScroll from '@/components/FadeInOnScroll'
+import PendingAccountTypeHandler from '@/components/onboarding/PendingAccountTypeHandler'
 
 export const metadata: Metadata = {
   title: 'IpponId — Crée ton CV judoka en ligne | Partage ton palmarès',
@@ -120,6 +121,7 @@ export default async function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
+      <PendingAccountTypeHandler />
       <LandingNav isLoggedIn={!!user} />
       <main className="mt-20">
         <HeroZone />
