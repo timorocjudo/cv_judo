@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 
-type AlertVariant = 'warning' | 'info'
+type AlertVariant = 'warning' | 'info' | 'danger'
 
 interface AlertAction {
   label: string
@@ -12,6 +13,7 @@ interface AlertProps {
   title: string
   description?: string
   action?: AlertAction
+  children?: ReactNode
   className?: string
 }
 
@@ -33,14 +35,21 @@ const VARIANT_STYLES: Record<AlertVariant, {
     title: 'text-on-surface',
     action: 'bg-primary text-on-primary hover:bg-primary-container',
   },
+  danger: {
+    container: 'bg-error/10 border-l-4 border-error',
+    icon: 'text-error',
+    title: 'text-on-surface',
+    action: 'bg-error text-white hover:bg-error/90',
+  },
 }
 
 const VARIANT_ICON: Record<AlertVariant, string> = {
   warning: '⚠️',
   info: 'ⓘ',
+  danger: '⛔',
 }
 
-export default function Alert({ variant = 'info', title, description, action, className = '' }: AlertProps) {
+export default function Alert({ variant = 'info', title, description, action, children, className = '' }: AlertProps) {
   const styles = VARIANT_STYLES[variant]
 
   return (
@@ -53,6 +62,7 @@ export default function Alert({ variant = 'info', title, description, action, cl
         {description && (
           <p className="text-sm text-on-surface-variant mt-1">{description}</p>
         )}
+        {children}
         {action && (
           <Link
             href={action.href}

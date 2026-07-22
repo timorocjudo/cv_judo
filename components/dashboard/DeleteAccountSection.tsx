@@ -21,25 +21,13 @@ export default function DeleteAccountSection() {
 
   return (
     <>
-      <div className="mt-12 pt-8 border-t-2 border-red-200">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-8 bg-red-500 rounded-full flex-shrink-0" />
-          <h2 className="font-montserrat text-headline-md font-bold text-red-600 uppercase">
-            Zone dangereuse
-          </h2>
-        </div>
-        <p className="text-sm text-on-surface-variant mb-4 max-w-md">
-          Supprime définitivement ton compte, toutes tes données et tes fichiers.
-          Cette action est irréversible.
-        </p>
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="border border-red-500 text-red-600 font-semibold px-6 py-2.5 rounded-lg hover:bg-red-50 transition-colors text-sm"
-        >
-          Supprimer mon compte
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="border border-red-500 text-red-600 font-semibold px-6 py-2.5 rounded-lg hover:bg-red-50 transition-colors text-sm"
+      >
+        Supprimer mon compte
+      </button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
