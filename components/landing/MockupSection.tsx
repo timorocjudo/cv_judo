@@ -21,7 +21,7 @@ export default function MockupSection({ featured }: Props) {
   const belt = getBeltByLabel(featured.grade ?? '')
 
   return (
-    <section className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
+    <section id="exemples" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-3 mb-2">
           <div className="w-1 h-8 bg-tertiary-container hidden md:block" />
