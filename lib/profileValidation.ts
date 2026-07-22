@@ -9,11 +9,11 @@ export type PublishableProfile = {
 
 type RequiredField = { key: keyof PublishableProfile; label: string }
 
+// bio is intentionally not required — a profile can be published without one
 const REQUIRED_FIELDS: RequiredField[] = [
   { key: 'club_id',           label: 'Club' },
   { key: 'category',         label: 'Catégorie' },
   { key: 'grade',            label: 'Grade' },
-  { key: 'bio',              label: 'Bio' },
   { key: 'profile_photo_url', label: 'Photo de profil' },
   { key: 'birth_date',       label: 'Date de naissance' },
 ]

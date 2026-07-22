@@ -21,9 +21,10 @@ describe('getMissingFieldsForPublishing', () => {
     expect(getMissingFieldsForPublishing(profile)).toContain('Photo de profil')
   })
 
-  it('sans bio → "Bio" dans les manquants', () => {
+  it('sans bio → ne bloque pas la publication (bio est optionnelle)', () => {
     const profile = { ...COMPLETE_PROFILE, bio: null }
-    expect(getMissingFieldsForPublishing(profile)).toContain('Bio')
+    expect(getMissingFieldsForPublishing(profile)).not.toContain('Bio')
+    expect(getMissingFieldsForPublishing(profile)).toEqual([])
   })
 
   it('sans club → "Club" dans les manquants', () => {
@@ -46,7 +47,7 @@ describe('getMissingFieldsForPublishing', () => {
     expect(getMissingFieldsForPublishing(profile)).toContain('Date de naissance')
   })
 
-  it('profil entièrement vide → tous les 6 champs manquants', () => {
+  it('profil entièrement vide (hors bio) → tous les 5 champs obligatoires manquants', () => {
     const emptyProfile: PublishableProfile = {
       club_id: null,
       category: null,
@@ -56,18 +57,18 @@ describe('getMissingFieldsForPublishing', () => {
       birth_date: null,
     }
     const result = getMissingFieldsForPublishing(emptyProfile)
-    expect(result).toHaveLength(6)
+    expect(result).toHaveLength(5)
     expect(result).toContain('Club')
     expect(result).toContain('Catégorie')
     expect(result).toContain('Grade')
-    expect(result).toContain('Bio')
     expect(result).toContain('Photo de profil')
     expect(result).toContain('Date de naissance')
+    expect(result).not.toContain('Bio')
   })
 
   it('champ présent mais vide (chaîne vide) → considéré manquant', () => {
-    const profile = { ...COMPLETE_PROFILE, bio: '' }
-    expect(getMissingFieldsForPublishing(profile)).toContain('Bio')
+    const profile = { ...COMPLETE_PROFILE, profile_photo_url: '' }
+    expect(getMissingFieldsForPublishing(profile)).toContain('Photo de profil')
   })
 
   it('champ présent mais espaces seulement → considéré manquant', () => {
