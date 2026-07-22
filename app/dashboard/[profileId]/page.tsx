@@ -6,6 +6,7 @@ import { getMissingFieldsForPublishing, REQUIRED_FIELD_LABELS } from '@/lib/prof
 import VisibilityForm from './VisibilityForm'
 import QRCodeDisplay from '@/components/QRCodeDisplay'
 import DeleteProfileSection from '@/components/dashboard/DeleteProfileSection'
+import Alert from '@/components/ui/Alert'
 
 export const metadata: Metadata = { title: 'Tableau de bord' }
 
@@ -85,11 +86,12 @@ export default async function ProfileDashboardHome({
       </div>
 
       {/* Checklist avant publication */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 mb-6">
-        <p className="font-montserrat font-bold text-primary text-sm mb-3 uppercase tracking-wide">
-          Avant de publier
-        </p>
-        <ul className="space-y-2">
+      <Alert
+        variant={missingFields.length > 0 ? 'warning' : 'info'}
+        title="Avant de publier"
+        className="mb-6"
+      >
+        <ul className="space-y-2 mt-3">
           {REQUIRED_FIELD_LABELS.map((label) => {
             const isMissing = missingFields.includes(label)
             return (
@@ -112,7 +114,7 @@ export default async function ProfileDashboardHome({
             )
           })}
         </ul>
-      </div>
+      </Alert>
 
       {/* Visibilité */}
       <div className="mb-6">
