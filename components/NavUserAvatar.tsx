@@ -16,9 +16,10 @@ type ProfileData = {
 
 interface NavUserAvatarProps {
   initialIsLoggedIn?: boolean
+  hideLoginOnMobile?: boolean
 }
 
-export default function NavUserAvatar({ initialIsLoggedIn = false }: NavUserAvatarProps) {
+export default function NavUserAvatar({ initialIsLoggedIn = false, hideLoginOnMobile = true }: NavUserAvatarProps) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [loaded, setLoaded] = useState(false)
@@ -68,7 +69,7 @@ export default function NavUserAvatar({ initialIsLoggedIn = false }: NavUserAvat
   if (!loaded) {
     if (!initialIsLoggedIn) {
       return (
-        <div className="hidden md:block">
+        <div className={hideLoginOnMobile ? 'hidden md:block' : undefined}>
           <LoginButton />
         </div>
       )
@@ -80,7 +81,7 @@ export default function NavUserAvatar({ initialIsLoggedIn = false }: NavUserAvat
 
   if (!user) {
     return (
-      <div className="hidden md:block">
+      <div className={hideLoginOnMobile ? 'hidden md:block' : undefined}>
         <LoginButton />
       </div>
     )

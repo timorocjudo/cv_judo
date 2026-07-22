@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useActiveSection } from '@/components/hooks/useActiveSection'
 
 const navItems = [
   {
@@ -21,25 +24,37 @@ const navItems = [
   },
 ]
 
+const SECTION_IDS = navItems.map((item) => item.href.slice(1))
+
 export default function LandingMobileNav() {
+  const activeId = useActiveSection(SECTION_IDS)
+
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-surface/95 backdrop-blur-sm border-t border-outline-variant"
       aria-label="Navigation mobile landing"
     >
       <div className="flex items-center h-16">
-        {navItems.map(({ href, label, icon }) => (
-          <a
-            key={href}
-            href={href}
-            className="flex flex-col items-center gap-0.5 py-2 px-3 text-on-surface-variant hover:text-primary active:text-primary transition-colors flex-1"
-          >
-            {icon}
-            <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none text-center">
-              {label}
-            </span>
-          </a>
-        ))}
+        {navItems.map(({ href, label, icon }) => {
+          const isActive = activeId === href.slice(1)
+          return (
+            <a
+              key={href}
+              href={href}
+              className={`relative flex flex-col items-center gap-0.5 py-2 px-3 transition-colors flex-1 ${
+                isActive ? 'text-[#D4A017] bg-[#D4A017]/10' : 'text-on-surface-variant hover:text-primary active:text-primary'
+              }`}
+            >
+              {isActive && (
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#D4A017] rounded-full" />
+              )}
+              {icon}
+              <span className="font-inter text-[10px] font-bold uppercase tracking-wider leading-none text-center">
+                {label}
+              </span>
+            </a>
+          )
+        })}
         <Link
           href="/creer-mon-profil"
           className="flex flex-col items-center gap-0.5 py-2 px-3 text-primary flex-1"

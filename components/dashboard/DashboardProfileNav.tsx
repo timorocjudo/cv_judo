@@ -13,6 +13,8 @@ type Props = {
 export default function DashboardProfileNav({ profileId, profileName, isOwner }: Props) {
   const pathname = usePathname()
   const base = `/dashboard/${profileId}`
+  const nameParts = profileName.trim().split(/\s+/)
+  const initials = ((nameParts[0]?.[0] ?? '') + (nameParts[nameParts.length - 1]?.[0] ?? '')).toUpperCase()
 
   const NAV_ITEMS: Array<{
     href: string
@@ -83,17 +85,22 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
     <>
       {/* Desktop sidebar */}
       <nav className="hidden md:flex fixed left-0 top-0 h-full w-60 flex-col bg-surface border-r border-outline-variant z-40">
-        <Link href="/dashboard" className="p-5 flex items-center gap-2 border-b border-outline-variant">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-on-surface-variant flex-shrink-0">
+        <Link href="/dashboard" className="p-5 flex items-center gap-2 border-b border-outline-variant text-primary hover:text-tertiary-container transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 flex-shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
           </svg>
-          <span className="text-xs font-medium text-on-surface-variant">Mes judokas</span>
+          <span className="text-sm font-semibold">Mes judokas</span>
         </Link>
-        <div className="px-5 py-4 border-b border-outline-variant">
-          <p className="font-montserrat font-bold text-primary text-sm truncate">{profileName}</p>
-          {!isOwner && (
-            <p className="text-xs text-on-surface-variant mt-0.5">Gestionnaire</p>
-          )}
+        <div className="px-5 py-4 border-b border-outline-variant flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+            <span className="font-montserrat font-black text-on-primary text-xs">{initials}</span>
+          </div>
+          <div className="min-w-0">
+            <p className="font-montserrat font-bold text-primary text-sm truncate">{profileName}</p>
+            {!isOwner && (
+              <p className="text-xs text-on-surface-variant mt-0.5">Gestionnaire</p>
+            )}
+          </div>
         </div>
 
         <div className="flex-1 px-3 py-3 space-y-1">
@@ -143,10 +150,13 @@ export default function DashboardProfileNav({ profileId, profileName, isOwner }:
             <Link
               key={item.href}
               href={item.href}
-              className={`flex-1 flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors ${
-                isActive ? 'text-primary' : 'text-on-surface-variant'
+              className={`relative flex-1 flex flex-col items-center justify-center gap-1 text-xs font-medium transition-colors ${
+                isActive ? 'text-[#D4A017] bg-[#D4A017]/10' : 'text-on-surface-variant'
               }`}
             >
+              {isActive && (
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#D4A017] rounded-full" />
+              )}
               {item.icon}
               {item.label}
             </Link>
