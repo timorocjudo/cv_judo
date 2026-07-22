@@ -67,7 +67,7 @@ export default function HeroZone() {
             href="/creer-mon-profil"
             className="inline-block bg-[#D4A017] text-[#1B3A6B] font-bold font-montserrat px-8 py-4 rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-150 w-full sm:w-auto text-center"
           >
-            Créer mon profil gratuitement →
+            Créer mon profil gratuitement <span className="hidden sm:inline">→</span>
           </Link>
         </motion.div>
       </div>

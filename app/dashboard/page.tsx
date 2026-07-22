@@ -62,20 +62,20 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-background px-margin-mobile md:px-margin-desktop py-10">
       <div className="max-w-container-max mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
             Mes judokas
           </h1>
           {canCreate ? (
             <Link
               href="/dashboard/nouveau"
-              className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors"
+              className="bg-primary text-on-primary font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary-container transition-colors w-full text-center md:w-auto"
             >
               + Créer un nouveau judoka
             </Link>
           ) : (
-            <div className="text-right">
-              <p className="text-sm text-on-surface-variant max-w-xs">
+            <div className="md:text-right">
+              <p className="text-sm text-on-surface-variant md:max-w-xs">
                 Limite atteinte pour ton type de compte.{' '}
                 <Link href="/dashboard/parametres" className="text-primary hover:underline font-medium">
                   Passer en compte famille

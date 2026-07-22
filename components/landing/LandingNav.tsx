@@ -1,6 +1,4 @@
 'use client'
-import { useState } from 'react'
-import LoginButton from '@/components/auth/LoginButton'
 import NavUserAvatar from '@/components/NavUserAvatar'
 
 interface LandingNavProps {
@@ -8,8 +6,6 @@ interface LandingNavProps {
 }
 
 export default function LandingNav({ isLoggedIn }: LandingNavProps) {
-  const [open, setOpen] = useState(false)
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md shadow-sm">
       <nav className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
@@ -32,38 +28,11 @@ export default function LandingNav({ isLoggedIn }: LandingNavProps) {
           <NavUserAvatar initialIsLoggedIn={isLoggedIn} />
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden text-primary p-2"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d={open ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
-            />
-          </svg>
-        </button>
-      </nav>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-surface shadow-lg py-6 flex flex-col items-center gap-5 border-t border-outline-variant">
-          <a href="#how-it-works" onClick={() => setOpen(false)} className="text-on-surface-variant text-sm font-semibold">
-            Comment ça marche
-          </a>
-          <a href="#profiles" onClick={() => setOpen(false)} className="text-on-surface-variant text-sm font-semibold">
-            Exemples de profils
-          </a>
-          {isLoggedIn ? (
-            <NavUserAvatar initialIsLoggedIn={isLoggedIn} />
-          ) : (
-            <div className="w-11/12 flex justify-center">
-              <LoginButton />
-            </div>
-          )}
+        {/* Mobile: login/avatar only, no burger — shortcuts already live in the sticky bottom nav */}
+        <div className="md:hidden">
+          <NavUserAvatar initialIsLoggedIn={isLoggedIn} hideLoginOnMobile={false} />
         </div>
-      )}
+      </nav>
     </header>
   )
 }
