@@ -6,13 +6,21 @@ import { createAccount, hasAccount, type AccountType } from '@/lib/accountServic
 
 const VALID_TYPES: AccountType[] = ['manager', 'parent_judoka', 'judoka']
 
+const DESTINATION_BY_TYPE: Record<AccountType, string> = {
+  manager: '/dashboard/nouveau?context=manager',
+  parent_judoka: '/dashboard/nouveau?context=parent_judoka',
+  judoka: '/dashboard/bienvenue',
+}
+
 export async function saveAccountType(formData: FormData) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/')
+  if (!user) redirect('/creer-mon-profil?error=session_expired')
 
   const type = formData.get('account_type') as AccountType
-  if (!VALID_TYPES.includes(type)) return
+  if (!VALID_TYPES.includes(type)) {
+    redirect('/creer-mon-profil?error=invalid_type')
+  }
 
   // Si le compte existe déjà (double-soumission), aller directement au dashboard
   const existing = await hasAccount(user.id)
@@ -20,7 +28,11 @@ export async function saveAccountType(formData: FormData) {
     redirect('/dashboard')
   }
 
-  await createAccount(user.id, type)
+  try {
+    await createAccount(user.id, type)
+  } catch {
+    redirect(`/creer-mon-profil?type=${type}&error=account_creation_failed`)
+  }
 
-  redirect(`/dashboard/nouveau?context=${type}`)
+  redirect(DESTINATION_BY_TYPE[type])
 }
