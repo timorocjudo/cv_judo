@@ -45,16 +45,31 @@ const CARDS: {
 
 export default function AccountTypeSelector({
   defaultType,
-  isAuthenticated,
 }: {
   defaultType?: AccountType
-  isAuthenticated: boolean
 }) {
   const [selected, setSelected] = useState<AccountType | null>(defaultType ?? null)
+  const [pending, setPending] = useState(false)
 
-  async function handleGoogleSignIn() {
-    if (!selected) return
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (!selected || pending) return
+    setPending(true)
+
+    // Re-check the live session at submit time rather than trusting a flag
+    // captured when the page was rendered — a cached/stale render could
+    // otherwise still think the user is logged out and needlessly bounce an
+    // already-authenticated user through Google OAuth again.
     const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (user) {
+      const formData = new FormData()
+      formData.set('account_type', selected)
+      await saveAccountType(formData)
+      return
+    }
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -64,13 +79,7 @@ export default function AccountTypeSelector({
   }
 
   return (
-    <form
-      action={isAuthenticated ? saveAccountType : undefined}
-      onSubmit={!isAuthenticated ? (e) => { e.preventDefault(); handleGoogleSignIn() } : undefined}
-      className="w-full max-w-3xl mx-auto"
-    >
-      <input type="hidden" name="account_type" value={selected ?? ''} />
-
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto">
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         {CARDS.map((card) => {
           const isSelected = selected === card.type
@@ -120,10 +129,10 @@ export default function AccountTypeSelector({
 
       <button
         type="submit"
-        disabled={!selected}
+        disabled={!selected || pending}
         className="w-full bg-primary text-on-primary font-semibold py-3 rounded-lg hover:bg-primary-container transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        Continuer
+        {pending ? 'Un instant…' : 'Continuer'}
       </button>
     </form>
   )

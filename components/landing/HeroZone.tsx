@@ -3,12 +3,14 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import IpponIdWordmark from '@/components/IpponIdWordmark'
 
 interface HeroZoneProps {
   title?: ReactNode
   subtitle?: ReactNode
   showWordmark?: boolean
   minHeightClassName?: string
+  paddingClassName?: string
   cta?: ReactNode | null
 }
 
@@ -26,6 +28,7 @@ export default function HeroZone({
   subtitle = 'Crée gratuitement ta page judoka avec ton palmarès, tes vidéos et ta galerie photo.',
   showWordmark = true,
   minHeightClassName = 'min-h-[60vh] md:min-h-[70vh] lg:min-h-[75vh]',
+  paddingClassName = 'py-20',
   cta = DEFAULT_CTA,
 }: HeroZoneProps) {
   const prefersReduced = useReducedMotion() ?? false
@@ -42,7 +45,7 @@ export default function HeroZone({
   }
 
   return (
-    <section className={`relative overflow-hidden bg-[#1B3A6B] ${minHeightClassName} flex items-center justify-center px-margin-mobile md:px-margin-desktop py-20`}>
+    <section className={`relative overflow-hidden bg-[#1B3A6B] ${minHeightClassName} flex items-center justify-center px-margin-mobile md:px-margin-desktop ${paddingClassName}`}>
       {/* Decorative circles */}
       <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-[#1E4A8A] opacity-[0.15] pointer-events-none" />
       <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full bg-[#1E4A8A] opacity-[0.15] pointer-events-none" />
@@ -55,10 +58,8 @@ export default function HeroZone({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: dur, delay: 0, ease: 'easeOut' }}
-              className="font-montserrat text-[3rem] font-black tracking-tight"
             >
-              <span className="text-white">Ippon</span>
-              <span className="text-[#D4A017]">Id</span>
+              <IpponIdWordmark variant="light" className="text-[3rem] tracking-tight" />
             </motion.div>
 
             {/* Decorative gold bar */}

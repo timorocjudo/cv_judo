@@ -5,6 +5,7 @@ import { hasAccount, type AccountType } from '@/lib/accountService'
 import AccountTypeSelector from '@/components/onboarding/AccountTypeSelector'
 import LogoLink from '@/components/layout/LogoLink'
 import HeroZone from '@/components/landing/HeroZone'
+import IpponIdWordmark from '@/components/IpponIdWordmark'
 
 export const metadata: Metadata = { title: 'Créer mon compte — IpponId' }
 
@@ -41,10 +42,11 @@ export default async function CreerMonProfilPage({
         <LogoLink />
       </header>
       <HeroZone
-        title="Crée ton profil IpponId"
+        title={<>Crée ton profil <IpponIdWordmark variant="light" /></>}
         subtitle="Choisis le profil qui te correspond pour commencer"
         showWordmark={false}
         minHeightClassName="min-h-[35vh] md:min-h-[40vh]"
+        paddingClassName="py-12 md:py-16"
         cta={null}
       />
       <main className="flex flex-col items-center px-margin-mobile py-12 md:py-16">
@@ -54,7 +56,7 @@ export default async function CreerMonProfilPage({
               {errorMessage}
             </div>
           )}
-          <AccountTypeSelector defaultType={defaultType} isAuthenticated={!!user} />
+          <AccountTypeSelector defaultType={defaultType} />
         </div>
       </main>
     </>
