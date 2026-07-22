@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { removeFromManagement, deleteProfile } from '@/app/dashboard/[profileId]/actions'
+import Alert from '@/components/ui/Alert'
 
 interface DeleteProfileSectionProps {
   profileId: string
@@ -29,13 +30,9 @@ export default function DeleteProfileSection({
   }
 
   return (
-    <div className="mt-10 border border-red-200 rounded-xl p-5 bg-red-50/40">
-      <p className="font-montserrat font-bold text-sm uppercase tracking-wide text-red-700 mb-4">
-        Zone dangereuse
-      </p>
-
+    <Alert variant="danger" title="Zone dangereuse" className="mt-10">
       {userRole === 'manager' && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-3">
           <p className="text-sm text-on-surface-variant">
             Me retirer de la gestion de ce profil — le profil continuera d&apos;exister, géré par son propriétaire.
           </p>
@@ -71,7 +68,7 @@ export default function DeleteProfileSection({
       )}
 
       {userRole === 'owner' && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-3">
           <p className="text-sm text-on-surface-variant">
             Supprimer définitivement le profil de {firstName} — palmarès, photos et vidéos inclus. Action irréversible.
           </p>
@@ -128,6 +125,6 @@ export default function DeleteProfileSection({
           </dialog>
         </div>
       )}
-    </div>
+    </Alert>
   )
 }
