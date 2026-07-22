@@ -221,7 +221,7 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
 
                   const HighlightCard = (
                     <motion.div
-                      className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-3 border border-white/20"
+                      className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-3 border-2 border-white/20 transition-all duration-200 group-hover:border-[#D4A017] group-hover:shadow-lg group-hover:shadow-black/30 group-hover:scale-[1.02]"
                       {...motionProps}
                     >
                       <div
@@ -248,7 +248,7 @@ export default function HeroBlock({ identity, social, slug, visibility, palmares
                   )
 
                   return competitionHref ? (
-                    <Link key={`hl-${i}`} href={competitionHref} className="hover:opacity-90 transition-opacity">
+                    <Link key={`hl-${i}`} href={competitionHref} className="group">
                       {HighlightCard}
                     </Link>
                   ) : (

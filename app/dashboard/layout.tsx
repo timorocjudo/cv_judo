@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Toaster } from 'sonner'
 import LogoLink from '@/components/layout/LogoLink'
 import NavUserAvatar from '@/components/NavUserAvatar'
+import LandingFooter from '@/components/landing/LandingFooter'
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +25,7 @@ export default async function DashboardLayout({
   if (!user) redirect('/')
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
         <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
           <LogoLink />
@@ -39,8 +40,11 @@ export default async function DashboardLayout({
           </nav>
         </div>
       </header>
-      {children}
+      <div className="flex-1 flex flex-col">
+        {children}
+      </div>
       <Toaster richColors position="top-center" />
+      <LandingFooter />
     </div>
   )
 }
