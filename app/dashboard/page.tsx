@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getProfilesForAccount } from '@/lib/profileAccessService'
 import { getAccount, canCreateMoreProfiles, type AccountType } from '@/lib/accountService'
+import Alert from '@/components/ui/Alert'
 
 export const metadata: Metadata = { title: 'Mes judokas' }
 
@@ -37,7 +38,7 @@ export default async function DashboardPage() {
     const welcomeMsg = account ? WELCOME[account.account_type] : 'Bienvenue !'
 
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-margin-mobile">
+      <div className="flex-1 flex items-center justify-center px-margin-mobile">
         <div className="max-w-md w-full text-center space-y-6">
           <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mx-auto">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-on-primary">
@@ -60,7 +61,7 @@ export default async function DashboardPage() {
   const canCreate = canCreateMoreProfiles(account?.max_profiles ?? 1, ownedCount)
 
   return (
-    <div className="min-h-screen bg-background px-margin-mobile md:px-margin-desktop py-10">
+    <div className="px-margin-mobile md:px-margin-desktop py-10">
       <div className="max-w-container-max mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <h1 className="font-montserrat text-headline-md font-bold text-primary uppercase">
@@ -74,13 +75,13 @@ export default async function DashboardPage() {
               + Créer un nouveau judoka
             </Link>
           ) : (
-            <div className="md:text-right">
-              <p className="text-sm text-on-surface-variant md:max-w-xs">
-                Limite atteinte pour ton type de compte.{' '}
-                <Link href="/dashboard/parametres" className="text-primary hover:underline font-medium">
-                  Passer en compte famille
-                </Link>
-              </p>
+            <div className="md:max-w-xs">
+              <Alert
+                variant="warning"
+                title="Limite de profils atteinte"
+                description="Ton type de compte actuel permet de gérer un seul profil judoka."
+                action={{ label: 'Passer en compte famille →', href: '/dashboard/parametres' }}
+              />
             </div>
           )}
         </div>
