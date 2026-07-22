@@ -22,11 +22,11 @@ export default function MockupSection({ featured }: Props) {
 
   return (
     <section className="px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
+      <div className="mb-8 text-center">
+        <div className="flex items-center justify-center gap-3 mb-2">
           <div className="w-1 h-8 bg-tertiary-container hidden md:block" />
           <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-            À quoi ressemble un profil IpponId ?
+            À quoi ressemble un profil IpponId&nbsp;?
           </h2>
         </div>
         <p className="text-on-surface-variant text-body-lg">

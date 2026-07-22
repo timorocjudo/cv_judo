@@ -4,13 +4,13 @@ import SearchAutocomplete from '@/components/SearchAutocomplete'
 
 export default function CtaSection() {
   return (
-    <section className="px-margin-mobile md:px-margin-desktop pb-8 md:pb-16">
+    <section className="px-margin-mobile md:px-margin-desktop pb-8 md:pb-12">
       <div className="max-w-container-max mx-auto">
         <div className="bg-primary rounded-3xl p-10 md:p-16 text-center relative">
           <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary-container/40 pointer-events-none" />
           <div className="relative z-10">
             <h2 className="font-montserrat text-headline-md font-bold text-on-primary mb-4">
-              Prêt à créer ta vitrine ?
+              Prêt à créer ta vitrine&nbsp;?
             </h2>
             <p className="text-on-primary/80 text-body-lg mb-8 max-w-xl mx-auto">
               Rejoins les judokas qui font passer leur carrière au niveau supérieur.

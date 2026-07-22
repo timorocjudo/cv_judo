@@ -11,6 +11,7 @@ import WhoIsItForSection from '@/components/landing/WhoIsItForSection'
 import SocialProofSection from '@/components/landing/SocialProofSection'
 import CtaSection from '@/components/landing/CtaSection'
 import LandingFooter from '@/components/landing/LandingFooter'
+import FadeInOnScroll from '@/components/FadeInOnScroll'
 
 export const metadata: Metadata = {
   title: 'IpponId — Crée ton CV judoka en ligne | Partage ton palmarès',
@@ -122,12 +123,12 @@ export default async function LandingPage() {
       <LandingNav isLoggedIn={!!user} />
       <main className="mt-20">
         <HeroZone />
-        <HeroSection />
-        <MockupSection featured={featured} />
-        <WhoIsItForSection />
-        <HowItWorksSection />
-        <SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} />
-        <CtaSection />
+        <FadeInOnScroll><HeroSection /></FadeInOnScroll>
+        <FadeInOnScroll><MockupSection featured={featured} /></FadeInOnScroll>
+        <FadeInOnScroll><WhoIsItForSection /></FadeInOnScroll>
+        <FadeInOnScroll><HowItWorksSection /></FadeInOnScroll>
+        <FadeInOnScroll><SocialProofSection profiles={profiles} totalCount={totalProfiles ?? profiles.length} /></FadeInOnScroll>
+        <FadeInOnScroll><CtaSection /></FadeInOnScroll>
       </main>
       <LandingFooter />
       <LandingMobileNav />

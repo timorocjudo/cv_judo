@@ -68,13 +68,13 @@ function Journey({
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-16 bg-surface-container">
+    <section id="how-it-works" className="scroll-mt-24 px-margin-mobile md:px-margin-desktop py-12 bg-surface-container">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="w-1 h-8 bg-tertiary-container hidden md:block" />
             <h2 className="font-montserrat text-headline-md font-bold text-primary uppercase">
-              Comment ça marche ?
+              Comment ça marche&nbsp;?
             </h2>
           </div>
           <p className="text-on-surface-variant text-body-lg">Deux parcours, une même simplicité.</p>
